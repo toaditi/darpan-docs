@@ -116,7 +116,7 @@
         {
           "anchor": "Darpan app",
           "href": "https://hotwax-darpan-dev.web.app/login",
-          "icon": "monitor"
+          "icon": "/favicon.svg"
         },
         {
           "anchor": "GitHub",
