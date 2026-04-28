@@ -1,4 +1,4 @@
-# Darpan Docs
+# Darpan
 
 Mintlify documentation site for Darpan product, API, troubleshooting, and engineering guidance.
 

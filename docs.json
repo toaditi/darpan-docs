@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Darpan Docs",
+  "name": "Darpan",
   "colors": {
-    "primary": "#166534",
-    "light": "#0EA5A4",
-    "dark": "#86EFAC"
+    "primary": "#1C1C1C",
+    "light": "#1C1C1C",
+    "dark": "#F2F2F2"
   },
   "favicon": "/favicon.svg",
   "navigation": {

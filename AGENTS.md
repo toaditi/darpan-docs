@@ -1,4 +1,4 @@
-# Darpan Docs instructions
+# Darpan documentation instructions
 
 ## About this project
 
