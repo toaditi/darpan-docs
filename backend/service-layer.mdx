@@ -61,6 +61,6 @@ Service orchestration should stay in XML when it is mostly contract work: input 
 
 Groovy helpers should be limited to processing-heavy work. A helper should not replace a clear XML service flow just because it is faster to write.
 
-## API documentation rule
+## API shape
 
-Do not document invented REST endpoints. When adding API docs, start from verified facade service names and document the JSON-RPC envelope, required parameters, auth expectations, side effects, and response fields.
+Darpan backend APIs are exposed through verified facade service names and the Moqui JSON-RPC envelope. Service references describe required parameters, auth expectations, side effects, and response fields for those facade contracts.

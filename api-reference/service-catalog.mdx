@@ -1,11 +1,11 @@
 ---
 title: "Service catalog"
-description: "How Darpan service documentation should grow."
+description: "Primary backend service areas exposed through Darpan JSON-RPC."
 ---
 
-The service catalog should be built from verified backend facade contracts.
+Darpan API references focus on verified backend facade contracts exposed through Moqui JSON-RPC.
 
-## Initial categories
+## Service areas
 
 | Category | Example responsibility |
 | --- | --- |
@@ -14,9 +14,9 @@ The service catalog should be built from verified backend facade contracts.
 | Schemas | Schema library, create, edit, and detail operations. |
 | Reconciliation | Run creation, result retrieval, generated output, and history. |
 
-## Page requirements
+## Reference shape
 
-Each documented service should include:
+Dedicated service references describe:
 
 - Service name
 - Purpose
@@ -27,9 +27,3 @@ Each documented service should include:
 - Error behavior
 - Example request
 - Source file or facade reference
-
-## Do not document
-
-- Internal helper services that are not stable integration contracts.
-- Secrets or private environment values.
-- Behavior inferred from plans but not present in code.

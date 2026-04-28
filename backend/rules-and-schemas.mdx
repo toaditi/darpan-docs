@@ -70,6 +70,6 @@ Schema records include fields such as:
 
 The service layer under `service/jsonschema/**` owns schema validation, inference, persistence, and lookup behavior.
 
-## Documentation rule
+## Backend ownership
 
-When documenting a workflow that depends on rules or schemas, identify which backend contract owns the behavior. Do not describe rules or schemas as browser-local configuration.
+Workflows that depend on rules or schemas are backed by service contracts in the Darpan component. Rules and schemas are persisted backend configuration, not browser-local state.

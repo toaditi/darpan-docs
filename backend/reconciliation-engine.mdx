@@ -3,7 +3,7 @@ title: "Reconciliation engine"
 description: "How Darpan runs source comparisons, RuleSet diffs, and generated outputs."
 ---
 
-The reconciliation engine converts source data into comparable datasets, runs base and rule-backed diffs, and writes generated outputs for review.
+The reconciliation engine turns a user-facing run into backend work: load source data, normalize it, compare matching keys, apply configurable rules, and write generated output for review.
 
 ## High-level flow
 
@@ -19,6 +19,15 @@ UI workflow
   -> UI result view
 ```
 
+## Platform roles
+
+| Layer | Role in the run |
+| --- | --- |
+| Moqui services | Define the JSON-RPC contracts, validate inputs, resolve tenant access, persist run setup, and coordinate the pipeline. |
+| Spark datasets | Normalize CSV or JSON inputs, keep compare work in dataset operations, and produce base missing-object or matched-pair outputs. |
+| Drools RuleSets | Evaluate configurable business rules against compare-ready facts and matched pairs. |
+| Generated outputs | Preserve the run result so users can reopen, inspect, and clean up evidence later. |
+
 ## Current execution paths
 
 Darpan currently has two reconciliation paths.
@@ -28,7 +37,7 @@ Darpan currently has two reconciliation paths.
 | RuleSet path | The newer model. A saved run points to a `RuleSetCompareScope` with compare sources and optional rules. |
 | Mapping path | The legacy model. A reconciliation mapping describes source members and comparison behavior. |
 
-New reconciliation documentation should prefer the RuleSet path, while still acknowledging the mapping path when describing existing backend code.
+The RuleSet path is the primary model for new reconciliation workflows. The mapping path remains relevant for existing backend code.
 
 ## RuleSet compare flow
 
@@ -52,7 +61,7 @@ The compare flow is:
 
 ## File and source handling
 
-The backend can compare uploaded files, text payloads, and configured sources. CSV and JSON inputs are normalized before comparison. The comparison layer should receive structured data, not UI-specific state.
+The backend can compare uploaded files, text payloads, and configured sources. CSV and JSON inputs are normalized before comparison. The comparison layer receives structured data and saved run context, not UI-specific state.
 
 Generic file reconciliation is routed through:
 

@@ -50,11 +50,11 @@ Backend access helpers are responsible for:
 
 Generated outputs have both database metadata and file-system or object-location data. The backend should resolve output paths from the active tenant scope so that generated files follow the same access model as saved runs and output descriptors.
 
-When documenting generated outputs, include both sides:
+Generated output behavior includes both sides:
 
 - The descriptor record users can list, open, or delete
 - The scoped file location where the generated data is stored
 
-## Documentation rule
+## Backend contract
 
-Do not document data access as a UI convention. Data visibility, mutation access, and output isolation are backend contracts.
+Data visibility, mutation access, and output isolation are backend contracts. The UI can guide a workflow, but backend services enforce the access model before returning or changing scoped data.

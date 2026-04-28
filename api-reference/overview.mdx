@@ -1,11 +1,11 @@
 ---
 title: "API overview"
-description: "How Darpan backend integration is documented."
+description: "Current JSON-RPC integration surface for Darpan backend calls."
 ---
 
-Darpan backend calls currently use Moqui JSON-RPC services through `/rpc/json`.
+Darpan backend calls use Moqui JSON-RPC services through `/rpc/json`.
 
-The OpenAPI file in this repo documents the shared JSON-RPC transport shape first. Individual service contracts should be expanded from verified backend facade services as the service catalog matures.
+The OpenAPI file in this repo captures the shared JSON-RPC transport shape first. Individual service contracts are added from verified backend facade services.
 
 ## Current contract
 
@@ -26,8 +26,8 @@ The OpenAPI file in this repo documents the shared JSON-RPC transport shape firs
 }
 ```
 
-## Documentation rule
+## Transport shape
 
-Do not invent REST endpoints when the product uses JSON-RPC services. Add generated or hand-authored service pages only when the backend service contract is verified.
+Darpan uses JSON-RPC service methods rather than separate REST resources for the current backend integration surface.
 
 For the current backend organization, see [Service layer](/backend/service-layer).

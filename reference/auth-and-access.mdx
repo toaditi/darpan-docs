@@ -1,6 +1,6 @@
 ---
 title: "Auth and access"
-description: "How access should be described in Darpan docs."
+description: "How sessions, active context, and protected backend calls work."
 ---
 
 Darpan access is session-based. Users sign in, receive a session, and operate within the company or tenant context available to them.
@@ -11,11 +11,11 @@ Some users may belong to more than one company or tenant. When that is enabled, 
 
 ## Permission context
 
-Permissions should be evaluated for the active context. A user can have different capabilities in different companies or tenants.
+Permissions are evaluated for the active context. A user can have different capabilities in different companies or tenants.
 
-## Documentation rule
+## Sensitive auth values
 
-Never document reusable passwords, cookies, login keys, CSRF tokens, or private auth artifacts. Use placeholders such as `<username>`, `<password>`, and `<csrf-token>`.
+Examples use placeholders such as `<username>`, `<password>`, and `<csrf-token>` for reusable passwords, cookies, login keys, CSRF tokens, and private auth artifacts.
 
 ## API calls
 

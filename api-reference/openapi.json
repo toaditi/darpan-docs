@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Darpan JSON-RPC API",
-    "description": "Draft OpenAPI wrapper for Darpan's Moqui JSON-RPC service endpoint. Individual service contracts should be expanded from backend facade definitions as the API catalog matures.",
+    "description": "Draft OpenAPI wrapper for Darpan's Moqui JSON-RPC service endpoint. Individual service contracts come from verified backend facade definitions.",
     "version": "draft"
   },
   "servers": [
