@@ -143,7 +143,12 @@
     "dark": "/logo/dark-app-wordmark-v2.svg"
   },
   "navbar": {
-    "links": []
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "Open Darpan",
+      "href": "https://hotwax-darpan-dev.web.app/login"
+    }
   },
   "contextual": {
     "options": [
