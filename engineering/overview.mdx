@@ -1,36 +1,45 @@
 ---
-title: "Engineering overview"
-description: "How Darpan is built."
+title: "Agent coding overview"
+description: "How Codex-assisted engineering supports Darpan development."
 ---
 
-This overview explains how Darpan is engineered: a Moqui/Spark/Drools backend, a Vue control surface, and a Codex-assisted coding practice that keeps sophisticated reconciliation workflows maintainable.
+The Backend engine section explains how reconciliation runs move through Moqui services, Spark processing, Drools RuleSets, tenant access, and generated outputs. This section explains how Darpan is developed on top of that architecture with Codex-assisted engineering.
 
-Engineering documentation combines backend architecture and agent coding practices in one place. Start with [Backend engine overview](/backend/overview) when you need to understand how a reconciliation run moves through services, entities, Spark processing, RuleSets, tenant access, and generated outputs.
+Darpan uses Codex as a coding partner for code reading, implementation, verification, and documentation updates. The goal is to keep a sophisticated reconciliation application maintainable without losing sight of the product workflow: set up a reconciliation run, execute it, and review the result.
 
-## Repo boundaries
+## What agent coding means here
+
+Agent coding is not a separate product feature. It is the engineering practice used to work on Darpan safely:
+
+- Start from the user workflow, especially reconciliation run setup and review.
+- Read the existing route, API, service, entity, and processing code before changing behavior.
+- Keep custom UI in the Vue app and backend contracts in the Moqui component.
+- Use Moqui XML services to keep backend contracts visible and reviewable.
+- Use Spark and Drools where dataset comparison or configurable decisioning belongs on the backend.
+- Verify the smallest meaningful surface before claiming broader confidence.
+- Remove weak compatibility layers when a simpler contract is available.
+
+## Repository boundaries
 
 - [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) is the Vue 3, TypeScript, and Vite frontend app. It owns custom UI, routes, the Ask Darpan shell, browser interaction, and frontend API clients.
 - [`toaditi/darpan`](https://github.com/toaditi/darpan) is the Darpan backend Moqui component. In the local Moqui checkout it is mounted at `darpan-backend/runtime/component/darpan`. It owns Moqui XML services, entity definitions, facade contracts, Groovy processing helpers, and Spark/Drools reconciliation processing.
 - Cross-repo changes are valid when UI behavior needs new backend data or service contracts, but each code change should land in the repo that owns that behavior.
 
-## Backend engine map
+## How to read this section
 
-- [Component layout](/backend/component-layout) explains the Moqui component structure and dependencies.
-- [Service layer](/backend/service-layer) explains facade services, core services, and backend service orchestration.
-- [Reconciliation engine](/backend/reconciliation-engine) follows source data through Spark, RuleSet comparison, and generated outputs.
-- [Rules and schemas](/backend/rules-and-schemas) covers RuleSet, Rule, compare-scope, and JSON schema contracts.
-- [Data access and tenancy](/backend/data-access-and-tenancy) covers scoped reads, writes, permissions, and output isolation.
-- [Operations and validation](/backend/operations-and-validation) lists backend checks for engine changes.
+Use the Agent coding pages when you want to understand how Darpan work is planned, implemented, and verified:
 
-## Agent coding model
-
-Darpan development uses Codex as a coding partner for code reading, implementation, verification, and documentation updates. The strongest results come from a few durable engineering habits:
-
-- Product work starts from the reconciliation-run workflow users actually follow.
-- Custom UI stays in `darpan-ui`; backend contracts stay in the Moqui component.
-- Moqui XML services keep backend contracts visible and reviewable.
-- Spark and Drools are used where dataset comparison or configurable decisioning belongs on the backend.
-- Changes are verified against the smallest meaningful surface before broader confidence is claimed.
-- Cleanup favors simpler contracts over compatibility layers that make the app harder to reason about.
-
-This workflow matters because Darpan has many moving parts: app shell navigation, schemas, connections, saved runs, generated outputs, tenant scope, backend services, and rule execution. Agent coding works best here when each change is grounded in the current code and verified against the owning surface.
+<CardGroup cols={2}>
+  <Card title="AI-assisted engineering" icon="sparkles" href="/engineering/codex-coding-workflow">
+    See how Codex supports code discovery, implementation, verification, and documentation.
+  </Card>
+  <Card title="Repo map" icon="folder-tree" href="/engineering/repo-map">
+    Find the frontend and backend repositories, local paths, and ownership boundaries.
+  </Card>
+  <Card title="UI page surface contracts" icon="layout-template" href="/engineering/ui-page-surface-contracts">
+    Review the shared Vue patterns used for static pages, workflows, and saved-record surfaces.
+  </Card>
+  <Card title="Backend reconciliation notes" icon="server" href="/engineering/backend-reconciliation-notes">
+    Apply backend-specific guidance for Moqui XML services, Spark work, and RuleSet changes.
+  </Card>
+</CardGroup>
