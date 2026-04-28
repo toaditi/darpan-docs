@@ -3,21 +3,7 @@ title: "Release updates"
 description: "Major Darpan updates grouped by release tag."
 ---
 
-Use this page to see what changed in each tagged Darpan release. Each entry highlights the product and operator updates that matter most when deciding whether to upgrade, validate, or roll back.
-
-## Release tags
-
-<CardGroup cols={2}>
-  <Card title="v1.1.1" icon="tag" href="#v111">
-    Patch release for schema capture, sample-derived schema saves, and inline menu behavior.
-  </Card>
-  <Card title="v1.1.0" icon="tag" href="#v110">
-    Native pilot PWA release for settings, schemas, run history, and result review.
-  </Card>
-  <Card title="v1.0.0" icon="tag" href="#v100">
-    First tagged invite-only pilot release across the Darpan UI and backend component.
-  </Card>
-</CardGroup>
+Use this page to see what changed in each tagged Darpan release. Entries are ordered newest to oldest and focus on product and operator updates that affect upgrade, validation, or rollback decisions.
 
 ## v1.1.1
 
@@ -37,9 +23,8 @@ Validation and rollout notes:
 - Roll out the backend and UI together when schema sample upload or schema-system capture is in use.
 - Roll back both repos to `v1.1.0` if schema saves, system capture, or inline-menu behavior regresses.
 
-Related release tracking:
+Public links:
 
-- Linear: `DAR-146`
 - Backend compare: `https://github.com/hotwax/darpan/compare/v1.1.0...v1.1.1`
 - UI compare: `https://github.com/toaditi/darpan-ui/compare/v1.1.0...v1.1.1`
 
@@ -61,9 +46,8 @@ Validation and rollout notes:
 - Existing environments should load the release `upgrade-data.xml` as seed if they do not automatically pick up the required auth and preference records.
 - Roll back the backend and UI together to `v1.0.0` if native PWA auth, settings save flows, or run history/results regress.
 
-Related release tracking:
+Public links:
 
-- Linear: `DAR-139`
 - Backend compare: `https://github.com/hotwax/darpan/compare/v1.0.0...v1.1.0`
 - UI compare: `https://github.com/toaditi/darpan-ui/compare/v1.0.0...v1.1.0`
 
@@ -83,7 +67,7 @@ Validation and rollout notes:
 - Ensure component seed data is applied if the target environment does not reload seed data during deploy.
 - Fall back to the legacy backend shell at `/qapps/darpan` if the invite-only pilot path fails.
 
-Related release tracking:
+Public links:
 
 - Backend release: `https://github.com/hotwax/darpan/releases/tag/v1.0.0`
 - UI release: `https://github.com/toaditi/darpan-ui/releases/tag/v1.0.0`
