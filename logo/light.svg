@@ -1,7 +1,11 @@
 <svg width="520" height="120" viewBox="0 0 520 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap');
+.wordmark { font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-weight: 400; }
+</style>
 <rect width="120" height="120" rx="24" fill="#111111"/>
 <path d="M92 28V92" stroke="#F2F2F2" stroke-width="13.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M92 28H66C46 28 32 42 30 60C30 78 39 92 58 92H60" stroke="#F2F2F2" stroke-width="13.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M56 82L70 92L56 102" stroke="#F2F2F2" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="146" y="94" font-family="IBM Plex Mono, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="96" fill="#141414">Darpan</text>
+<text class="wordmark" x="146" y="94" font-size="96" fill="#141414">Darpan</text>
 </svg>
