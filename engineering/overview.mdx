@@ -22,7 +22,7 @@ Agent coding is not a separate product feature. It is the engineering practice u
 ## Repository boundaries
 
 - [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) is the Vue 3, TypeScript, and Vite frontend app. It owns custom UI, routes, the Ask Darpan shell, browser interaction, and frontend API clients.
-- [`toaditi/darpan`](https://github.com/toaditi/darpan) is the Darpan backend Moqui component. In the local Moqui checkout it is mounted at `darpan-backend/runtime/component/darpan`. It owns Moqui XML services, entity definitions, facade contracts, Groovy processing helpers, and Spark/Drools reconciliation processing.
+- [`toaditi/darpan`](https://github.com/toaditi/darpan) is the Darpan backend Moqui component. In a Moqui framework checkout it is mounted at `<moqui-framework>/runtime/component/darpan`. It owns Moqui XML services, entity definitions, facade contracts, Groovy processing helpers, and Spark/Drools reconciliation processing.
 - Cross-repo changes are valid when UI behavior needs new backend data or service contracts, but each code change should land in the repo that owns that behavior.
 
 ## How to read this section

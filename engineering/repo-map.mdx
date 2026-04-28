@@ -7,19 +7,21 @@ description: "Where Darpan work belongs."
 
 Darpan engineering work is split across the frontend app and backend engine.
 
-| Repository | Stack | Owns | Local checkout |
+| Repository | Stack | Owns | Checkout or install path |
 | --- | --- | --- | --- |
-| [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
-| [`toaditi/darpan`](https://github.com/toaditi/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+| [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | `<workspace>/darpan-ui` |
+| [`toaditi/darpan`](https://github.com/toaditi/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | `<moqui-framework>/runtime/component/darpan` |
 
 ## Local workspace roots
 
 | Area | Path |
 | --- | --- |
-| Wrapper repo | `/Users/aditipatel/sandbox/darpan-master` |
-| Frontend app checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
-| Moqui backend checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-backend` |
-| Darpan backend component checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+| Wrapper workspace | `<workspace>` |
+| Frontend app checkout | `<workspace>/darpan-ui` |
+| Moqui framework checkout | `<moqui-framework>` |
+| Darpan backend component | `<moqui-framework>/runtime/component/darpan` |
+
+`<moqui-framework>` means the Moqui framework checkout that contains the Darpan runtime component. It is not a Darpan repository name.
 
 ## High-signal paths
 
@@ -28,10 +30,10 @@ Darpan engineering work is split across the frontend app and backend engine.
 | UI pages | `darpan-ui/src/pages/**` |
 | UI shared code | `darpan-ui/src/components/**`, `darpan-ui/src/lib/**`, `darpan-ui/src/router/**` |
 | UI package and stack | `darpan-ui/package.json`, `darpan-ui/vite.config.ts`, `darpan-ui/src/main.ts` |
-| Backend services | `darpan-backend/runtime/component/darpan/service/**` |
-| Backend logic | `darpan-backend/runtime/component/darpan/src/**` |
-| Backend entities | `darpan-backend/runtime/component/darpan/entity/**` |
-| Backend component descriptor | `darpan-backend/runtime/component/darpan/component.xml` |
+| Backend services | `<moqui-framework>/runtime/component/darpan/service/**` |
+| Backend logic | `<moqui-framework>/runtime/component/darpan/src/**` |
+| Backend entities | `<moqui-framework>/runtime/component/darpan/entity/**` |
+| Backend component descriptor | `<moqui-framework>/runtime/component/darpan/component.xml` |
 
 ## Boundary rule
 
