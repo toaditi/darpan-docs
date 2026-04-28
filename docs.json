@@ -99,7 +99,6 @@
           {
             "group": "Engineering guide",
             "pages": [
-              "development",
               "engineering/overview",
               "engineering/local-development",
               "engineering/repo-map",
