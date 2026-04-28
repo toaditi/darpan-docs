@@ -121,8 +121,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light-ibm-plex-mono.svg",
-    "dark": "/logo/dark-ibm-plex-mono.svg"
+    "light": "/logo/light-app-wordmark.svg",
+    "dark": "/logo/dark-app-wordmark.svg"
   },
   "navbar": {
     "links": [],
