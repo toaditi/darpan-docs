@@ -98,7 +98,7 @@
       "anchors": [
         {
           "anchor": "Darpan app",
-          "href": "https://toaditi.github.io/darpan-ui/",
+          "href": "https://hotwax-darpan-dev.web.app/login",
           "icon": "monitor"
         },
         {
@@ -123,7 +123,7 @@
     "primary": {
       "type": "button",
       "label": "Open Darpan",
-      "href": "https://toaditi.github.io/darpan-ui/"
+      "href": "https://hotwax-darpan-dev.web.app/login"
     }
   },
   "contextual": {
