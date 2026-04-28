@@ -77,17 +77,6 @@
         ]
       },
       {
-        "tab": "Releases",
-        "groups": [
-          {
-            "group": "Release notes",
-            "pages": [
-              "releases/updates"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Engineering",
         "groups": [
           {
@@ -111,6 +100,17 @@
               "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
               "engineering/release-and-linear-workflow"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Releases",
+        "groups": [
+          {
+            "group": "Release notes",
+            "pages": [
+              "releases/updates"
             ]
           }
         ]
