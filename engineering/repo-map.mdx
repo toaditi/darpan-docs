@@ -3,14 +3,25 @@ title: "Repo map"
 description: "Where Darpan work belongs."
 ---
 
-## Workspace roots
+## Git repositories
+
+The docs should reference Darpan's actual Git repositories, not only one local checkout layout.
+
+| Repository | Stack | Owns | Local checkout |
+| --- | --- | --- | --- |
+| [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
+| [`toaditi/darpan`](https://github.com/toaditi/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+| [`toaditi/darpan-docs`](https://github.com/toaditi/darpan-docs) | Mintlify | Product, API, backend, troubleshooting, and engineering documentation | `/Users/aditipatel/sandbox/darpan-master/darpan-docs` |
+
+## Local workspace roots
 
 | Area | Path |
 | --- | --- |
 | Wrapper repo | `/Users/aditipatel/sandbox/darpan-master` |
-| Frontend app | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
-| Backend app | `/Users/aditipatel/sandbox/darpan-master/darpan-backend` |
-| Darpan backend component | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+| Frontend app checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
+| Moqui backend checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-backend` |
+| Darpan backend component checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+| Documentation checkout | `/Users/aditipatel/sandbox/darpan-master/darpan-docs` |
 
 ## High-signal paths
 
@@ -18,11 +29,13 @@ description: "Where Darpan work belongs."
 | --- | --- |
 | UI pages | `darpan-ui/src/pages/**` |
 | UI shared code | `darpan-ui/src/components/**`, `darpan-ui/src/lib/**`, `darpan-ui/src/router/**` |
+| UI package and stack | `darpan-ui/package.json`, `darpan-ui/vite.config.ts`, `darpan-ui/src/main.ts` |
 | Backend services | `darpan-backend/runtime/component/darpan/service/**` |
 | Backend logic | `darpan-backend/runtime/component/darpan/src/**` |
 | Backend entities | `darpan-backend/runtime/component/darpan/entity/**` |
+| Backend component descriptor | `darpan-backend/runtime/component/darpan/component.xml` |
 | Backend docs | `darpan-backend/runtime/component/darpan/docs/**` |
 
 ## Boundary rule
 
-Do not implement or extend custom Darpan UI in backend `screen/**`, `template/**`, or `theme-library/**`. Add backend service contracts when the UI needs data, then consume them from `darpan-ui`.
+Do not implement or extend custom Darpan UI in backend `screen/**`, `template/**`, or `theme-library/**`. The UI belongs in `toaditi/darpan-ui`. Add backend service contracts in `toaditi/darpan` when the UI needs data, then consume them from the Vue app.

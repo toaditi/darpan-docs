@@ -3,15 +3,16 @@ title: "Engineering overview"
 description: "How Darpan code and docs should be approached."
 ---
 
-Engineering docs are for contributors and operators. They should stay grounded in the actual Darpan repositories and avoid aspirational architecture that the code does not support yet.
+Engineering docs are for Darpan team members and operators. They should stay grounded in the actual Darpan repositories and avoid aspirational architecture that the code does not support yet.
 
 The backend component is the product engine. Start with [Backend engine overview](/backend/overview) when you need to understand service contracts, entities, reconciliation processing, RuleSets, tenant access, or generated outputs.
 
 ## Repo boundaries
 
-- `darpan-ui/**` owns custom UI, routes, PWA shell, and browser interaction.
-- `darpan-backend/runtime/component/darpan/**` owns backend contracts, services, entities, processing, and component docs.
-- Cross-repo changes are valid when UI behavior needs new backend data or service contracts.
+- [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) is the Vue 3, TypeScript, and Vite frontend app. It owns custom UI, routes, the Ask Darpan shell, browser interaction, and frontend API clients.
+- [`toaditi/darpan`](https://github.com/toaditi/darpan) is the Darpan backend Moqui component. In the local Moqui checkout it is mounted at `darpan-backend/runtime/component/darpan`. It owns Moqui XML services, entity definitions, facade contracts, Groovy processing helpers, Spark/Drools reconciliation processing, and component-local backend docs.
+- [`toaditi/darpan-docs`](https://github.com/toaditi/darpan-docs) is this Mintlify documentation site. It should document the product and engineering surface, not replace source-level docs inside the UI or backend repos.
+- Cross-repo changes are valid when UI behavior needs new backend data or service contracts, but each code change should land in the repo that owns that behavior.
 
 ## Backend implementation map
 
