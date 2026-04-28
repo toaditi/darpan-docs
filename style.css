@@ -1,0 +1,47 @@
+:where(.nav-tabs-item, nav-tabs-item) > div:last-child {
+  border-radius: 999px;
+  height: 2px !important;
+  left: 10%;
+  transition:
+    background-color 160ms ease,
+    opacity 160ms ease;
+  width: 80%;
+}
+
+:where(.nav-tabs-item, nav-tabs-item)[data-active] > div:last-child {
+  background: rgba(28, 28, 28, 0.76) !important;
+}
+
+:where(.nav-tabs-item, nav-tabs-item):not([data-active]):hover > div:last-child {
+  background: rgba(28, 28, 28, 0.12) !important;
+}
+
+html.dark :where(.nav-tabs-item, nav-tabs-item)[data-active] > div:last-child {
+  background: rgba(255, 255, 255, 0.78) !important;
+}
+
+html.dark :where(.nav-tabs-item, nav-tabs-item):not([data-active]):hover > div:last-child {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+:where(.nav-anchor, nav-anchor) {
+  border-radius: 14px !important;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+:where(.nav-anchor, nav-anchor):is(:hover, :focus-visible, :focus-within) {
+  background: rgba(28, 28, 28, 0.045) !important;
+  box-shadow: inset 0 0 0 1px rgba(28, 28, 28, 0.06);
+}
+
+:where(.nav-anchor, nav-anchor):is(:hover, :focus-within) :where(a, button) {
+  background: transparent !important;
+}
+
+html.dark :where(.nav-anchor, nav-anchor):is(:hover, :focus-visible, :focus-within) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
