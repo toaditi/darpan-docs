@@ -4,8 +4,8 @@
   "name": "Darpan",
   "colors": {
     "primary": "#1C1C1C",
-    "light": "#1C1C1C",
-    "dark": "#F2F2F2"
+    "light": "#F2F2F2",
+    "dark": "#5F5F5F"
   },
   "favicon": "/favicon.svg",
   "navigation": {

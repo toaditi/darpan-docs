@@ -1,6 +1,6 @@
-<svg width="360" height="160" viewBox="0 0 360 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="8" y="20" width="120" height="120" rx="24" fill="#F2F2F2"/>
-<path d="M39 45H66C87 45 101 59 101 81C101 103 87 115 66 115H39V45ZM64 96C75 96 82 90 82 81C82 72 75 64 64 64H57V96H64Z" fill="#111111"/>
-<path d="M60 81H103" stroke="#808080" stroke-width="8" stroke-linecap="round"/>
-<text x="152" y="98" font-family="IBM Plex Mono, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="54" font-weight="700" fill="#F2F2F2">Darpan</text>
+<svg width="520" height="120" viewBox="0 0 520 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="120" height="120" rx="24" fill="#F2F2F2"/>
+<path d="M31 25H58C79 25 93 39 93 61C93 83 79 95 58 95H31V25ZM56 76C67 76 74 70 74 61C74 52 67 44 56 44H49V76H56Z" fill="#111111"/>
+<path d="M52 61H95" stroke="#808080" stroke-width="8" stroke-linecap="round"/>
+<text x="146" y="94" font-family="IBM Plex Mono, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="96" font-weight="700" fill="#F2F2F2">Darpan</text>
 </svg>
