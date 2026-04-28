@@ -12,7 +12,7 @@ Confirm:
 - The source files or records are available.
 - Required connection records are active when the run reads from SFTP, NetSuite, or another configured system.
 - The selected schemas match the input shapes.
-- The saved run or RuleSet points at the right source systems and primary ID fields.
+- The saved run points at the right source systems, schemas, primary ID fields, and rules.
 - You are in the correct company or tenant context.
 
 ## What Darpan needs for a run
@@ -22,7 +22,8 @@ Confirm:
 | Source data | The files, text payloads, or connection-backed records being compared. |
 | Schemas | The known shape of source data, especially for JSON inputs and field selection. |
 | Primary ID fields | The values Darpan uses to decide which records should match across systems. |
-| RuleSet or saved run setup | The reusable compare configuration, source pairing, and optional rule logic. |
+| RuleSet and rules | The comparison logic Darpan applies after source records are matched. |
+| Saved run setup | The reusable run configuration that ties sources, schemas, primary ID fields, and rules together. |
 | Connection records | Saved access details for systems that provide or receive run data. |
 
 ## Steps
@@ -32,10 +33,11 @@ Confirm:
 3. Select **Run Reconciliation** when you are ready to compare inputs.
 4. Search for **Create Reconciliation Flow** when you need to configure a new flow first.
 5. Select the source strategy required by the workflow.
-6. Select the relevant schema or RuleSet.
-7. Provide the source files or connection-backed inputs.
-8. Start the run.
-9. Wait for the run to finish.
+6. Select the schemas that describe each source input.
+7. Select or confirm the RuleSet when the run needs rules-backed comparison logic.
+8. Provide the source files or connection-backed inputs.
+9. Start the run.
+10. Wait for the run to finish.
 
 ## Expected result
 
