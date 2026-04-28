@@ -100,7 +100,6 @@
             "group": "Engineering guide",
             "pages": [
               "engineering/overview",
-              "engineering/local-development",
               "engineering/repo-map",
               "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
