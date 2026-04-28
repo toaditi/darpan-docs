@@ -121,8 +121,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light-app-wordmark.svg",
-    "dark": "/logo/dark-app-wordmark.svg"
+    "light": "/logo/light-app-wordmark-v2.svg",
+    "dark": "/logo/dark-app-wordmark-v2.svg"
   },
   "navbar": {
     "links": [],
