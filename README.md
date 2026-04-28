@@ -51,6 +51,6 @@ Mintlify deploys from the connected GitHub repository after changes are pushed t
 
 ## Writing rule
 
-Darpan uses Ask Darpan as the primary navigation model. Product tutorials should start app navigation with **Ask Darpan** and search terms, then describe local page controls only after the user reaches the target surface.
+Darpan uses Ask Darpan as the primary navigation model. Product tutorials should start app navigation with **Ask Darpan** and the official destination name, then describe local page controls only after the user reaches the target surface. Do not list search synonyms in tutorials.
 
 Backend docs should stay repo-grounded. Document current Moqui XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior from the implementation; avoid presenting planned architecture as shipped behavior.
