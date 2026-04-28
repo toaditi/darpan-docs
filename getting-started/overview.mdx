@@ -1,51 +1,46 @@
 ---
 title: "Product overview"
-description: "What Darpan does and how the main surfaces fit together."
+description: "How Darpan turns setup records into reviewable reconciliation output."
 ---
 
-Darpan is built around one primary outcome: set up a reconciliation run, execute it, and review trustworthy differences.
+Darpan is built around the saved reconciliation run. A run records the source systems, schemas, matching keys, rules, and execution history needed to repeat a comparison without rebuilding the setup each time.
 
-The app is not a collection of separate settings pages. Connections, schemas, RuleSets, saved runs, results, and Ask Darpan navigation all support the same workflow: make it easy to configure and repeat a reconciliation run.
+The product works best when each setup record has a clear job: connections provide access, schemas describe source data, RuleSets classify differences, and generated outputs preserve evidence.
 
-## Core workflow
+## Story of a run
 
-1. Sign in and land on the **Dashboard**, the workspace for saved reconciliation runs.
-2. Choose an existing run from **Pinned Runs** or **Other Runs** when the setup already exists.
-3. Select **Create New** when you need to set up a new reconciliation run.
-4. Confirm the reusable setup the run needs: source systems, connection records, schemas, primary ID fields, and rules.
-5. Save the reconciliation run so the same comparison can be repeated with new source data.
-6. Execute the run from the saved setup or **Run Reconciliation**.
-7. Review generated output, difference counts, run history, and result files.
-8. Adjust source data, schema configuration, or rules when the output shows drift, then rerun when needed.
+1. A user signs in under an active company or tenant context.
+2. Darpan opens the **Dashboard**, where saved runs are visible as operational work items.
+3. The user selects an existing run or creates a new one.
+4. The run points to source systems, schemas, primary ID fields, and optional RuleSets.
+5. Darpan stages source data from uploaded files, text payloads, or configured connections.
+6. The backend compares records, applies rules, and writes generated output.
+7. The user reviews counts, differences, and output files.
+8. The next action is explicit: fix source data, adjust schema selection, change rules, or accept the variance.
 
-## Main surfaces
+## Product objects
 
-| Surface | How it helps the run |
+| Object | Role |
 | --- | --- |
-| Dashboard | Shows saved runs, pinned runs, and the next place to start. |
-| Ask Darpan | Lets users navigate through the app and search for pages, workflows, saved runs, setup records, and results. |
-| Connections | Stores SFTP, NetSuite, AI provider, and similar setup so users do not re-enter access details for each run. |
-| Schemas | Describes source data shapes so run setup can select known fields instead of relying on manual interpretation. |
-| Reconciliation runs | Guides users through setting up a new run, selecting sources and schemas, executing the comparison, and returning to saved run history. |
-| Results | Lets users view generated output, difference counts, run history, and result files after a reconciliation run. |
-| Admin and settings | Controls access, company context, and operational configuration used during runs. |
+| Dashboard | Work queue for saved and pinned runs. |
+| Ask Darpan | Search-first navigation for pages, workflows, records, runs, and outputs. |
+| Connection | Saved access details for systems such as SFTP, NetSuite, and AI providers. |
+| Schema | Field and type contract for a source file or record payload. |
+| RuleSet | Rules-backed classification and decision model for matched records. |
+| Saved run | Reusable compare setup with source, schema, key, and rule configuration. |
+| Generated output | Persisted result metadata and files from a completed run. |
 
-## Navigation model
+## Where to go first
 
-Ask Darpan is the front door for product navigation. Search for destinations such as **Open SFTP Servers**, **Create Schema**, **Run Reconciliation**, and **Open Result: ...** to move directly to setup, execution, or review.
-
-## When to use each area
-
-- Use the **Dashboard** when you want to reopen or run a saved reconciliation.
-- Use **Create New** when the reconciliation run has not been set up yet.
-- Use **Connections** when a run needs access to SFTP, NetSuite, or another external system.
-- Use **Schemas** when Darpan needs to understand the fields in a source file or record.
-- Use **Results** when you need to inspect what a completed run found.
+- Open [Quickstart](/quickstart) when you need the shortest complete path.
+- Open [Ask Darpan navigation](/getting-started/ask-darpan-navigation) when you need to find a surface or record.
+- Open [Run reconciliation](/guides/run-reconciliation) when the setup exists and you are ready to execute.
+- Open [Review results](/guides/review-results) when a run has produced output.
 
 ## What Darpan is not
 
-Darpan is not the system of record for source business data. It reads, compares, and reports differences so the owning systems can be corrected or reviewed.
+Darpan is not the system of record for source business data. It reads, compares, and explains differences so the owning systems can be corrected or reviewed.
 
 <Tip>
-Keep schema names, run names, and connection descriptions specific enough that another user can understand the run history later.
+Use specific names for schemas, runs, and connections. The name should still make sense when another user opens the run history later.
 </Tip>

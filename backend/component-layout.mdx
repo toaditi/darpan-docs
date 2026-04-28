@@ -1,6 +1,6 @@
 ---
 title: "Component layout"
-description: "The backend component structure, runtime dependencies, and implementation boundaries."
+description: "Backend component structure, runtime dependencies, and implementation boundaries."
 ---
 
 The Darpan backend is the [`toaditi/darpan`](https://github.com/toaditi/darpan) Moqui runtime component. In a Moqui framework checkout it is mounted at:
@@ -32,16 +32,16 @@ screen/darpan.xml
 
 ## Runtime stack
 
-The component uses:
+The component uses these runtime pieces:
 
-- Moqui framework services, entities, screens, security, and JSON-RPC transport
-- Groovy for dense processing helpers
-- XML service definitions for service contracts and orchestration
+- Moqui services, entities, screens, security, and JSON-RPC transport
+- XML service definitions for contracts and orchestration
+- Groovy helpers for dense processing
 - Apache Spark SQL for file and dataset comparison
-- Drools/KIE for RuleSet compilation and rule execution
-- JSON Schema validation, JSONPath, and schema inference libraries for schema workflows
+- Drools/KIE for RuleSet compilation and execution
+- JSON Schema, JSONPath, and schema inference libraries
 - `moqui-sftp` for SFTP-backed file access
-- MySQL Connector/J for MySQL-backed runtime deployments
+- MySQL Connector/J for MySQL-backed deployments
 
 ## Implementation boundary
 
@@ -49,4 +49,4 @@ Use XML services for normal orchestration: validation, authorization, entity rea
 
 Use Groovy or Java helpers only where the code is algorithmic or data-processing heavy, such as Spark dataset preparation, rule execution, JSON normalization, or schema inference.
 
-This boundary keeps service contracts visible to Moqui and avoids hiding product behavior in browser code or unindexed helper scripts.
+This boundary keeps service contracts visible to Moqui and prevents product behavior from disappearing into browser code or unindexed helper scripts.

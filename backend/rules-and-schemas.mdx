@@ -1,9 +1,9 @@
 ---
 title: "Rules and schemas"
-description: "How RuleSets, rules, compare scopes, and JSON schemas fit into the backend."
+description: "Backend contracts for RuleSets, compare scopes, and JSON schemas."
 ---
 
-Rules and schemas are backend-owned contracts. The UI creates and edits them through facade services, but the backend validates, stores, compiles, and executes them.
+Rules and schemas are backend-owned contracts. The UI creates and edits them through facade services; the backend validates, stores, compiles, and executes them.
 
 ## RuleSet model
 
@@ -16,7 +16,7 @@ RuleSet reconciliation is centered on these entities:
 | `RuleSetCompareScope` | The compare context for a run, including source and matching configuration. |
 | `RuleSetCompareSource` | A source participating in the compare scope. |
 
-Facade services create saved runs and RuleSet structures together when the product workflow needs a runnable compare.
+Facade services create saved runs and RuleSet structures together when the workflow needs a runnable compare.
 
 ## Rule execution
 
@@ -27,7 +27,7 @@ service/reconciliation/ReconciliationRuleEngineServices.xml
 src/main/groovy/darpan/reconciliation/rule/RuleEngineServices.groovy
 ```
 
-The key service responsibilities are:
+Key service responsibilities:
 
 - Save and delete RuleSets and Rules
 - Compile active rules into a Drools/KIE container
@@ -48,7 +48,7 @@ Execution services are file type agnostic. Callers parse CSV, JSON, or other sou
 
 ## JSON schema model
 
-Schemas describe source data shape and parsing expectations. The backend stores schema definitions as records, not as UI-only configuration.
+Schemas describe source data shape and parsing expectations. The backend stores schema definitions as records, not UI-only configuration.
 
 The main schema entity is:
 
@@ -72,4 +72,4 @@ The service layer under `service/jsonschema/**` owns schema validation, inferenc
 
 ## Backend ownership
 
-Workflows that depend on rules or schemas are backed by service contracts in the Darpan component. Rules and schemas are persisted backend configuration, not browser-local state.
+Workflows that depend on rules or schemas must use Darpan component service contracts. Rules and schemas are persisted backend configuration, not browser-local state.

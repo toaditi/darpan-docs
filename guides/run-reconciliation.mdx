@@ -1,9 +1,9 @@
 ---
 title: "Run reconciliation"
-description: "Start a reconciliation run and generate result output."
+description: "Execute a saved reconciliation setup and generate output."
 ---
 
-Run reconciliation is the center of the Darpan product workflow. Setup records matter because they make this step faster, clearer, and repeatable.
+Run reconciliation executes the saved setup: source data, schemas, matching keys, and optional RuleSets. The output should make the next decision clear.
 
 ## Before you start
 
@@ -30,22 +30,21 @@ Confirm:
 
 1. Open **Ask Darpan** with `Cmd/Ctrl+K` or the floating **Ask Darpan** button.
 2. Search for **Run Reconciliation**.
-3. Select **Run Reconciliation** when you are ready to compare inputs.
-4. Search for **Create Reconciliation Flow** when you need to configure a new flow first.
-5. Select the source strategy required by the workflow.
-6. Select the schemas that describe each source input.
-7. Select or confirm the RuleSet when the run needs rules-backed comparison logic.
-8. Provide the source files or connection-backed inputs.
-9. Start the run.
-10. Wait for the run to finish.
+3. Select the saved run or source strategy required by the workflow.
+4. Confirm schemas, primary ID fields, and RuleSet selection.
+5. Provide source files or connection-backed inputs.
+6. Start the run.
+7. Wait for generated output.
+
+Search for **Create Reconciliation Flow** first when the run setup does not exist yet.
 
 ## Expected result
 
-A successful run creates saved output that can be opened from result, history, or generated-output views depending on the workflow. The output should make the next decision clear: source data fix, schema correction, rule adjustment, or accepted business variance.
+A successful run creates saved output that can be opened from result, history, or generated-output views. Review the output to decide whether the next action is a source data fix, schema correction, rule adjustment, or accepted variance.
 
 ## Reusing a run
 
-Use a saved run when the same comparison will happen again. Saved runs keep the setup in one place so the next execution can focus on fresh source data and reviewable output.
+Use a saved run when the same comparison will happen again. Saved runs keep setup stable so the next execution can focus on fresh source data and reviewable output.
 
 Use **Create Reconciliation Flow** when the setup itself is still being defined. Use **Open Runs Settings** when the setup exists but needs a name, schema, source, or rule update before the next run.
 

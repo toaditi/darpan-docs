@@ -1,16 +1,14 @@
 ---
 title: "Quickstart"
-description: "Understand the shortest path through Darpan."
+description: "Run the shortest complete path through Darpan."
 ---
 
-This quickstart follows the shortest path to a reconciliation run. You will open the app, confirm the setup records the run needs, execute the run, and review the generated result.
-
-Use **Ask Darpan** as the main navigation model. It lets you search for the workflow, saved setup, run, or output you need without relying on a fixed menu.
+This quickstart follows one complete path: open the right environment, confirm reusable setup, execute a run, and review generated output.
 
 <Steps>
-<Step title="Confirm your environment">
+<Step title="Open the right environment">
 
-Use the environment your team has assigned for testing or pilot work.
+Use the environment assigned for your team, customer, or test scenario.
 
 - Local frontend: `http://localhost:5173`
 - Local backend: `http://localhost:8080`
@@ -24,54 +22,52 @@ Open Darpan and sign in with the credentials provided for your pilot company or 
 If login fails, start with [login and session troubleshooting](/troubleshooting/login-and-session).
 
 </Step>
-<Step title="Start on the Dashboard">
+<Step title="Use the Dashboard as the work queue">
 
-After login, Darpan opens the **Dashboard**. This is the first workspace for reconciliation work.
-
-The page is headed **Let's Investigate** and is organized around saved runs:
+Darpan opens the **Dashboard** after login. Treat it as the work queue for saved reconciliation runs.
 
 - **Pinned Runs** shows the reconciliation runs you want quickest access to.
-- **Other Runs** shows the rest of the saved runs available in the active company.
-- **Create New** helps you set up a new reconciliation run.
+- **Other Runs** shows saved runs available in the active company.
+- **Create New** starts new run setup.
 
-Use the Dashboard when you already know which run you want to revisit or start. Use **Ask Darpan** when you want to jump directly to setup, execution, or a saved result.
+Use the Dashboard when you already know the run. Use **Ask Darpan** when you need to jump to setup, execution, or results.
 
 </Step>
 <Step title="Open Ask Darpan">
 
-After sign-in, use **Ask Darpan** as your primary way to move through the app.
+Use **Ask Darpan** for search-first navigation.
 
 - Press `Cmd/Ctrl+K`.
 - Or click the floating **Ask Darpan** button.
-- Type the task, record, or workflow you want.
+- Type the page, workflow, record, run, or output you want.
 - Use Up/Down to select a result and Enter to open it.
 
 </Step>
 <Step title="Confirm reusable setup">
 
-Create or confirm the records the reconciliation run will reuse. In **Ask Darpan**, search for the official setup surface you need: **Open SFTP Servers**, **Open NetSuite Settings**, **Open AI Settings**, **Create Schema**, or **Open Schema Library**.
+Create or confirm the records the run will reuse. Search for the official setup surface you need: **Open SFTP Servers**, **Open NetSuite Settings**, **Open AI Settings**, **Create Schema**, or **Open Schema Library**.
 
 - SFTP for file exchange
 - NetSuite for ERP integration flows
 - AI provider settings when schema generation or assisted mapping is enabled
-- schemas that describe source files or records
+- Schemas that describe source files or records
 
 </Step>
 <Step title="Create or update the run setup">
 
-Search **Ask Darpan** for **Create Reconciliation Flow** when the compare setup is new, or **Open Runs Settings** when editing an existing saved run.
+Search for **Create Reconciliation Flow** when the compare setup is new. Search for **Open Runs Settings** when an existing saved run needs a name, source, schema, key, or rule change.
 
-Select the source systems, schemas, primary ID fields, and rules the run should use. Keep the run name stable and human-readable so another user can understand the run history later.
+Keep the run name stable and specific. It should explain the comparison when it appears in history or generated output.
 
 </Step>
 <Step title="Run reconciliation">
 
-Search **Ask Darpan** for **Run Reconciliation**. Start the run, provide the source files or connection-backed records requested by the workflow, and wait for generated output.
+Search for **Run Reconciliation**. Start the run, provide the requested source files or connection-backed records, and wait for generated output.
 
 </Step>
 <Step title="Review results">
 
-Search **Ask Darpan** by the run name or output file name, then open the **Open Result: ...** result. Review differences and decide whether the issue is source data, mapping, schema selection, or expected business variance.
+Search by run name or output file name, then open **Open Result: ...**. Review the differences and classify each one as source data, schema selection, rule behavior, or expected business variance.
 
 </Step>
 </Steps>

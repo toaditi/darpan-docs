@@ -1,9 +1,9 @@
 ---
 title: "Backend reconciliation notes"
-description: "Backend guidance for reconciliation services and RuleSet work."
+description: "Implementation notes for reconciliation services and RuleSet work."
 ---
 
-Backend reconciliation behavior belongs in the Darpan Moqui component at `<moqui-framework>/runtime/component/darpan`. The primary backend architecture docs now live under [Backend engine](/backend/overview).
+Backend reconciliation behavior belongs in the Darpan Moqui component at `<moqui-framework>/runtime/component/darpan`. Use the Backend engine section for architecture; use this page for implementation reminders.
 
 Use these pages first:
 
@@ -14,7 +14,7 @@ Use these pages first:
 
 ## XML-first rule
 
-Prefer Moqui XML service orchestration for normal service flow. Use Groovy helpers only when the logic is dense enough to justify it.
+Prefer Moqui XML service orchestration for normal service flow. Use Groovy helpers when the logic is dense enough to justify leaving XML.
 
 Good XML-owned service flow includes:
 
@@ -28,13 +28,13 @@ Groovy is appropriate for dense processing such as Spark dataset preparation, JS
 
 ## Rule engine test service
 
-The existing test service documented in the backend component is:
+The backend component includes this sample test service:
 
 ```text
 reconciliation.ReconciliationSampleServices.test#RuleEngine
 ```
 
-It verifies a sample reconciliation rule engine flow by compiling a RuleSet, preparing OMS and Shopify sample data, running rules, and returning detected synchronization issues.
+It compiles a RuleSet, prepares OMS and Shopify sample data, runs rules, and returns detected synchronization issues.
 
 ## Expected service documentation
 

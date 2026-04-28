@@ -1,11 +1,9 @@
 ---
 title: "AI-assisted engineering"
-description: "How coding LLMs support Darpan development."
+description: "How coding agents support Darpan development."
 ---
 
-Darpan is developed with Codex as a hands-on engineering partner. The important part is not that an LLM writes code; it is that the work stays grounded in the real application, the real backend contracts, and verifiable behavior.
-
-The product goal stays constant: make it easier for a user to set up, run, and review reconciliation. AI-assisted engineering helps maintain that focus across the Vue app, Moqui services, Spark comparison logic, Drools RuleSets, and documentation.
+Darpan uses Codex for code reading, implementation, verification, and documentation updates. The value is not code generation by itself; it is traceable work grounded in the real routes, services, entities, tests, logs, and product behavior.
 
 ## What the coding assistant helps with
 
@@ -14,7 +12,7 @@ The product goal stays constant: make it easier for a user to set up, run, and r
 | Codebase discovery | Traces a product behavior from app route to API client, facade service, entity, backend helper, and test. |
 | UI implementation | Keeps custom UI in the Vue app while reusing shared page and workflow patterns. |
 | Backend implementation | Keeps service contracts explicit in Moqui XML and places dense processing in testable Groovy or Java helpers. |
-| Reconciliation logic | Preserves the split between Spark dataset work and Drools-backed configurable decisioning. |
+| Reconciliation logic | Preserves the split between Spark dataset work and Drools-backed decisioning. |
 | Verification | Runs focused checks, reports what passed, and calls out remaining risk. |
 | Documentation | Updates product and engineering docs from implemented behavior instead of aspirational architecture. |
 
@@ -31,6 +29,4 @@ AI-assisted work on Darpan follows the same standards expected from human engine
 
 ## Why it matters for Darpan
 
-Darpan is a sophisticated reconciliation application. A single visible workflow can touch saved setup, schema selection, source data, tenant access, JSON-RPC services, Spark comparison, Drools rules, generated output, and result review.
-
-Using Codex well makes that complexity easier to manage. It helps connect the product surface to the backend engine without hiding business behavior in one-off code, and it keeps documentation close to what the application actually does.
+A single visible workflow can touch saved setup, schema selection, source data, tenant access, JSON-RPC services, Spark comparison, Drools rules, generated output, and result review. Agent-assisted work is useful when it keeps that chain visible and verifies the specific link it changed.

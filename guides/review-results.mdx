@@ -1,20 +1,19 @@
 ---
 title: "Review results"
-description: "Understand generated reconciliation output."
+description: "Interpret generated reconciliation output."
 ---
 
-Results show what Darpan found during a reconciliation run.
+Results explain what the run found and what to do next. Review them as evidence, not just as a downloadable file.
 
 ## Review order
 
 1. Open **Ask Darpan** with `Cmd/Ctrl+K` or the floating **Ask Darpan** button.
-2. Search by the run name or output file name.
-3. Select the **Open Result: ...** result when it appears.
-4. Confirm the run metadata.
-5. Check whether the expected input files or source records were used.
-6. Review match counts and mismatch counts.
-7. Open generated output.
-8. Identify whether each difference is source data, schema, mapping, or expected business variance.
+2. Search by run name or output file name.
+3. Select **Open Result: ...**.
+4. Confirm run metadata and input sources.
+5. Review match and mismatch counts.
+6. Open generated output.
+7. Classify each difference as source data, schema, mapping, rule behavior, or expected variance.
 
 ## Common result categories
 
@@ -30,4 +29,4 @@ Results show what Darpan found during a reconciliation run.
 - Fix source data when the mismatch is real.
 - Adjust schema or field selection when parsing is wrong.
 - Adjust rules when business classification is wrong.
-- Re-run after the correction to preserve evidence.
+- Rerun after correction so the new output preserves evidence.

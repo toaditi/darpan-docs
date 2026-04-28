@@ -1,13 +1,13 @@
 ---
 title: "Data access and tenancy"
-description: "How the backend scopes users, companies, tenants, and generated files."
+description: "How backend services scope users, companies, tenants, and generated files."
 ---
 
-Darpan backend services must resolve who is acting and which tenant or company scope is active before returning or mutating data.
+Darpan services must resolve who is acting and which tenant or company scope is active before returning or mutating data.
 
 ## Active scope
 
-The backend supports active company or active tenant context in the user session. Product records are scoped so that users see and mutate records for the active scope, not every record they could theoretically access.
+The backend supports active company or active tenant context in the user session. Product records are scoped to the active context, not to every record the user could theoretically access.
 
 Common scoped fields include:
 
@@ -18,7 +18,7 @@ Common scoped fields include:
 
 ## Permission membership
 
-Tenant permission membership is modeled separately from tenant identity. A user can have one active tenant while their permission level for that tenant is resolved from membership records.
+Tenant permission membership is separate from tenant identity. A user can have one active tenant while their permission level for that tenant comes from membership records.
 
 The backend entity model includes:
 
@@ -33,7 +33,7 @@ This joins:
 - `permissionUserGroupId`
 - effective date fields
 
-That split allows the backend to answer questions such as whether the current user can view or edit the active tenant's data without making one global role apply everywhere.
+That split lets the backend decide whether the current user can view or edit the active tenant's data without applying one global role everywhere.
 
 ## Service checks
 
@@ -48,7 +48,7 @@ Backend access helpers are responsible for:
 
 ## Generated file isolation
 
-Generated outputs have both database metadata and file-system or object-location data. The backend should resolve output paths from the active tenant scope so that generated files follow the same access model as saved runs and output descriptors.
+Generated outputs have database metadata and file-system or object-location data. The backend resolves output paths from active scope so generated files follow the same access model as saved runs and output descriptors.
 
 Generated output behavior includes both sides:
 

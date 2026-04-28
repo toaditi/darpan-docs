@@ -77,6 +77,17 @@
         ]
       },
       {
+        "tab": "Releases",
+        "groups": [
+          {
+            "group": "Release notes",
+            "pages": [
+              "releases/updates"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Engineering",
         "groups": [
           {
@@ -92,7 +103,7 @@
             ]
           },
           {
-            "group": "Agent coding",
+            "group": "Engineering workflow",
             "pages": [
               "engineering/overview",
               "engineering/codex-coding-workflow",

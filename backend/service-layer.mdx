@@ -1,6 +1,6 @@
 ---
 title: "Service layer"
-description: "How Darpan backend services are exposed, organized, and implemented."
+description: "How Darpan exposes and organizes backend services."
 ---
 
 Darpan backend calls use Moqui JSON-RPC through `/rpc/json`. The method name is a Moqui service name, for example:
@@ -20,7 +20,7 @@ facade.ReconciliationFacadeServices.list#SavedRuns
 
 ## Facade services
 
-Facade services are the stable integration point for the app. The active facade files include:
+Facade services are the app integration point. The active facade files include:
 
 - `service/facade/AuthFacadeServices.xml`
 - `service/facade/SettingsFacadeServices.xml`
@@ -63,4 +63,4 @@ Groovy helpers should be limited to processing-heavy work. A helper should not r
 
 ## API shape
 
-Darpan backend APIs are exposed through verified facade service names and the Moqui JSON-RPC envelope. Service references describe required parameters, auth expectations, side effects, and response fields for those facade contracts.
+Darpan APIs are exposed through verified facade service names and the Moqui JSON-RPC envelope. Service references should document required parameters, auth expectations, side effects, and response fields for those facade contracts.

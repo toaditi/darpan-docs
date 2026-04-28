@@ -1,51 +1,54 @@
 ---
 title: "Darpan documentation"
-description: "Run-focused product, API, backend, and engineering docs for Darpan."
+description: "Technical product, API, backend, release, and engineering docs for Darpan."
 ---
 
-Darpan helps users set up reconciliation runs quickly, compare operational data, and review the evidence behind every difference.
+Darpan is a reconciliation workspace for technical operators. It connects source systems, describes source data with schemas, runs comparisons, applies RuleSets, and preserves the output needed to explain each difference.
 
-Everything in the product points toward that run workflow. Connections, schemas, RuleSets, saved runs, generated outputs, and Ask Darpan navigation exist so a user can move from setup to a repeatable reconciliation run without hunting through configuration screens.
+Read these docs in the same order a run moves through the product: prepare setup records, execute the comparison, review generated output, then adjust the source data, schema, or rules when the result points to a problem.
 
 <Card title="Start with the quickstart" icon="play" href="/quickstart" horizontal>
-  Set up the minimum pieces for a reconciliation run, execute it, and review the result.
+  Follow one complete path from environment selection to result review.
 </Card>
 
-## Product workflow
+## Product path
 
 <Columns cols={2}>
-  <Card title="Run reconciliation" icon="shuffle" href="/guides/run-reconciliation">
-    Start a run, choose the saved setup, provide inputs, and generate output.
-  </Card>
-  <Card title="Review results" icon="table" href="/guides/review-results">
-    Open generated differences and decide what needs follow-up.
-  </Card>
   <Card title="Ask Darpan navigation" icon="sparkles" href="/getting-started/ask-darpan-navigation">
-    Search for the run, setup record, workflow, or result you need.
+    Open pages, workflows, setup records, saved runs, and generated outputs from one search surface.
   </Card>
   <Card title="Connections" icon="plug" href="/guides/connect-sftp">
-    Save SFTP, NetSuite, and provider setup that runs can reuse.
+    Store SFTP, NetSuite, and provider configuration that runs can reuse.
   </Card>
   <Card title="Schemas" icon="brackets-curly" href="/guides/create-schema">
-    Define source data shapes so run setup can stay clear and repeatable.
+    Define source data shapes before a run depends on the fields.
+  </Card>
+  <Card title="Run reconciliation" icon="shuffle" href="/guides/run-reconciliation">
+    Execute a saved or newly configured comparison.
+  </Card>
+  <Card title="Review results" icon="table" href="/guides/review-results">
+    Interpret generated differences and choose the next action.
   </Card>
   <Card title="API reference" icon="terminal" href="/api-reference/overview">
-    Understand the JSON-RPC services behind run setup, execution, and review.
+    Call the JSON-RPC services behind setup, execution, and review.
   </Card>
 </Columns>
 
 ## For builders
 
-Engineering docs start with the backend engine, then explain the agent-assisted coding model used to build and maintain Darpan.
+The engineering docs explain how the product surface maps to the backend engine: Moqui service contracts, tenant-scoped data access, Spark comparison, Drools RuleSets, and generated output.
 
 <Columns cols={2}>
   <Card title="Backend engine" icon="server" href="/backend/overview">
-    See how Moqui services, Spark, Drools, entities, and generated outputs power reconciliation runs.
+    Understand the runtime architecture behind Darpan runs.
   </Card>
-  <Card title="Agent coding" icon="code" href="/engineering/overview">
-    Learn how Darpan uses Codex-assisted practices for repo-aware implementation and verification.
+  <Card title="Engineering workflow" icon="code" href="/engineering/overview">
+    Follow the repo boundaries and verification model used for Darpan development.
+  </Card>
+  <Card title="Release updates" icon="tag" href="/releases/updates">
+    Review shipped tags and their major changes.
   </Card>
   <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/login-and-session">
-    Diagnose login, upload, connection, and reconciliation run failures.
+    Diagnose login, upload, connection, and run failures.
   </Card>
 </Columns>

@@ -1,0 +1,89 @@
+---
+title: "Release updates"
+description: "Major Darpan updates grouped by release tag."
+---
+
+Use this page to see what changed in each tagged Darpan release. Each entry highlights the product and operator updates that matter most when deciding whether to upgrade, validate, or roll back.
+
+## Release tags
+
+<CardGroup cols={2}>
+  <Card title="v1.1.1" icon="tag" href="#v111">
+    Patch release for schema capture, sample-derived schema saves, and inline menu behavior.
+  </Card>
+  <Card title="v1.1.0" icon="tag" href="#v110">
+    Native pilot PWA release for settings, schemas, run history, and result review.
+  </Card>
+  <Card title="v1.0.0" icon="tag" href="#v100">
+    First tagged invite-only pilot release across the Darpan UI and backend component.
+  </Card>
+</CardGroup>
+
+## v1.1.1
+
+Release date: `2026-04-09`
+
+Major updates in this tag:
+
+- Schema create and edit flows capture the selected source system explicitly.
+- Sample-derived schema verification lets users mark required fields before saving.
+- Stored schema text keeps the required-field markers produced by the verification step.
+- Inline dropdown menus close predictably when another menu or **Ask Darpan** opens.
+- Backend text payload validation now accepts literal text containing `<` and `>` in the intended reconciliation flows.
+- No release-scoped seed or config load is required for this patch.
+
+Validation and rollout notes:
+
+- Roll out the backend and UI together when schema sample upload or schema-system capture is in use.
+- Roll back both repos to `v1.1.0` if schema saves, system capture, or inline-menu behavior regresses.
+
+Related release tracking:
+
+- Linear: `DAR-146`
+- Backend compare: `https://github.com/hotwax/darpan/compare/v1.1.0...v1.1.1`
+- UI compare: `https://github.com/toaditi/darpan-ui/compare/v1.1.0...v1.1.1`
+
+## v1.1.0
+
+Release date: `2026-04-09`
+
+Major updates in this tag:
+
+- Darpan ships the native pilot PWA surfaces on `main`.
+- Settings now use dedicated dashboard and workflow pages for LLM, SFTP, NetSuite auth, NetSuite endpoints, and run settings.
+- Schema Studio, reconciliation run history, and reconciliation results align with the newer static/workflow shell.
+- Shared shell, select, table-frame, and workflow primitives replace older one-off page scaffolding.
+- Backend setup data uses `darpan-seed` and `darpan-seed-initial` so fresh environments can load through `./gradlew loadDarpanSetup`.
+- Auth seed data grants the pilot auth facade to all users while keeping Darpan app access scoped to admins.
+
+Validation and rollout notes:
+
+- Existing environments should load the release `upgrade-data.xml` as seed if they do not automatically pick up the required auth and preference records.
+- Roll back the backend and UI together to `v1.0.0` if native PWA auth, settings save flows, or run history/results regress.
+
+Related release tracking:
+
+- Linear: `DAR-139`
+- Backend compare: `https://github.com/hotwax/darpan/compare/v1.0.0...v1.1.0`
+- UI compare: `https://github.com/toaditi/darpan-ui/compare/v1.0.0...v1.1.0`
+
+## v1.0.0
+
+Major updates in this tag:
+
+- Darpan creates the first tagged invite-only pilot release across the backend component and UI.
+- The pilot auth path uses stateless login and login-key-backed session restore.
+- The pilot reconciliation facade expands to support mapping creation and generated-output filtering by mapping ID.
+- Schema system handling moves to seeded enumerations instead of free-form system values.
+- The UI `main` branch is narrowed to the pilot workflow and static surfaces needed for the release.
+- Out-of-scope UI surfaces are removed from `main` so the release path stays focused.
+
+Validation and rollout notes:
+
+- Ensure component seed data is applied if the target environment does not reload seed data during deploy.
+- Fall back to the legacy backend shell at `/qapps/darpan` if the invite-only pilot path fails.
+
+Related release tracking:
+
+- Backend release: `https://github.com/hotwax/darpan/releases/tag/v1.0.0`
+- UI release: `https://github.com/toaditi/darpan-ui/releases/tag/v1.0.0`

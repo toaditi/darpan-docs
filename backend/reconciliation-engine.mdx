@@ -1,9 +1,9 @@
 ---
 title: "Reconciliation engine"
-description: "How Darpan runs source comparisons, RuleSet diffs, and generated outputs."
+description: "How Darpan turns source data into generated reconciliation output."
 ---
 
-The reconciliation engine turns a user-facing run into backend work: load source data, normalize it, compare matching keys, apply configurable rules, and write generated output for review.
+The reconciliation engine is the run pipeline. It stages source data, normalizes records, compares matching keys, applies rules, and writes generated output for review.
 
 ## High-level flow
 
@@ -23,21 +23,21 @@ UI workflow
 
 | Layer | Role in the run |
 | --- | --- |
-| Moqui services | Define the JSON-RPC contracts, validate inputs, resolve tenant access, persist run setup, and coordinate the pipeline. |
+| Moqui services | Define JSON-RPC contracts, validate inputs, resolve tenant access, persist run setup, and coordinate the pipeline. |
 | Spark datasets | Normalize CSV or JSON inputs, keep compare work in dataset operations, and produce base missing-object or matched-pair outputs. |
 | Drools RuleSets | Evaluate configurable business rules against compare-ready facts and matched pairs. |
 | Generated outputs | Preserve the run result so users can reopen, inspect, and clean up evidence later. |
 
 ## Current execution paths
 
-Darpan currently has two reconciliation paths.
+Darpan has two execution paths.
 
 | Path | Use |
 | --- | --- |
 | RuleSet path | The newer model. A saved run points to a `RuleSetCompareScope` with compare sources and optional rules. |
 | Mapping path | The legacy model. A reconciliation mapping describes source members and comparison behavior. |
 
-The RuleSet path is the primary model for new reconciliation workflows. The mapping path remains relevant for existing backend code.
+Use the RuleSet path for new reconciliation work. Keep the mapping path in mind when reading existing services or release history.
 
 ## RuleSet compare flow
 
