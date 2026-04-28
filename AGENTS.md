@@ -32,10 +32,13 @@
 - Use active voice and second person ("you").
 - Keep sentences concise.
 - Use sentence case for headings.
-- Bold UI elements: Click **Settings**.
+- Bold UI elements and command results: Select **Open SFTP Servers**.
 - Use code formatting for file names, commands, paths, and code references.
 - Prefer task-oriented pages for workflows and reference pages for stable contracts.
 - Call out assumptions, prerequisites, expected results, and next steps.
+- Write product tutorials for the Ask Darpan navigation model first.
+- When a workflow starts in the app shell, tell users to open **Ask Darpan** with `Cmd/Ctrl+K` or the floating **Ask Darpan** button, then search for the task.
+- Avoid assuming a permanent left sidebar, top menu, or traditional nested navigation unless the page itself has local controls after Ask Darpan opens the surface.
 
 ## Update rules
 

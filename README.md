@@ -5,7 +5,7 @@ Mintlify documentation site for Darpan product, API, troubleshooting, and engine
 ## Content model
 
 - `index.mdx` and `quickstart.mdx` introduce the product and first workflow.
-- `getting-started/**` explains concepts, users, and environments.
+- `getting-started/**` explains concepts, Ask Darpan navigation, users, and environments.
 - `guides/**` holds task-oriented product guides.
 - `reference/**` holds stable product reference material.
 - `troubleshooting/**` captures symptom-first repair paths.
@@ -47,3 +47,7 @@ jq empty api-reference/openapi.json
 ## Publishing
 
 Mintlify deploys from the connected GitHub repository after changes are pushed to `main`. Use small commits and keep docs changes tied to the product, release, or support work that made them necessary.
+
+## Writing rule
+
+Darpan uses Ask Darpan as the primary navigation model. Product tutorials should start app navigation with **Ask Darpan** and search terms, then describe local page controls only after the user reaches the target surface.

@@ -1,0 +1,58 @@
+---
+title: "Ask Darpan navigation"
+description: "How to move through Darpan with search-first navigation."
+---
+
+Ask Darpan is the primary navigation model in Darpan. Instead of hunting through a permanent sidebar or nested menu, you describe the page, workflow, setting, or record you want to open.
+
+## Open Ask Darpan
+
+Use either entry point:
+
+- Press `Cmd/Ctrl+K`.
+- Click the floating **Ask Darpan** button.
+
+Then type a task, common term, page name, workflow name, record name, host, run name, or output file name.
+
+## Select a result
+
+Use the keyboard when you can:
+
+1. Type your search.
+2. Use Up/Down to move through results.
+3. Press Enter to open the selected result.
+4. Press Escape to close Ask Darpan.
+
+When you are inside a workflow, Escape can return you to the surface that launched the workflow.
+
+## What Ask Darpan can find
+
+Ask Darpan searches static app destinations and selected record-backed destinations.
+
+| What you want | Search examples | Result to open |
+| --- | --- | --- |
+| Main workspace | `dashboard`, `home`, `start` | **Go to Dashboard** |
+| AI provider settings | `AI`, `API key`, `model settings`, `OpenAI` | **Open AI Settings** |
+| SFTP settings | `SFTP`, `file server`, `file transfer` | **Open SFTP Servers** |
+| A saved SFTP record | SFTP name, host, username, `edit SFTP` | **Edit SFTP: ...** |
+| NetSuite setup | `NetSuite`, `token`, `OAuth`, `RESTlet`, `credentials` | **Open NetSuite Settings** |
+| Schema library | `schema`, `json schema`, `field map`, `data shape` | **Open Schema Library** |
+| Schema creation | `create schema`, `generate schema`, `sample json` | **Create Schema** |
+| Reconciliation setup | `new reconciliation`, `create compare flow`, `match setup` | **Create Reconciliation Flow** |
+| Run a comparison | `run reconciliation`, `compare files`, `compare data`, `diff` | **Run Reconciliation** |
+| Saved result output | run name, file name, `run result`, `open result` | **Open Result: ...** |
+| Roadmap and requests | `roadmap`, `requests`, `feature request` | **Open Requests and Roadmap** |
+
+## Search behavior
+
+Ask Darpan is designed for natural terms, not exact menu paths. It ignores common filler words and matches labels, descriptions, aliases, prefixes, and close spelling variations. Recent commands can rank higher so repeated work is faster.
+
+<Tip>
+If the first query does not find the target, try the business noun or outcome: `compare files`, `API key`, `SFTP host`, `schema upload`, or the saved run name.
+</Tip>
+
+## How tutorials use navigation
+
+Docs should say "open Ask Darpan and search..." when the user needs to move to a Darpan surface. Page-local buttons, cards, tables, or forms are described only after Ask Darpan opens the correct surface.
+
+This keeps tutorials aligned with the product's command-first shell instead of assuming a traditional app menu.
