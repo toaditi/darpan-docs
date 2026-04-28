@@ -45,8 +45,4 @@ The component uses these runtime pieces:
 
 ## Implementation boundary
 
-Use XML services for normal orchestration: validation, authorization, entity reads and writes, service calls, and response shaping.
-
-Use Groovy or Java helpers only where the code is algorithmic or data-processing heavy, such as Spark dataset preparation, rule execution, JSON normalization, or schema inference.
-
-This boundary keeps service contracts visible to Moqui and prevents product behavior from disappearing into browser code or unindexed helper scripts.
+Service contracts are visible in XML. Groovy and Java helpers handle processing-heavy code such as Spark dataset preparation, rule execution, JSON normalization, and schema inference.

@@ -1,0 +1,22 @@
+---
+title: "Release discipline"
+description: "How Darpan keeps product releases reviewable."
+---
+
+Darpan release work is evidence-led. A release explains what changed, what was verified, and what remains intentionally out of scope.
+
+## Release principles
+
+Darpan releases keep scope reviewable, pair user-facing behavior with documentation, validate the changed backend and UI surfaces, and separate shipped behavior from known deferrals.
+
+## Release note questions
+
+- Which reconciliation workflows changed?
+- Which setup surfaces changed, such as schemas, connections, saved runs, or RuleSets?
+- Which backend contracts or generated-output shapes changed?
+- Which checks passed before release?
+- Are there migration, upgrade-data, or configuration steps?
+
+## Verification
+
+Start with the narrowest reliable checks for the changed surface, then broaden when a release touches shared contracts or critical reconciliation flows. Release notes distinguish automated checks, manual workflow checks, and unverified areas.

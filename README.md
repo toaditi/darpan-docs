@@ -11,7 +11,7 @@ Mintlify documentation site for Darpan product, API, troubleshooting, and engine
 - `troubleshooting/**` captures symptom-first repair paths.
 - `api-reference/**` documents the JSON-RPC API surface and the generated OpenAPI entrypoint.
 - `backend/**` explains the Moqui backend engine, service layer, reconciliation processing, rules, schemas, and tenancy model. These pages appear under the Engineering navigation tab.
-- `engineering/**` captures agent coding practices, repo ownership, implementation workflow, and release guidance that is safe to publish.
+- `engineering/**` captures frontend app architecture, page-surface contracts, repo ownership, implementation workflow, and release guidance that is safe to publish.
 
 ## Local preview
 
@@ -56,3 +56,5 @@ Darpan uses Ask Darpan as the primary navigation model. Product pages should des
 Connections, schemas, RuleSets, saved runs, and generated outputs are not separate product stories; they are the support structure for setting up, running, and reviewing reconciliation.
 
 Backend docs stay repo-grounded. They describe current Moqui XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior from the implementation.
+
+Frontend engineering docs stay repo-grounded too. They describe the current Vue shell, route metadata, static and workflow surfaces, shared CSS contracts, and the present PWA boundary without claiming offline or install behavior before it exists.

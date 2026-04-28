@@ -3,7 +3,7 @@ title: "Data access and tenancy"
 description: "How backend services scope users, companies, tenants, and generated files."
 ---
 
-Darpan services must resolve who is acting and which tenant or company scope is active before returning or mutating data.
+Darpan services resolve who is acting and which tenant or company scope is active before returning or mutating data.
 
 ## Active scope
 
@@ -37,7 +37,7 @@ That split lets the backend decide whether the current user can view or edit the
 
 ## Service checks
 
-Facade services should check access before listing, opening, saving, running, or deleting scoped records. The UI should not depend on client-side filtering as the security boundary.
+Facade services check access before listing, opening, saving, running, or deleting scoped records. Client-side filtering is not the security boundary.
 
 Backend access helpers are responsible for:
 

@@ -92,14 +92,21 @@
             ]
           },
           {
+            "group": "Frontend app",
+            "pages": [
+              "engineering/frontend-pwa-philosophy",
+              "engineering/frontend-design-system",
+              "engineering/ui-page-surface-contracts"
+            ]
+          },
+          {
             "group": "Engineering workflow",
             "pages": [
               "engineering/overview",
               "engineering/process",
               "engineering/repo-map",
-              "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
-              "engineering/release-and-linear-workflow"
+              "engineering/release-discipline"
             ]
           }
         ]
@@ -136,12 +143,7 @@
     "dark": "/logo/dark-app-wordmark-v2.svg"
   },
   "navbar": {
-    "links": [],
-    "primary": {
-      "type": "button",
-      "label": "Open Darpan",
-      "href": "https://hotwax-darpan-dev.web.app/login"
-    }
+    "links": []
   },
   "contextual": {
     "options": [

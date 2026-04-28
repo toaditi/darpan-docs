@@ -2,13 +2,19 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Darpan JSON-RPC API",
-    "description": "Draft OpenAPI wrapper for Darpan's Moqui JSON-RPC service endpoint. Individual service contracts come from verified backend facade definitions.",
-    "version": "draft"
+    "description": "OpenAPI wrapper for Darpan's Moqui JSON-RPC endpoint. Service contracts come from verified backend facade definitions.",
+    "version": "1.1"
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
-      "description": "Local backend"
+      "url": "https://{darpanHost}",
+      "description": "Assigned Darpan backend",
+      "variables": {
+        "darpanHost": {
+          "default": "darpan.example.com",
+          "description": "Darpan host for the target environment"
+        }
+      }
     }
   ],
   "security": [

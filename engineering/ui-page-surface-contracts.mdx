@@ -3,33 +3,35 @@ title: "UI page surface contracts"
 description: "Shared Darpan UI patterns for static and workflow pages."
 ---
 
-Use this page before creating or migrating Darpan UI pages.
+Darpan UI pages use two primary surface types: static pages for saved records and workflows for guided create or edit paths.
+
+For the broader shell and token model behind these contracts, see [Frontend PWA philosophy](/engineering/frontend-pwa-philosophy) and [Frontend design system](/engineering/frontend-design-system).
 
 ## Static surfaces
 
-- Frame static pages with `StaticPageFrame`.
-- Use `StaticPageSection` for section blocks.
-- Use `static-page-record-grid` and `static-page-record-tile` for saved records.
-- Use `static-page-module-grid` and `static-page-module-tile` for in-surface navigation.
-- Use `static-page-list-toolbar` and `static-page-pager` for saved-list chrome.
-- Use `StaticEditableTitle` for inline editable names.
+- Static pages are framed with `StaticPageFrame`.
+- Section blocks use `StaticPageSection`.
+- Saved records use `static-page-record-grid` and `static-page-record-tile`.
+- In-surface navigation uses `static-page-module-grid` and `static-page-module-tile`.
+- Saved-list chrome uses `static-page-list-toolbar` and `static-page-pager`.
+- Inline editable names use `StaticEditableTitle`.
 
 ## Workflow surfaces
 
-- Frame workflow pages with `WorkflowPage`.
-- Build steps with `WorkflowStepForm`.
-- Default create-entry workflows to one question per step.
-- Use `WorkflowShortcutChoiceCards` for keyed multiple-choice prompts.
-- Use `workflow-form-grid`, `workflow-form-grid--two`, and `workflow-form-grid--compact` before adding page-local layout CSS.
-- Keep action buttons on shared controls such as `AppSaveAction` and `AppSelect`.
+- Workflow pages are framed with `WorkflowPage`.
+- Steps use `WorkflowStepForm`.
+- Create-entry workflows default to one question per step.
+- Keyed multiple-choice prompts use `WorkflowShortcutChoiceCards`.
+- Form layouts start with `workflow-form-grid`, `workflow-form-grid--two`, and `workflow-form-grid--compact`.
+- Action buttons stay on shared controls such as `AppSaveAction` and `AppSelect`.
 
 ## Migration rules
 
-- Split settings pages into static saved-record surfaces and workflow create/edit surfaces when a page is doing both jobs.
-- Prefer shared utility classes in `src/style.css` over page-local scoped CSS when a pattern recurs.
-- Preserve route behavior and workflow-origin state when static pages launch workflows.
-- Keep custom page behavior in `darpan-ui`.
+- Settings pages split into static saved-record surfaces and workflow create/edit surfaces when one page is doing both jobs.
+- Repeated layout patterns belong in shared utility classes in `src/style.css`, not page-local scoped CSS.
+- Static pages preserve route behavior and workflow-origin state when they launch workflows.
+- Custom page behavior stays in `darpan-ui`.
 
 ## Validation
 
-Add or update page tests for shared contract classes. Run focused UI tests before broader UI checks.
+Page tests cover shared contract classes. Focused UI tests run before broader UI checks.

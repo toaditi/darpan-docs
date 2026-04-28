@@ -14,18 +14,11 @@ Darpan engineering work starts from product behavior and follows it through the 
 | Backend implementation | Keeps service contracts explicit in Moqui XML and places dense processing in testable Groovy or Java helpers. |
 | Reconciliation logic | Preserves the split between Spark dataset work and Drools-backed decisioning. |
 | Verification | Runs focused checks, reports what passed, and calls out remaining risk. |
-| Documentation | Updates product and engineering docs from implemented behavior instead of aspirational architecture. |
+| Documentation | Updates product and engineering docs from implemented behavior instead of planned architecture. |
 
 ## Engineering principles
 
-Darpan changes follow these standards:
-
-- Preserve repository ownership boundaries.
-- Prefer the smallest production-quality change that solves the problem.
-- Keep user-facing workflows centered on reconciliation runs.
-- Keep backend behavior contract-first and Moqui-native.
-- Remove weak compatibility layers when a simpler contract is available.
-- Treat tests, logs, and runtime behavior as stronger evidence than assumptions.
+Darpan changes preserve repository ownership boundaries, keep backend behavior contract-first and Moqui-native, and use tests, logs, and runtime behavior as evidence.
 
 ## Why it matters for Darpan
 

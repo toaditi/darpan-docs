@@ -57,10 +57,8 @@ Core reconciliation services live under `service/reconciliation/**`.
 
 ## XML-first rule
 
-Service orchestration should stay in XML when it is mostly contract work: input validation, entity mutation, authorization checks, service calls, and response shaping.
-
-Groovy helpers should be limited to processing-heavy work. A helper should not replace a clear XML service flow just because it is faster to write.
+XML services own validation, authorization, entity mutation, service calls, and response shaping. Groovy and Java helpers handle processing-heavy code such as Spark preparation, rule execution, JSON normalization, and schema inference.
 
 ## API shape
 
-Darpan APIs are exposed through verified facade service names and the Moqui JSON-RPC envelope. Service references should document required parameters, auth expectations, side effects, and response fields for those facade contracts.
+Darpan APIs are exposed through verified facade service names and the Moqui JSON-RPC envelope. Service references document required parameters, auth expectations, side effects, and response fields for those facade contracts.

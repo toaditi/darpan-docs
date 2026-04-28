@@ -18,16 +18,10 @@ description: "Diagnose sign-in, redirect, and session failures."
 4. Refresh the CSRF token by loading the login page again.
 5. Confirm the user has access to the active company or tenant.
 
-## Local smoke shape
+## API testing shape
 
-Use the local backend login page to bootstrap cookies and CSRF before making JSON-RPC calls.
-
-```bash
-curl -i http://localhost:8080/Login
-```
-
-Then call `/rpc/json` with the session cookie and `X-CSRF-Token` header.
+For API testing, authenticate against the assigned backend and send the session cookie plus `X-CSRF-Token` with `/rpc/json`. Use placeholder values only.
 
 <Warning>
-Do not paste real cookies, CSRF tokens, or passwords into docs, tickets, or public comments.
+Share only redacted examples in documentation, support threads, or external comments. Real cookies, CSRF tokens, and passwords stay out of public material.
 </Warning>

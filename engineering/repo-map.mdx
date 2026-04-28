@@ -7,34 +7,23 @@ description: "Where Darpan work belongs."
 
 Darpan engineering work is split across the frontend app and backend engine.
 
-| Repository | Stack | Owns | Checkout or install path |
+| Repository | Stack | Owns | Repository root |
 | --- | --- | --- | --- |
-| [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | `<workspace>/darpan-ui` |
-| [`toaditi/darpan`](https://github.com/toaditi/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | `<moqui-framework>/runtime/component/darpan` |
-
-## Local workspace roots
-
-| Area | Path |
-| --- | --- |
-| Wrapper workspace | `<workspace>` |
-| Frontend app checkout | `<workspace>/darpan-ui` |
-| Moqui framework checkout | `<moqui-framework>` |
-| Darpan backend component | `<moqui-framework>/runtime/component/darpan` |
-
-`<moqui-framework>` means the Moqui framework checkout that contains the Darpan runtime component. It is not a Darpan repository name.
+| [`toaditi/darpan-ui`](https://github.com/toaditi/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | Repository root |
+| [`toaditi/darpan`](https://github.com/toaditi/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | Component root |
 
 ## High-signal paths
 
 | Surface | Paths |
 | --- | --- |
-| UI pages | `darpan-ui/src/pages/**` |
-| UI shared code | `darpan-ui/src/components/**`, `darpan-ui/src/lib/**`, `darpan-ui/src/router/**` |
-| UI package and stack | `darpan-ui/package.json`, `darpan-ui/vite.config.ts`, `darpan-ui/src/main.ts` |
-| Backend services | `<moqui-framework>/runtime/component/darpan/service/**` |
-| Backend logic | `<moqui-framework>/runtime/component/darpan/src/**` |
-| Backend entities | `<moqui-framework>/runtime/component/darpan/entity/**` |
-| Backend component descriptor | `<moqui-framework>/runtime/component/darpan/component.xml` |
+| UI pages | `src/pages/**` |
+| UI shared code | `src/components/**`, `src/lib/**`, `src/router/**` |
+| UI package and stack | `package.json`, `vite.config.ts`, `src/main.ts` |
+| Backend services | `service/**` |
+| Backend logic | `src/**` |
+| Backend entities | `entity/**` |
+| Backend component descriptor | `component.xml` |
 
 ## Boundary rule
 
-Do not implement or extend custom Darpan UI in backend `screen/**`, `template/**`, or `theme-library/**`. The UI belongs in `toaditi/darpan-ui`. Add backend service contracts in `toaditi/darpan` when the UI needs data, then consume them from the Vue app.
+Custom Darpan UI belongs in `toaditi/darpan-ui`, not backend `screen/**`, `template/**`, or `theme-library/**`. Backend service contracts belong in `toaditi/darpan` and are consumed from the Vue app.

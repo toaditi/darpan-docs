@@ -3,25 +3,24 @@ title: "Connect NetSuite"
 description: "Capture the NetSuite setup Darpan needs for reconciliation workflows."
 ---
 
-NetSuite setup links Darpan to ERP data used in reconciliation workflows. Keep authentication, endpoint, RESTlet, and SuiteQL details explicit so failures can be traced quickly.
+NetSuite setup links Darpan to ERP data used in reconciliation workflows. Clear authentication, endpoint, RESTlet, and SuiteQL details make failures easier to trace.
 
 ## Before you start
 
-Confirm the account, role, integration, token, and script deployment details with the NetSuite owner.
+Confirm account, role, integration, and script deployment details with the NetSuite owner. Keep token values in secure configuration.
 
 ## Recommended setup order
 
-1. Open **Ask Darpan** with `Cmd/Ctrl+K` or the floating **Ask Darpan** button.
-2. Search for **Open NetSuite Settings**.
-3. Create or confirm the authentication configuration.
-4. Create or confirm endpoint configuration.
-5. Run a small read-only smoke request.
-6. Attach the configuration to the workflow that needs it.
+1. From **Ask Darpan**, open **Open NetSuite Settings**.
+2. Create or confirm the authentication configuration.
+3. Create or confirm endpoint configuration.
+4. Run a read-only connection test.
+5. Attach the configuration to the workflow that needs it.
 
 ## Troubleshooting
 
 If the connection fails, capture the exact NetSuite error code and message. Most fixes start by checking role permissions, environment target, token validity, script deployment status, or SuiteQL field names.
 
 <Note>
-Use the API reference and engineering docs only for request shape. Secrets and account-specific values belong in secure configuration, not documentation.
+The API reference and engineering docs cover request shape. Secrets and account-specific values belong in secure configuration, not documentation.
 </Note>

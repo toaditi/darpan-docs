@@ -3,13 +3,13 @@ title: "Release updates"
 description: "Major Darpan updates grouped by release tag."
 ---
 
-Use this page to see what changed in each tagged Darpan release. Entries are ordered newest to oldest and focus on product and operator updates that affect upgrade, validation, or rollback decisions.
+This page lists tagged Darpan releases from newest to oldest, with product and operator changes that affect upgrade, validation, or rollback decisions.
 
 ## v1.1.1
 
 Release date: `2026-04-09`
 
-Major updates in this tag:
+Changes in this tag:
 
 - Schema create and edit flows capture the selected source system explicitly.
 - Sample-derived schema verification lets users mark required fields before saving.
@@ -20,8 +20,8 @@ Major updates in this tag:
 
 Validation and rollout notes:
 
-- Roll out the backend and UI together when schema sample upload or schema-system capture is in use.
-- Roll back both repos to `v1.1.0` if schema saves, system capture, or inline-menu behavior regresses.
+- Backend and UI deploy together when schema sample upload or schema-system capture is in use.
+- Rollback target: `v1.1.0` for schema save, system capture, or inline-menu regressions.
 
 Public links:
 
@@ -32,19 +32,19 @@ Public links:
 
 Release date: `2026-04-09`
 
-Major updates in this tag:
+Changes in this tag:
 
-- Darpan ships the native pilot PWA surfaces on `main`.
-- Settings now use dedicated dashboard and workflow pages for LLM, SFTP, NetSuite auth, NetSuite endpoints, and run settings.
+- Darpan ships the native pilot PWA shell and pages.
+- Settings use dedicated dashboard and workflow pages for AI providers, SFTP, NetSuite auth, NetSuite endpoints, and run settings.
 - Schema Studio, reconciliation run history, and reconciliation results align with the newer static/workflow shell.
 - Shared shell, select, table-frame, and workflow primitives replace older one-off page scaffolding.
-- Backend setup data uses `darpan-seed` and `darpan-seed-initial` so fresh environments can load through `./gradlew loadDarpanSetup`.
-- Auth seed data grants the pilot auth facade to all users while keeping Darpan app access scoped to admins.
+- Backend seed data supports Darpan setup loading and saved dashboard preferences.
+- Auth seed data supports the pilot login and app access model.
 
 Validation and rollout notes:
 
-- Existing environments should load the release `upgrade-data.xml` as seed if they do not automatically pick up the required auth and preference records.
-- Roll back the backend and UI together to `v1.0.0` if native PWA auth, settings save flows, or run history/results regress.
+- Existing environments load release upgrade data when auth or preference records are not already present.
+- Rollback target: `v1.0.0` for native PWA auth, settings save, run history, or result regressions.
 
 Public links:
 
@@ -53,19 +53,18 @@ Public links:
 
 ## v1.0.0
 
-Major updates in this tag:
+Changes in this tag:
 
 - Darpan creates the first tagged invite-only pilot release across the backend component and UI.
 - The pilot auth path uses stateless login and login-key-backed session restore.
 - The pilot reconciliation facade expands to support mapping creation and generated-output filtering by mapping ID.
 - Schema system handling moves to seeded enumerations instead of free-form system values.
-- The UI `main` branch is narrowed to the pilot workflow and static surfaces needed for the release.
-- Out-of-scope UI surfaces are removed from `main` so the release path stays focused.
+- The UI release focuses on the pilot workflow and static surfaces needed for invite-only access.
 
 Validation and rollout notes:
 
-- Ensure component seed data is applied if the target environment does not reload seed data during deploy.
-- Fall back to the legacy backend shell at `/qapps/darpan` if the invite-only pilot path fails.
+- Component seed data is required when the target environment does not reload seed data during deploy.
+- Rollback follows the documented rollback procedure if invite-only pilot app access fails.
 
 Public links:
 

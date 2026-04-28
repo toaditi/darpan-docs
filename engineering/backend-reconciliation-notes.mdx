@@ -3,42 +3,26 @@ title: "Backend reconciliation notes"
 description: "Implementation notes for reconciliation services and RuleSet work."
 ---
 
-Backend reconciliation behavior belongs in the Darpan Moqui component at `<moqui-framework>/runtime/component/darpan`. Use the Backend engine section for architecture; use this page for implementation reminders.
+Backend reconciliation behavior belongs in the Darpan Moqui component at `<moqui-framework>/runtime/component/darpan`. The Backend engine section owns architecture; this page keeps implementation reminders close to service work.
 
-Use these pages first:
+Related backend pages:
 
 - [Reconciliation engine](/backend/reconciliation-engine)
 - [Service layer](/backend/service-layer)
 - [Rules and schemas](/backend/rules-and-schemas)
 - [Data access and tenancy](/backend/data-access-and-tenancy)
 
-## XML-first rule
+## Service shape
 
-Prefer Moqui XML service orchestration for normal service flow. Use Groovy helpers when the logic is dense enough to justify leaving XML.
+XML services own validation, authorization, entity mutation, service calls, and response shaping. Groovy and Java helpers handle processing-heavy code such as Spark preparation, rule execution, JSON normalization, and schema inference.
 
-Good XML-owned service flow includes:
+## Smoke coverage
 
-- Input normalization
-- Entity reads and writes
-- Access checks
-- Calls to lower-level services
-- Response shaping
-
-Groovy is appropriate for dense processing such as Spark dataset preparation, JSON parsing, rule execution, and schema inference.
-
-## Rule engine test service
-
-The backend component includes this sample test service:
-
-```text
-reconciliation.ReconciliationSampleServices.test#RuleEngine
-```
-
-It compiles a RuleSet, prepares OMS and Shopify sample data, runs rules, and returns detected synchronization issues.
+Backend smoke coverage includes RuleSet compilation and sample data execution.
 
 ## Expected service documentation
 
-Document backend services with:
+Backend service documentation includes:
 
 - Service name
 - Owning file

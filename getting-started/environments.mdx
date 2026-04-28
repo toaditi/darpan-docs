@@ -5,7 +5,7 @@ description: "Known Darpan runtime targets and what each is for."
 
 ## Local development
 
-Use local development when changing or validating Darpan behavior.
+Local development supports behavior changes and validation.
 
 | Service | Default URL |
 | --- | --- |
@@ -15,12 +15,12 @@ Use local development when changing or validating Darpan behavior.
 
 ## Hosted pilot or demo
 
-Use hosted environments for customer review, release smoke testing, and workflows that need stable external access.
+Hosted environments support customer review, release smoke testing, and workflows that need stable external access.
 
 <Warning>
-Do not publish credentials, session cookies, CSRF tokens, or customer-specific endpoint values in docs.
+Published docs use placeholders for credentials, session cookies, CSRF tokens, and organization-specific endpoint values.
 </Warning>
 
 ## Hosted Darpan app
 
-Use `https://hotwax-darpan-dev.web.app/login` for the current hosted Darpan login target.
+The active pilot, demo, or release environment provides the hosted Darpan URL.

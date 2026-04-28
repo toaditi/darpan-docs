@@ -19,25 +19,26 @@ UI workflow
   -> UI result view
 ```
 
-## Platform roles
+## Run responsibilities
 
-| Layer | Role in the run |
+| Stage | Responsibility |
 | --- | --- |
-| Moqui services | Define JSON-RPC contracts, validate inputs, resolve tenant access, persist run setup, and coordinate the pipeline. |
-| Spark datasets | Normalize CSV or JSON inputs, keep compare work in dataset operations, and produce base missing-object or matched-pair outputs. |
-| Drools RuleSets | Evaluate configurable business rules against compare-ready facts and matched pairs. |
-| Generated outputs | Preserve the run result so users can reopen, inspect, and clean up evidence later. |
+| Setup and access | Persist run setup and resolve user, company, and tenant scope. |
+| Source staging | Save uploaded files, text payloads, or configured-source inputs for processing. |
+| Base comparison | Normalize records and compute missing-object or matched-pair output. |
+| Rule evaluation | Apply RuleSet rules to compare-ready data and matched pairs. |
+| Output storage | Store generated output metadata and files for review. |
 
 ## Current execution paths
 
 Darpan has two execution paths.
 
-| Path | Use |
+| Path | Role |
 | --- | --- |
-| RuleSet path | The newer model. A saved run points to a `RuleSetCompareScope` with compare sources and optional rules. |
-| Mapping path | The legacy model. A reconciliation mapping describes source members and comparison behavior. |
+| RuleSet path | A saved run points to a `RuleSetCompareScope` with compare sources and optional rules. |
+| Mapping path | A reconciliation mapping describes source members and comparison behavior. |
 
-Use the RuleSet path for new reconciliation work. Keep the mapping path in mind when reading existing services or release history.
+Darpan supports both paths. New run contracts center on `RuleSetCompareScope`; existing services and release history may still reference mappings.
 
 ## RuleSet compare flow
 
