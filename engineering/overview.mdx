@@ -1,11 +1,11 @@
 ---
 title: "Engineering overview"
-description: "How Darpan code should be approached."
+description: "How Darpan is built."
 ---
 
-This overview is for Darpan team members and operators who need to understand how the application code is organized and how product work should move through the repos.
+This overview explains how Darpan is engineered: a Moqui/Spark/Drools backend, a Vue control surface, and a Codex-assisted coding practice that keeps sophisticated reconciliation workflows maintainable.
 
-The backend component is the product engine. Start with [Backend engine overview](/backend/overview) when you need to understand service contracts, entities, reconciliation processing, RuleSets, tenant access, or generated outputs.
+Engineering documentation combines backend architecture and agent coding practices in one place. Start with [Backend engine overview](/backend/overview) when you need to understand how a reconciliation run moves through services, entities, Spark processing, RuleSets, tenant access, and generated outputs.
 
 ## Repo boundaries
 
@@ -13,7 +13,7 @@ The backend component is the product engine. Start with [Backend engine overview
 - [`toaditi/darpan`](https://github.com/toaditi/darpan) is the Darpan backend Moqui component. In the local Moqui checkout it is mounted at `darpan-backend/runtime/component/darpan`. It owns Moqui XML services, entity definitions, facade contracts, Groovy processing helpers, and Spark/Drools reconciliation processing.
 - Cross-repo changes are valid when UI behavior needs new backend data or service contracts, but each code change should land in the repo that owns that behavior.
 
-## Backend implementation map
+## Backend engine map
 
 - [Component layout](/backend/component-layout) explains the Moqui component structure and dependencies.
 - [Service layer](/backend/service-layer) explains facade services, core services, and backend service orchestration.
@@ -22,9 +22,15 @@ The backend component is the product engine. Start with [Backend engine overview
 - [Data access and tenancy](/backend/data-access-and-tenancy) covers scoped reads, writes, permissions, and output isolation.
 - [Operations and validation](/backend/operations-and-validation) lists backend checks for engine changes.
 
-## Workflow rules
+## Agent coding model
 
-- Classify actionable product work as feature, bug fix, or neither.
-- Use Linear as the source of truth for feature and bug work.
-- Keep GitHub focused on branches, commits, pull requests, and review artifacts.
-- Use topic branches for active product code work.
+Darpan development uses Codex as a coding partner for code reading, implementation, verification, and documentation updates. The strongest results come from a few durable engineering habits:
+
+- Product work starts from the reconciliation-run workflow users actually follow.
+- Custom UI stays in `darpan-ui`; backend contracts stay in the Moqui component.
+- Moqui XML services keep backend contracts visible and reviewable.
+- Spark and Drools are used where dataset comparison or configurable decisioning belongs on the backend.
+- Changes are verified against the smallest meaningful surface before broader confidence is claimed.
+- Cleanup favors simpler contracts over compatibility layers that make the app harder to reason about.
+
+This workflow matters because Darpan has many moving parts: app shell navigation, schemas, connections, saved runs, generated outputs, tenant scope, backend services, and rule execution. Agent coding works best here when each change is grounded in the current code and verified against the owning surface.

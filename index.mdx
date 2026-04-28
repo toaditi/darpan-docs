@@ -1,49 +1,49 @@
 ---
 title: "Darpan documentation"
-description: "Guides, reference, and engineering notes for Darpan."
+description: "Run-focused product, API, backend, and engineering docs for Darpan."
 ---
 
-Darpan is a reconciliation workspace for configuring source connections, creating schemas, running comparisons, and reviewing differences between operational systems.
+Darpan helps users set up reconciliation runs quickly, compare operational data, and review the evidence behind every difference.
 
-Use this library as the first place to answer product, API, support, and engineering questions.
+Everything in the product points toward that run workflow. Connections, schemas, RuleSets, saved runs, generated outputs, and Ask Darpan navigation exist so a user can move from setup to a repeatable reconciliation run without hunting through configuration screens.
 
 <Card title="Start with the quickstart" icon="play" href="/quickstart" horizontal>
-  Walk through the core workflow from setup to reviewing reconciliation results.
+  Set up the minimum pieces for a reconciliation run, execute it, and review the result.
 </Card>
 
-## Product areas
+## Product workflow
 
 <Columns cols={2}>
+  <Card title="Run reconciliation" icon="shuffle" href="/guides/run-reconciliation">
+    Start a run, choose the saved setup, provide inputs, and generate output.
+  </Card>
+  <Card title="Review results" icon="table" href="/guides/review-results">
+    Open generated differences and decide what needs follow-up.
+  </Card>
   <Card title="Ask Darpan navigation" icon="sparkles" href="/getting-started/ask-darpan-navigation">
-    Learn how to move through Darpan by searching for goals, workflows, and records.
+    Search for the run, setup record, workflow, or result you need.
   </Card>
   <Card title="Connections" icon="plug" href="/guides/connect-sftp">
-    Configure SFTP, NetSuite, and AI provider records that Darpan uses during workflows.
+    Save SFTP, NetSuite, and provider setup that runs can reuse.
   </Card>
   <Card title="Schemas" icon="brackets-curly" href="/guides/create-schema">
-    Define the data shape Darpan uses to parse and compare source files.
-  </Card>
-  <Card title="Reconciliation" icon="shuffle" href="/guides/run-reconciliation">
-    Run comparisons and review generated differences.
+    Define source data shapes so run setup can stay clear and repeatable.
   </Card>
   <Card title="API reference" icon="terminal" href="/api-reference/overview">
-    Understand the current JSON-RPC integration surface and OpenAPI direction.
-  </Card>
-  <Card title="Backend engine" icon="server" href="/backend/overview">
-    See how Moqui services, entities, Spark, RuleSets, and generated outputs implement Darpan.
+    Understand the JSON-RPC services behind run setup, execution, and review.
   </Card>
 </Columns>
 
-## For builders and operators
+## For builders
 
-Engineering docs capture the backend engine, repo map, local development setup, UI page-surface contracts, and release workflow.
+Engineering docs combine the backend engine and the agent-assisted coding model behind Darpan.
 
 <Columns cols={2}>
-  <Card title="Engineering overview" icon="code" href="/engineering/overview">
-    Start here when working on Darpan code or release operations.
+  <Card title="Backend engine" icon="server" href="/backend/overview">
+    See how Moqui services, Spark, Drools, entities, and generated outputs power reconciliation runs.
   </Card>
-  <Card title="Backend architecture" icon="database" href="/backend/service-layer">
-    Understand the Moqui service layer that backs product workflows.
+  <Card title="Engineering overview" icon="code" href="/engineering/overview">
+    Learn how Darpan is built with repo boundaries, verification, and Codex-assisted practices.
   </Card>
   <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/login-and-session">
     Diagnose login, upload, connection, and reconciliation run failures.

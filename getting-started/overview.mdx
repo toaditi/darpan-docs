@@ -3,31 +3,46 @@ title: "Product overview"
 description: "What Darpan does and how the main surfaces fit together."
 ---
 
-Darpan helps teams compare data from operational systems, find mismatches, and preserve the evidence needed to investigate them.
+Darpan is built around one primary outcome: set up a reconciliation run, execute it, and review trustworthy differences.
+
+The app is not a collection of separate settings pages. Connections, schemas, RuleSets, saved runs, results, and Ask Darpan navigation all support the same workflow: make it easy to configure and repeat a reconciliation run.
 
 ## Core workflow
 
 1. Open **Ask Darpan**.
-2. Search for the page, workflow, record, or outcome you need.
-3. Configure the external connections Darpan needs.
-4. Create or select schemas for the source data.
-5. Run reconciliation.
-6. Review generated output and differences.
-7. Adjust source data, schema configuration, or rules when the output shows drift.
+2. Search for the run, setup record, workflow, or result you need.
+3. Configure reusable connection records for external systems.
+4. Create or select schemas that describe the source data.
+5. Create or update a saved reconciliation run when the compare setup should be reused.
+6. Run reconciliation.
+7. Review generated output and differences.
+8. Adjust source data, schema configuration, or rules when the output shows drift.
 
 ## Main surfaces
 
-| Surface | Purpose |
+| Surface | How it helps the run |
 | --- | --- |
-| Connections | Saved setup for systems such as SFTP, NetSuite, and AI providers. |
-| Schemas | Definitions that describe source file or record structure. |
-| Reconciliation | Workflows that compare inputs and generate result output. |
-| Results | Saved run evidence, difference views, and downloadable generated files. |
-| Admin and settings | Access, company context, and operational configuration. |
+| Dashboard | Shows saved runs, pinned runs, and the next place to start. |
+| Ask Darpan | Opens run workflows, setup records, saved results, and edit surfaces without requiring fixed menu knowledge. |
+| Connections | Stores SFTP, NetSuite, AI provider, and similar setup so users do not re-enter access details for each run. |
+| Schemas | Describes source data shapes so run setup can select known fields instead of relying on manual interpretation. |
+| Reconciliation | Creates, edits, and executes compare workflows. |
+| Results | Preserves generated output, run history, difference counts, and files for review. |
+| Admin and settings | Controls access, company context, and operational configuration used during runs. |
 
 ## Navigation model
 
-Ask Darpan is the front door for product navigation. Tutorials use official destination names such as **Open SFTP Servers**, **Create Schema**, **Run Reconciliation**, and **Open Result: ...** instead of assuming a fixed sidebar or menu path.
+Ask Darpan is the front door for product navigation. Search for destinations such as **Open SFTP Servers**, **Create Schema**, **Run Reconciliation**, and **Open Result: ...** to move directly to setup, execution, or review.
+
+## Product promise
+
+A user should be able to answer three questions quickly:
+
+- What do I need before this reconciliation run can start?
+- Which saved setup should this run reuse?
+- What did the run find, and where can I review the evidence?
+
+The setup surfaces are easiest to understand through those questions: what unlocks the run, what setup the run reuses, and what evidence the result preserves.
 
 ## What Darpan is not
 

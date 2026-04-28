@@ -10,8 +10,8 @@ Mintlify documentation site for Darpan product, API, troubleshooting, and engine
 - `reference/**` holds stable product reference material.
 - `troubleshooting/**` captures symptom-first repair paths.
 - `api-reference/**` documents the JSON-RPC API surface and the generated OpenAPI entrypoint.
-- `backend/**` explains the Moqui backend engine, service layer, reconciliation processing, rules, schemas, and tenancy model.
-- `engineering/**` captures internal implementation, workflow, and release guidance that is safe to publish.
+- `backend/**` explains the Moqui backend engine, service layer, reconciliation processing, rules, schemas, and tenancy model. These pages appear under the Engineering navigation tab.
+- `engineering/**` captures agent coding practices, repo ownership, implementation workflow, and release guidance that is safe to publish.
 
 ## Local preview
 
@@ -49,8 +49,10 @@ jq empty api-reference/openapi.json
 
 Mintlify deploys from the connected GitHub repository after changes are pushed to `main`. Use small commits and keep docs changes tied to the product, release, or support work that made them necessary.
 
-## Writing rule
+## Documentation principles
 
-Darpan uses Ask Darpan as the primary navigation model. Product tutorials should start app navigation with **Ask Darpan** and the official destination name, then describe local page controls only after the user reaches the target surface. Do not list search synonyms in tutorials.
+Darpan uses Ask Darpan as the primary navigation model. Product pages should describe how users move from setup to reconciliation runs and result review.
 
-Backend docs should stay repo-grounded. Document current Moqui XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior from the implementation; avoid presenting planned architecture as shipped behavior.
+Connections, schemas, RuleSets, saved runs, and generated outputs are not separate product stories; they are the support structure for setting up, running, and reviewing reconciliation.
+
+Backend docs stay repo-grounded. They describe current Moqui XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior from the implementation.

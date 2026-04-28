@@ -3,16 +3,27 @@ title: "Run reconciliation"
 description: "Start a reconciliation run and generate result output."
 ---
 
-Run reconciliation after the required connections and schemas are ready.
+Run reconciliation is the center of the Darpan product workflow. Setup records matter because they make this step faster, clearer, and repeatable.
 
 ## Before you start
 
 Confirm:
 
 - The source files or records are available.
-- The selected schema matches the input shape.
-- Required connection records are active.
+- Required connection records are active when the run reads from SFTP, NetSuite, or another configured system.
+- The selected schemas match the input shapes.
+- The saved run or RuleSet points at the right source systems and primary ID fields.
 - You are in the correct company or tenant context.
+
+## What Darpan needs for a run
+
+| Input | Why it matters |
+| --- | --- |
+| Source data | The files, text payloads, or connection-backed records being compared. |
+| Schemas | The known shape of source data, especially for JSON inputs and field selection. |
+| Primary ID fields | The values Darpan uses to decide which records should match across systems. |
+| RuleSet or saved run setup | The reusable compare configuration, source pairing, and optional rule logic. |
+| Connection records | Saved access details for systems that provide or receive run data. |
 
 ## Steps
 
@@ -28,7 +39,13 @@ Confirm:
 
 ## Expected result
 
-A successful run creates saved output that can be opened from result, history, or generated-output views depending on the workflow.
+A successful run creates saved output that can be opened from result, history, or generated-output views depending on the workflow. The output should make the next decision clear: source data fix, schema correction, rule adjustment, or accepted business variance.
+
+## Reusing a run
+
+Use a saved run when the same comparison will happen again. Saved runs keep the setup in one place so the next execution can focus on fresh source data and reviewable output.
+
+Use **Create Reconciliation Flow** when the setup itself is still being defined. Use **Open Runs Settings** when the setup exists but needs a name, schema, source, or rule update before the next run.
 
 <Warning>
 If a run completes with zero matches, do not assume the data is clean. Check join keys, source identifiers, schema selection, and file encoding.

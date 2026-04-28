@@ -3,9 +3,19 @@ title: "Backend engine overview"
 description: "How the Darpan backend is organized and why it is the product engine."
 ---
 
-Darpan's UI is the control surface. The backend component is the engine that owns data access, service contracts, reconciliation processing, rule execution, generated outputs, and tenant-scoped authorization.
+Darpan's UI is the control surface for setting up and running reconciliation. The backend component is the engine that makes those runs durable, scoped, repeatable, and reviewable.
 
 The backend implementation is the [`toaditi/darpan`](https://github.com/toaditi/darpan) Moqui component. In the local workspace it is mounted at `darpan-backend/runtime/component/darpan`.
+
+## Why this stack
+
+| Platform | What it brings to Darpan |
+| --- | --- |
+| Moqui | Service contracts, entity persistence, security, JSON-RPC transport, session context, and XML-first orchestration for run setup and output review. |
+| Apache Spark | Dataset normalization and comparison for files or records that may grow beyond browser-memory workflows. Spark lets the backend prepare comparable datasets and compute base diffs predictably. |
+| Drools/KIE | RuleSet compilation and execution for configurable reconciliation decisions. Drools lets Darpan keep comparison and classification behavior in rules instead of hardcoded branches. |
+
+Together they let Darpan keep the user experience simple while the backend handles validation, access scope, data preparation, rule execution, and generated-output persistence.
 
 ## Current shape
 
@@ -18,7 +28,7 @@ The backend implementation is the [`toaditi/darpan`](https://github.com/toaditi/
 - Rule engine: Drools/KIE services for compiling and executing reconciliation rules
 - Output handling: generated-output descriptors plus tenant-scoped files
 
-## What the backend owns
+## What the backend owns for a run
 
 The backend owns the durable product behavior:
 

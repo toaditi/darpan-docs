@@ -3,7 +3,9 @@ title: "Quickstart"
 description: "Understand the shortest path through Darpan."
 ---
 
-This quickstart introduces the default Darpan workflow using Ask Darpan navigation. Exact screen names may differ by release, but the search-first sequence should stay stable.
+This quickstart follows the shortest path to a reconciliation run. You will open the app, confirm the setup records the run needs, execute the run, and review the generated result.
+
+Use **Ask Darpan** as the main navigation model. It lets you search for the workflow, saved setup, run, or output you need without relying on a fixed menu.
 
 <Steps>
 <Step title="Confirm your environment">
@@ -32,25 +34,26 @@ After sign-in, use **Ask Darpan** as your primary way to move through the app.
 - Use Up/Down to select a result and Enter to open it.
 
 </Step>
-<Step title="Configure required connections">
+<Step title="Confirm reusable setup">
 
-Create or confirm the connection records needed by your workflow. In **Ask Darpan**, search for the official connection surface you need: **Open SFTP Servers**, **Open NetSuite Settings**, or **Open AI Settings**.
+Create or confirm the records the reconciliation run will reuse. In **Ask Darpan**, search for the official setup surface you need: **Open SFTP Servers**, **Open NetSuite Settings**, **Open AI Settings**, **Create Schema**, or **Open Schema Library**.
 
 - SFTP for file exchange
 - NetSuite for ERP integration flows
 - AI provider settings when schema generation or assisted mapping is enabled
+- schemas that describe source files or records
 
 </Step>
-<Step title="Create or select a schema">
+<Step title="Create or update the run setup">
 
-Search **Ask Darpan** for **Create Schema** when creating a new schema, or **Open Schema Library** when selecting an existing schema. Use a schema to describe the file or record shape Darpan should parse.
+Search **Ask Darpan** for **Create Reconciliation Flow** when the compare setup is new, or **Open Runs Settings** when editing an existing saved run.
 
-Keep names stable and human-readable so saved runs remain understandable later.
+Select the source systems, schemas, primary ID fields, and rules the run should use. Keep the run name stable and human-readable so another user can understand the run history later.
 
 </Step>
 <Step title="Run reconciliation">
 
-Search **Ask Darpan** for **Run Reconciliation**. Start the run, provide the source files or source records requested by the workflow, and wait for generated output.
+Search **Ask Darpan** for **Run Reconciliation**. Start the run, provide the source files or connection-backed records requested by the workflow, and wait for generated output.
 
 </Step>
 <Step title="Review results">
@@ -76,7 +79,3 @@ Search **Ask Darpan** by the run name or output file name, then open the **Open 
     Diagnose failed or unexpected runs.
   </Card>
 </Columns>
-
-<Note>
-This page describes the product workflow, not every implementation detail. Use the Engineering tab when you need repository, release, or backend contract information.
-</Note>

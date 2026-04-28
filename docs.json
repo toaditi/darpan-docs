@@ -57,23 +57,6 @@
         ]
       },
       {
-        "tab": "Backend engine",
-        "groups": [
-          {
-            "group": "Architecture",
-            "pages": [
-              "backend/overview",
-              "backend/component-layout",
-              "backend/service-layer",
-              "backend/reconciliation-engine",
-              "backend/rules-and-schemas",
-              "backend/data-access-and-tenancy",
-              "backend/operations-and-validation"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "API reference",
         "groups": [
           {
@@ -97,11 +80,23 @@
         "tab": "Engineering",
         "groups": [
           {
-            "group": "Engineering guide",
+            "group": "Backend engine",
+            "pages": [
+              "backend/overview",
+              "backend/component-layout",
+              "backend/service-layer",
+              "backend/reconciliation-engine",
+              "backend/rules-and-schemas",
+              "backend/data-access-and-tenancy",
+              "backend/operations-and-validation"
+            ]
+          },
+          {
+            "group": "Agent coding",
             "pages": [
               "engineering/overview",
-              "engineering/repo-map",
               "engineering/codex-coding-workflow",
+              "engineering/repo-map",
               "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
               "engineering/release-and-linear-workflow"
