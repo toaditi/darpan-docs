@@ -7,7 +7,7 @@
     "light": "#F2F2F2",
     "dark": "#5F5F5F"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon-b17b6c3.svg",
   "navigation": {
     "tabs": [
       {
@@ -115,7 +115,7 @@
         {
           "anchor": "Darpan app",
           "href": "https://hotwax-darpan-dev.web.app/login",
-          "icon": "/icons/darpan-app.svg"
+          "icon": "/icons/darpan-app-b17b6c3.svg"
         },
         {
           "anchor": "GitHub",
@@ -126,8 +126,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/light-b17b6c3.svg",
+    "dark": "/logo/dark-b17b6c3.svg"
   },
   "navbar": {
     "links": [
