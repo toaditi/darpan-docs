@@ -1,0 +1,93 @@
+---
+title: "Codex coding workflow"
+description: "How Codex-assisted development is run for Darpan engineering work."
+---
+
+Darpan uses Codex as an implementation partner, not just as a code generator. The working model is issue-first, repo-boundary-aware, and verification-led.
+
+Codex work should keep the codebase shape intact: frontend behavior belongs in the Vue app, backend contracts and processing belong in the Moqui component, and cross-repo work starts with the backend contract before UI consumption.
+
+## Operating sequence
+
+1. Classify the request as feature, bug fix, or neither.
+2. For feature and bug-fix work, find or create the Darpan Linear issue before implementation.
+3. Route the work to the owning surface:
+   - `darpan-ui/**` for routes, screens, shell behavior, settings surfaces, workflows, and browser interaction.
+   - `darpan-backend/runtime/component/darpan/**` for Moqui services, entities, processing, RuleSets, generated outputs, and backend contracts.
+   - both repos only when UI behavior needs a new or changed backend contract.
+4. Read the nearest existing implementation before editing.
+5. Make the smallest production-quality change that resolves the request.
+6. Verify through the narrowest useful checks first, then broaden when the change touches shared behavior.
+7. Handoff with exact files changed, checks run, and residual risk.
+
+## Skill families
+
+| Family | Skills | Purpose |
+| --- | --- |
+| Intake and routing | `darpan-intake-and-routing`, `darpan-surface-triage`, `darpan-subagent-orchestration` | Classify the ask, enforce Linear-first prework for feature and bug fixes, choose the owning repo, and delegate only when parallel work helps. |
+| UI delivery | `darpan-ui-delivery`, `darpan-ui-change-guardrails`, `darpan-static-page-creation`, `darpan-workflow-page-creation`, `darpan-settings-page-migration`, `darpan-frontend-quality-gate` | Keep custom UI in the Vue app, follow shared page contracts, preserve routes, and run frontend quality checks before handoff. |
+| Backend and Moqui delivery | `darpan-backend-contracts`, `darpan-xml-doc-consistency`, `moqui-service-delivery`, `moqui-entity-delivery`, `moqui-logic-delivery`, `moqui-security-delivery`, `moqui-verification-loop` | Keep backend work contract-first, XML-light, Moqui-native, audit-backed, and scoped to the owning component. |
+| Reconciliation | `darpan-reconciliation-delivery`, `darpan-reconciliation-rules-first`, `darpan-core-service-unit-tests` | Keep reconciliation behavior rules-first, Spark-safe, output-stable, and protected by targeted core service tests. |
+| Bugs and errors | `darpan-bug-fix-delivery`, `darpan-error-management`, `darpan-log-reading` | Capture a failure signature, classify the source, inspect real logs, and prove the same failure no longer repeats. |
+| Review and cleanup | `darpan-review-gate`, `darpan-production-cleanup-review`, `moqui-quality-review`, `functional-code-optimization` | Lead with material findings, remove POC-grade shortcuts, check contracts and boundaries, and report verification gaps. |
+| Release | `darpan-release-preflight`, `darpan-release-cutting` | Separate release prep from implementation, confirm scope and deferrals, verify release artifacts, and tag only the verified commits. |
+| Supporting practices | `search-first`, `tdd-workflow`, `verification-loop`, `api-design`, `e2e-testing`, `security-best-practices` | Use targeted research, tests, API discipline, browser checks, and security review when the task calls for them. |
+
+## UI work
+
+Codex UI work follows the Darpan app architecture instead of creating one-off page patterns.
+
+- Use `darpan-ui` for all custom UI and PWA behavior.
+- Keep UI state, rendering, pagination, and dropdown behavior in frontend components or composables.
+- Use shared static-page and workflow-page contracts before adding page-local layout systems.
+- For create flows, ask one thing at a time and put the record name or identifier at the end unless the product flow says otherwise.
+- Do not move frontend behavior into backend screens, templates, or theme files.
+- Run frontend checks that match the risk of the change, and use the frontend quality gate for broader UI cleanup or review.
+
+## Backend work
+
+Codex backend work is contract-first and Moqui-native.
+
+- Start from the closest service, entity, or script pattern in the Darpan component.
+- Keep service XML explicit: named inputs, named outputs, clear descriptions, and deliberate authentication or remote exposure.
+- Keep XML actions thin. Put non-trivial business logic in Groovy or Java source where it is easier to test and review.
+- Use the Moqui quality audit and the narrowest useful Gradle compile or test command for backend verification.
+- Report what was verified and what was not; do not claim full backend confidence from a component-scoped check.
+
+## Reconciliation work
+
+Reconciliation changes use a rules-first model.
+
+- Keep comparison and classification behavior configurable through RuleSet or Drools artifacts when feasible.
+- Avoid hardcoded source-specific compare branches in service logic.
+- Use Spark-safe patterns for high-volume data work and avoid collecting large datasets into memory.
+- Keep generated output paths stable and predictable.
+- Preserve downstream output contracts unless the change explicitly owns a contract migration.
+
+## Bug-fix workflow
+
+Bug fixes start with evidence, not speculation.
+
+- Capture the exact user-visible failure, request path, route, log signature, or test failure.
+- Decide whether the root cause is source code, cross-repo contract mismatch, stale runtime state, deploy/config drift, or an environment-only blocker.
+- Pick one proof surface before editing and rerun it after the fix.
+- Split follow-up cleanup or redesign into separate work unless it is required to fix the blocker.
+
+## Subagent use
+
+Subagents are used sparingly. Codex should keep the critical path local and delegate only when parallel work materially helps.
+
+Good subagent uses include cross-repo discovery, disjoint implementation slices, and read-only validation sidecars. Poor uses include vague discovery, overlapping write scopes, or delegating the next blocking question that can be inspected directly.
+
+When subagents are used, each one gets a small contract: surface, owned files, stop condition, expected output, and a reminder not to revert unrelated work.
+
+## Handoff standard
+
+A Darpan Codex handoff should answer:
+
+- What changed.
+- Which repo owns the change.
+- Which Linear issue applies, when required.
+- Which commands or manual checks ran.
+- What remains unverified.
+- Whether any local worktree state was intentionally left untouched.

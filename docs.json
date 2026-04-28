@@ -101,6 +101,7 @@
             "pages": [
               "engineering/overview",
               "engineering/repo-map",
+              "engineering/codex-coding-workflow",
               "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
               "engineering/release-and-linear-workflow"
