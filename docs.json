@@ -95,7 +95,7 @@
             "group": "Engineering workflow",
             "pages": [
               "engineering/overview",
-              "engineering/codex-coding-workflow",
+              "engineering/process",
               "engineering/repo-map",
               "engineering/ui-page-surface-contracts",
               "engineering/backend-reconciliation-notes",
