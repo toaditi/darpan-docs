@@ -113,9 +113,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Darpan app",
-          "href": "https://hotwax-darpan-dev.web.app/login",
-          "icon": "/icons/darpan-app-mark-a7b92c1.svg"
+          "anchor": "Darpan UI",
+          "href": "https://github.com/toaditi/darpan-ui",
+          "icon": "github"
+        },
+        {
+          "anchor": "Darpan backend",
+          "href": "https://github.com/toaditi/darpan",
+          "icon": "github"
         }
       ]
     }
