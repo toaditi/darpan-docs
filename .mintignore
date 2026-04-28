@@ -5,3 +5,8 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Unused starter assets
+images/checks-passed.png
+images/hero-dark.png
+images/hero-light.png
