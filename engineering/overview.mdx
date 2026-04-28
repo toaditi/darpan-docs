@@ -5,11 +5,22 @@ description: "How Darpan code and docs should be approached."
 
 Engineering docs are for contributors and operators. They should stay grounded in the actual Darpan repositories and avoid aspirational architecture that the code does not support yet.
 
+The backend component is the product engine. Start with [Backend engine overview](/backend/overview) when you need to understand service contracts, entities, reconciliation processing, RuleSets, tenant access, or generated outputs.
+
 ## Repo boundaries
 
 - `darpan-ui/**` owns custom UI, routes, PWA shell, and browser interaction.
 - `darpan-backend/runtime/component/darpan/**` owns backend contracts, services, entities, processing, and component docs.
 - Cross-repo changes are valid when UI behavior needs new backend data or service contracts.
+
+## Backend implementation map
+
+- [Component layout](/backend/component-layout) explains the Moqui component structure and dependencies.
+- [Service layer](/backend/service-layer) explains facade services, core services, and the XML-first rule.
+- [Reconciliation engine](/backend/reconciliation-engine) follows source data through Spark, RuleSet comparison, and generated outputs.
+- [Rules and schemas](/backend/rules-and-schemas) covers RuleSet, Rule, compare-scope, and JSON schema contracts.
+- [Data access and tenancy](/backend/data-access-and-tenancy) covers scoped reads, writes, permissions, and output isolation.
+- [Operations and validation](/backend/operations-and-validation) lists backend checks for engine changes.
 
 ## Workflow rules
 

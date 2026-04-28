@@ -1,0 +1,95 @@
+---
+title: "Reconciliation engine"
+description: "How Darpan runs source comparisons, RuleSet diffs, and generated outputs."
+---
+
+The reconciliation engine converts source data into comparable datasets, runs base and rule-backed diffs, and writes generated outputs for review.
+
+## High-level flow
+
+```text
+UI workflow
+  -> JSON-RPC facade service
+  -> access and tenant checks
+  -> saved run, RuleSet, mapping, or source records
+  -> source data staging
+  -> Spark dataset preparation
+  -> base diff and optional rule execution
+  -> generated output descriptor and file
+  -> UI result view
+```
+
+## Current execution paths
+
+Darpan currently has two reconciliation paths.
+
+| Path | Use |
+| --- | --- |
+| RuleSet path | The newer model. A saved run points to a `RuleSetCompareScope` with compare sources and optional rules. |
+| Mapping path | The legacy model. A reconciliation mapping describes source members and comparison behavior. |
+
+New reconciliation documentation should prefer the RuleSet path, while still acknowledging the mapping path when describing existing backend code.
+
+## RuleSet compare flow
+
+The RuleSet path is built from these records:
+
+- `RuleSet`
+- `RuleSetCompareScope`
+- `RuleSetCompareSource`
+- `Rule`
+- `ReconciliationRun`
+- Generated output descriptor records
+
+The compare flow is:
+
+1. The facade service creates or loads a saved run and its compare scope.
+2. Generic reconciliation saves uploaded or text payloads in a tenant-scoped temp location.
+3. `prepare#RuleSetCompareScope` resolves compare sources and builds normalized Spark datasets.
+4. `reconcile#RuleSetCompareScopeBaseDiff` finds base missing-object differences and matched pairs.
+5. `reconcile#RuleSetCompareScope` preserves base diffs and appends rule-generated diffs from matched pairs.
+6. The backend writes result data and summary metadata as a generated output.
+
+## File and source handling
+
+The backend can compare uploaded files, text payloads, and configured sources. CSV and JSON inputs are normalized before comparison. The comparison layer should receive structured data, not UI-specific state.
+
+Generic file reconciliation is routed through:
+
+```text
+reconciliation.ReconciliationGenericServices.reconcile#GenericFiles
+```
+
+RuleSet comparison uses:
+
+```text
+reconciliation.ReconciliationCoreServices.prepare#RuleSetCompareScope
+reconciliation.ReconciliationCoreServices.reconcile#RuleSetCompareScope
+```
+
+The legacy mapping path still routes through:
+
+```text
+reconciliation.ReconciliationCoreServices.reconcile#FilesByMapping
+```
+
+## Generated outputs
+
+Generated outputs are not just downloaded files. The backend stores descriptor metadata so the UI can list, open, and delete outputs consistently.
+
+Generated-output metadata can include:
+
+- Saved run ID and display name
+- RuleSet and compare-scope IDs
+- Source labels
+- Output location
+- Diff counts and summary fields
+- Created user and tenant scope
+
+Generated output operations are exposed through facade services such as:
+
+```text
+facade.ReconciliationFacadeServices.list#GeneratedOutputs
+facade.ReconciliationFacadeServices.get#GeneratedOutput
+facade.ReconciliationFacadeServices.delete#GeneratedOutput
+```

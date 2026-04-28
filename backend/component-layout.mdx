@@ -1,0 +1,52 @@
+---
+title: "Component layout"
+description: "The backend component structure, runtime dependencies, and implementation boundaries."
+---
+
+The Darpan backend is a Moqui runtime component:
+
+```text
+darpan-backend/runtime/component/darpan
+```
+
+`component.xml` registers the component's entities, services, and screens:
+
+```text
+entity/**
+service/**
+screen/darpan.xml
+```
+
+## Key directories
+
+| Path | Purpose |
+| --- | --- |
+| `entity/**` | Moqui entity definitions for auth scope, schemas, mappings, RuleSets, runs, sources, and outputs. |
+| `service/**` | XML service contracts and XML service actions. |
+| `service/facade/**` | JSON-RPC-facing facade services used by the UI. |
+| `screen/darpan.xml` | Moqui screen entrypoint for the component. |
+| `src/main/groovy/darpan/**` | Processing helpers for reconciliation, rules, schema work, and support utilities. |
+| `data/**` | Seed and release upgrade data. |
+| `docs/**` | Component-local engineering notes and code maps. |
+| `src/test/**` | Unit and service tests for backend behavior. |
+
+## Runtime stack
+
+The component uses:
+
+- Moqui framework services, entities, screens, security, and JSON-RPC transport
+- Groovy for dense processing helpers
+- XML service definitions for service contracts and orchestration
+- Apache Spark SQL for file and dataset comparison
+- Drools/KIE for RuleSet compilation and rule execution
+- JSON Schema validation, JSONPath, and schema inference libraries for schema workflows
+- `moqui-sftp` for SFTP-backed file access
+- MySQL Connector/J for MySQL-backed runtime deployments
+
+## Implementation boundary
+
+Use XML services for normal orchestration: validation, authorization, entity reads and writes, service calls, and response shaping.
+
+Use Groovy or Java helpers only where the code is algorithmic or data-processing heavy, such as Spark dataset preparation, rule execution, JSON normalization, or schema inference.
+
+This boundary keeps service contracts visible to Moqui and avoids hiding product behavior in browser code or unindexed helper scripts.

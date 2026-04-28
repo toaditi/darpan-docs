@@ -3,11 +3,28 @@ title: "Backend reconciliation notes"
 description: "Backend guidance for reconciliation services and RuleSet work."
 ---
 
-Backend reconciliation behavior belongs in `darpan-backend/runtime/component/darpan`.
+Backend reconciliation behavior belongs in `darpan-backend/runtime/component/darpan`. The primary backend architecture docs now live under [Backend engine](/backend/overview).
+
+Use these pages first:
+
+- [Reconciliation engine](/backend/reconciliation-engine)
+- [Service layer](/backend/service-layer)
+- [Rules and schemas](/backend/rules-and-schemas)
+- [Data access and tenancy](/backend/data-access-and-tenancy)
 
 ## XML-first rule
 
 Prefer Moqui XML service orchestration for normal service flow. Use Groovy helpers only when the logic is dense enough to justify it.
+
+Good XML-owned service flow includes:
+
+- Input normalization
+- Entity reads and writes
+- Access checks
+- Calls to lower-level services
+- Response shaping
+
+Groovy is appropriate for dense processing such as Spark dataset preparation, JSON parsing, rule execution, and schema inference.
 
 ## Rule engine test service
 

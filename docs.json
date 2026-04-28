@@ -57,6 +57,23 @@
         ]
       },
       {
+        "tab": "Backend engine",
+        "groups": [
+          {
+            "group": "Architecture",
+            "pages": [
+              "backend/overview",
+              "backend/component-layout",
+              "backend/service-layer",
+              "backend/reconciliation-engine",
+              "backend/rules-and-schemas",
+              "backend/data-access-and-tenancy",
+              "backend/operations-and-validation"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API reference",
         "groups": [
           {

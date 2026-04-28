@@ -1,0 +1,51 @@
+---
+title: "Backend engine overview"
+description: "How the Darpan backend is organized and why it is the product engine."
+---
+
+Darpan's UI is the control surface. The backend component is the engine that owns data access, service contracts, reconciliation processing, rule execution, generated outputs, and tenant-scoped authorization.
+
+The implementation lives in `darpan-backend/runtime/component/darpan`.
+
+## Current shape
+
+- Moqui component descriptor: `component.xml`
+- Public service surface: Moqui JSON-RPC services through `/rpc/json`
+- Service contracts: XML service definitions under `service/**`
+- Data model: Moqui entity definitions under `entity/**`
+- Processing helpers: Groovy and Java code under `src/main/groovy/**`
+- Reconciliation engine: Spark-backed compare services with RuleSet and legacy mapping paths
+- Rule engine: Drools/KIE services for compiling and executing reconciliation rules
+- Output handling: generated-output descriptors plus tenant-scoped files
+
+## What the backend owns
+
+The backend owns the durable product behavior:
+
+- It validates user and tenant access before reads and writes.
+- It resolves active-company or active-tenant scope for records and generated files.
+- It stores schemas, reconciliation runs, RuleSets, compare scopes, connection records, and output descriptors.
+- It normalizes uploaded or remote source data into compare-ready datasets.
+- It runs base diffs and rule-backed comparisons.
+- It returns the JSON-RPC responses the UI renders.
+
+## What the UI should assume
+
+The UI should treat backend facade services as the contract. It should not recreate reconciliation rules, tenant filtering, generated-output paths, or service-side validation in browser code.
+
+Use the backend pages in this section when you need to understand how a Darpan workflow is implemented behind the Ask Darpan surface.
+
+<CardGroup cols={2}>
+  <Card title="Component layout" icon="folder-tree" href="/backend/component-layout">
+    See the Moqui component structure, dependencies, and implementation directories.
+  </Card>
+  <Card title="Service layer" icon="server" href="/backend/service-layer">
+    Understand facade services, core services, and XML-first service orchestration.
+  </Card>
+  <Card title="Reconciliation engine" icon="shuffle" href="/backend/reconciliation-engine">
+    Follow how files, schemas, RuleSets, Spark datasets, and generated outputs fit together.
+  </Card>
+  <Card title="Data access and tenancy" icon="shield" href="/backend/data-access-and-tenancy">
+    Review active tenant scope, permission membership, and generated-output isolation.
+  </Card>
+</CardGroup>

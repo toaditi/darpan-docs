@@ -1,0 +1,66 @@
+---
+title: "Service layer"
+description: "How Darpan backend services are exposed, organized, and implemented."
+---
+
+Darpan backend calls use Moqui JSON-RPC through `/rpc/json`. The method name is a Moqui service name, for example:
+
+```text
+facade.ReconciliationFacadeServices.list#SavedRuns
+```
+
+## Layering
+
+| Layer | Role |
+| --- | --- |
+| Facade services | Public JSON-RPC contracts used by the UI. They validate inputs, enforce access, normalize parameters, and shape responses. |
+| Core services | Internal services that perform reconciliation, schema, rule, and file-processing work. |
+| Entity services | Moqui entity operations and XML actions that persist product records. |
+| Helper code | Groovy or Java methods for dense logic such as Spark processing, JSON parsing, and rule execution. |
+
+## Facade services
+
+Facade services are the stable integration point for the app. The active facade files include:
+
+- `service/facade/AuthFacadeServices.xml`
+- `service/facade/SettingsFacadeServices.xml`
+- `service/facade/JsonSchemaFacadeServices.xml`
+- `service/facade/ReconciliationFacadeServices.xml`
+- `service/facade/SearchFacadeServices.xml`
+
+`ReconciliationFacadeServices.xml` includes product-level operations such as:
+
+- `create#CsvRun`
+- `create#RuleSetRun`
+- `list#SavedRuns`
+- `save#SavedRunName`
+- `delete#SavedRun`
+- `run#SavedRunDiff`
+- `run#GenericDiff`
+- `list#GeneratedOutputs`
+- `get#GeneratedOutput`
+- `delete#GeneratedOutput`
+- `list#Mappings`
+- `create#Mapping`
+- `save#Mapping`
+
+## Core reconciliation services
+
+Core reconciliation services live under `service/reconciliation/**`.
+
+| Service file | Purpose |
+| --- | --- |
+| `ReconciliationCoreServices.xml` | Spark-backed core compare services, RuleSet compare-scope preparation, base diff generation, and legacy mapping execution. |
+| `ReconciliationGenericServices.xml` | Generic reconciliation entrypoints that accept uploaded or text payloads and route to RuleSet or mapping execution. |
+| `ReconciliationRuleEngineServices.xml` | RuleSet, Rule, Drools compile, execution, and cache operations. |
+| `ReconciliationInventoryServices.xml` | Inventory-specific reconciliation support. |
+
+## XML-first rule
+
+Service orchestration should stay in XML when it is mostly contract work: input validation, entity mutation, authorization checks, service calls, and response shaping.
+
+Groovy helpers should be limited to processing-heavy work. A helper should not replace a clear XML service flow just because it is faster to write.
+
+## API documentation rule
+
+Do not document invented REST endpoints. When adding API docs, start from verified facade service names and document the JSON-RPC envelope, required parameters, auth expectations, side effects, and response fields.

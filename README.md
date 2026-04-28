@@ -10,6 +10,7 @@ Mintlify documentation site for Darpan product, API, troubleshooting, and engine
 - `reference/**` holds stable product reference material.
 - `troubleshooting/**` captures symptom-first repair paths.
 - `api-reference/**` documents the JSON-RPC API surface and the generated OpenAPI entrypoint.
+- `backend/**` explains the Moqui backend engine, service layer, reconciliation processing, rules, schemas, and tenancy model.
 - `engineering/**` captures internal implementation, workflow, and release guidance that is safe to publish.
 
 ## Local preview
@@ -51,3 +52,5 @@ Mintlify deploys from the connected GitHub repository after changes are pushed t
 ## Writing rule
 
 Darpan uses Ask Darpan as the primary navigation model. Product tutorials should start app navigation with **Ask Darpan** and search terms, then describe local page controls only after the user reaches the target surface.
+
+Backend docs should stay repo-grounded. Document current Moqui XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior from the implementation; avoid presenting planned architecture as shipped behavior.

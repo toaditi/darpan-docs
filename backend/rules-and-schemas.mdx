@@ -1,0 +1,74 @@
+---
+title: "Rules and schemas"
+description: "How RuleSets, rules, compare scopes, and JSON schemas fit into the backend."
+---
+
+Rules and schemas are backend-owned contracts. The UI creates and edits them through facade services, but the backend validates, stores, compiles, and executes them.
+
+## RuleSet model
+
+RuleSet reconciliation is centered on these entities:
+
+| Entity | Purpose |
+| --- | --- |
+| `RuleSet` | The named rule collection for a reconciliation workflow. |
+| `Rule` | One executable rule belonging to a RuleSet. |
+| `RuleSetCompareScope` | The compare context for a run, including source and matching configuration. |
+| `RuleSetCompareSource` | A source participating in the compare scope. |
+
+Facade services create saved runs and RuleSet structures together when the product workflow needs a runnable compare.
+
+## Rule execution
+
+Rule execution is owned by:
+
+```text
+service/reconciliation/ReconciliationRuleEngineServices.xml
+src/main/groovy/darpan/reconciliation/rule/RuleEngineServices.groovy
+```
+
+The key service responsibilities are:
+
+- Save and delete RuleSets and Rules
+- Compile active rules into a Drools/KIE container
+- Execute rules against compare-ready data
+- Execute rules against matched pairs from the Spark base diff
+- Clear the RuleSet cache after rule changes
+
+Rule services include:
+
+```text
+reconciliation.ReconciliationRuleEngineServices.compile#RuleSet
+reconciliation.ReconciliationRuleEngineServices.execute#RuleSet
+reconciliation.ReconciliationRuleEngineServices.execute#RuleSetJson
+reconciliation.ReconciliationRuleEngineServices.execute#RuleSetMatchedPairs
+reconciliation.ReconciliationRuleEngineServices.clear#RuleSetCache
+```
+
+## JSON schema model
+
+Schemas describe source data shape and parsing expectations. The backend stores schema definitions as records, not as UI-only configuration.
+
+The main schema entity is:
+
+```text
+darpan.jsonschema.JsonSchema
+```
+
+Schema records include fields such as:
+
+- `jsonSchemaId`
+- `schemaName`
+- `description`
+- `systemEnumId`
+- `ownerUserId`
+- `companyUserGroupId`
+- `createdByUserId`
+- `schemaText`
+- `statusId`
+
+The service layer under `service/jsonschema/**` owns schema validation, inference, persistence, and lookup behavior.
+
+## Documentation rule
+
+When documenting a workflow that depends on rules or schemas, identify which backend contract owns the behavior. Do not describe rules or schemas as browser-local configuration.

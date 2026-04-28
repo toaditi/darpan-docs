@@ -16,6 +16,7 @@
 - Do not publish copied customer data, API tokens, cookies, Postman environments, private Linear details, or live credentials.
 - Prefer linking to public GitHub repositories over pasting long source excerpts.
 - Keep API docs honest: document the current JSON-RPC service shape until a fuller generated OpenAPI catalog exists.
+- Backend engine docs must be grounded in `darpan-backend/runtime/component/darpan`. Prefer current XML services, entities, facade contracts, Spark/Drools processing, and tenant-scoped output behavior over aspirational architecture.
 
 ## Terminology
 
