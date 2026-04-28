@@ -1,0 +1,33 @@
+---
+title: "Login and session"
+description: "Diagnose sign-in, redirect, and session failures."
+---
+
+## Symptoms
+
+- The app redirects back to login.
+- A backend call returns unauthorized.
+- A JSON-RPC call fails with a CSRF or session error.
+- The user appears signed in but cannot access expected records.
+
+## Checks
+
+1. Confirm the backend is reachable.
+2. Confirm the frontend is pointed at the intended backend.
+3. Confirm the user is using the correct environment credentials.
+4. Refresh the CSRF token by loading the login page again.
+5. Confirm the user has access to the active company or tenant.
+
+## Local smoke shape
+
+Use the local backend login page to bootstrap cookies and CSRF before making JSON-RPC calls.
+
+```bash
+curl -i http://localhost:8080/Login
+```
+
+Then call `/rpc/json` with the session cookie and `X-CSRF-Token` header.
+
+<Warning>
+Do not paste real cookies, CSRF tokens, or passwords into docs, tickets, or public comments.
+</Warning>

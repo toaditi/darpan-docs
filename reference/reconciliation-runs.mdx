@@ -1,0 +1,29 @@
+---
+title: "Reconciliation runs"
+description: "Stable concepts for saved reconciliation execution."
+---
+
+A reconciliation run captures one execution of a compare workflow.
+
+## Run data to preserve
+
+- Who started the run
+- Active company or tenant context
+- Selected schema or RuleSet
+- Source inputs
+- Processing status
+- Generated output references
+- Error details when processing fails
+
+## Status interpretation
+
+| Status | Meaning |
+| --- | --- |
+| Created | The run record exists but processing has not completed. |
+| Running | Darpan is processing inputs. |
+| Completed | Processing finished and output is ready to review. |
+| Failed | Processing stopped before producing expected output. |
+
+## Review principle
+
+Treat the run as evidence. If you change schema, mapping, source files, or rules, create a new run instead of overwriting the old result.

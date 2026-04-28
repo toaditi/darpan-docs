@@ -1,0 +1,26 @@
+---
+title: "File upload"
+description: "Troubleshoot source file upload and parsing issues."
+---
+
+## Symptoms
+
+- Upload does not start.
+- Upload completes but parsing fails.
+- Fields appear shifted or missing.
+- A run completes with unexpected zero matches.
+
+## Checks
+
+1. Confirm the file format matches the selected workflow.
+2. Confirm the schema matches the input headers or keys.
+3. Check encoding and delimiter.
+4. Remove blank leading rows and summary footer rows.
+5. Confirm identifiers have not been converted to numbers by a spreadsheet tool.
+
+## Common fixes
+
+- Save CSV files as UTF-8.
+- Preserve leading zeros in identifier columns.
+- Normalize date formats before upload.
+- Use a schema that matches the current source shape.

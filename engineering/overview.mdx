@@ -1,0 +1,23 @@
+---
+title: "Engineering overview"
+description: "How Darpan code and docs should be approached."
+---
+
+Engineering docs are for contributors and operators. They should stay grounded in the actual Darpan repositories and avoid aspirational architecture that the code does not support yet.
+
+## Repo boundaries
+
+- `darpan-ui/**` owns custom UI, routes, PWA shell, and browser interaction.
+- `darpan-backend/runtime/component/darpan/**` owns backend contracts, services, entities, processing, and component docs.
+- Cross-repo changes are valid when UI behavior needs new backend data or service contracts.
+
+## Workflow rules
+
+- Classify actionable product work as feature, bug fix, or neither.
+- Use Linear as the source of truth for feature and bug work.
+- Keep GitHub focused on branches, commits, pull requests, and review artifacts.
+- Use topic branches for active product code work.
+
+## Documentation rule
+
+When product behavior changes, update the relevant product docs in the same delivery stream or explicitly record why no docs change is needed.

@@ -1,0 +1,31 @@
+---
+title: "API overview"
+description: "How Darpan backend integration is documented."
+---
+
+Darpan backend calls currently use Moqui JSON-RPC services through `/rpc/json`.
+
+The OpenAPI file in this repo documents the shared JSON-RPC transport shape first. Individual service contracts should be expanded from backend facade services as the service catalog matures.
+
+## Current contract
+
+- Endpoint: `/rpc/json`
+- Method: `POST`
+- Request body: JSON-RPC 2.0 envelope
+- Authentication: session cookie
+- CSRF: `X-CSRF-Token` header for protected calls
+
+## Example request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "facade.AuthFacadeServices.get#SessionInfo",
+  "params": {}
+}
+```
+
+## Documentation rule
+
+Do not invent REST endpoints when the product uses JSON-RPC services. Add generated or hand-authored service pages only when the backend service contract is verified.

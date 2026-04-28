@@ -1,0 +1,26 @@
+---
+title: "File formats"
+description: "Reference guidance for files used by Darpan."
+---
+
+Darpan workflows commonly use structured tabular or JSON-like source data.
+
+## General requirements
+
+- Use stable headers or field names.
+- Keep identifiers as strings when leading zeros or formatting matter.
+- Use consistent date formats within a file.
+- Avoid mixing summary rows with detail rows.
+- Keep one logical record per row when using CSV-like formats.
+
+## CSV guidance
+
+Use UTF-8 encoding and a consistent delimiter. If values can contain commas, quote them consistently.
+
+## JSON guidance
+
+Use predictable object keys and arrays. Avoid changing object nesting between runs unless the schema is updated with the change.
+
+## Troubleshooting
+
+If upload or parse behavior is unexpected, check encoding, delimiters, header names, blank lines, duplicate columns, and field type assumptions first.

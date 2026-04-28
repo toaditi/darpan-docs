@@ -1,0 +1,26 @@
+---
+title: "Auth and access"
+description: "How access should be described in Darpan docs."
+---
+
+Darpan access is session-based. Users sign in, receive a session, and operate within the company or tenant context available to them.
+
+## User context
+
+Some users may belong to more than one company or tenant. When that is enabled, the active context controls which scoped records they read and write.
+
+## Permission context
+
+Permissions should be evaluated for the active context. A user can have different capabilities in different companies or tenants.
+
+## Documentation rule
+
+Never document reusable passwords, cookies, login keys, CSRF tokens, or private auth artifacts. Use placeholders such as `<username>`, `<password>`, and `<csrf-token>`.
+
+## API calls
+
+Backend JSON-RPC calls usually require:
+
+- An authenticated session cookie
+- A valid `X-CSRF-Token`
+- Permission for the target service

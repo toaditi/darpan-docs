@@ -1,0 +1,38 @@
+---
+title: "Local development"
+description: "Run the local Darpan stack for development and validation."
+---
+
+Use the wrapper repo launcher when starting the full local stack.
+
+```bash
+./dev-stack.sh
+```
+
+Expected local targets:
+
+| Service | URL |
+| --- | --- |
+| Frontend | `http://localhost:5173` |
+| Backend | `http://localhost:8080` |
+| JSON-RPC | `http://localhost:8080/rpc/json` |
+
+## UI-only development
+
+From `darpan-ui`, use:
+
+```bash
+npm run dev
+```
+
+## Full-stack UI helper
+
+From `darpan-ui`, use:
+
+```bash
+npm run dev:stack
+```
+
+## Validation
+
+Prefer targeted checks first, then broader checks when the change touches shared behavior. For browser-facing work, verify the local route in addition to unit or build checks.

@@ -1,0 +1,33 @@
+---
+title: "Run reconciliation"
+description: "Start a reconciliation run and generate result output."
+---
+
+Run reconciliation after the required connections and schemas are ready.
+
+## Before you start
+
+Confirm:
+
+- The source files or records are available.
+- The selected schema matches the input shape.
+- Required connection records are active.
+- You are in the correct company or tenant context.
+
+## Steps
+
+1. Open **Reconciliation**.
+2. Choose the create or run workflow.
+3. Select the source strategy required by the workflow.
+4. Select the relevant schema or RuleSet.
+5. Provide the source files or connection-backed inputs.
+6. Start the run.
+7. Wait for the run to finish.
+
+## Expected result
+
+A successful run creates saved output that can be opened from result, history, or generated-output views depending on the workflow.
+
+<Warning>
+If a run completes with zero matches, do not assume the data is clean. Check join keys, source identifiers, schema selection, and file encoding.
+</Warning>

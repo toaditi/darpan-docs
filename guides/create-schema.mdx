@@ -1,0 +1,30 @@
+---
+title: "Create a schema"
+description: "Create a saved schema for source data."
+---
+
+Schemas tell Darpan how to interpret source files or records.
+
+## When to create a schema
+
+Create a schema when a workflow needs to parse a new file shape, compare a new record shape, or preserve a reusable data contract for repeated runs.
+
+## Steps
+
+1. Open **Schemas**.
+2. Choose **Create**.
+3. Provide the schema name or identifier.
+4. Add the fields Darpan should read.
+5. Review field names and data types.
+6. Save the schema.
+
+## Review checklist
+
+- Field names match the source system or agreed normalized names.
+- Required fields are marked intentionally.
+- Numeric, date, and identifier fields use stable types.
+- The schema name is understandable in saved run history.
+
+<Tip>
+Prefer one clear schema per source shape over reusing a vague schema that needs manual interpretation every time.
+</Tip>

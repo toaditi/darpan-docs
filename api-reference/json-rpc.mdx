@@ -1,0 +1,51 @@
+---
+title: "JSON-RPC"
+description: "Request and response shape for Darpan JSON-RPC calls."
+---
+
+## Request shape
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "service.Name#Verb",
+  "params": {}
+}
+```
+
+## Required headers
+
+```http
+Content-Type: application/json
+X-CSRF-Token: <csrf-token>
+```
+
+Authenticated calls also need the session cookie established by the login flow.
+
+## Success shape
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "ok": true
+  }
+}
+```
+
+## Error shape
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+    "code": -32000,
+    "message": "Service error"
+  }
+}
+```
+
+Service-specific fields vary by method. Prefer documenting those fields from backend facade definitions and verified runtime responses.

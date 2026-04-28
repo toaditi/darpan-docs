@@ -1,0 +1,26 @@
+---
+title: "Environments"
+description: "Known Darpan runtime targets and what each is for."
+---
+
+## Local development
+
+Use local development when changing or validating Darpan behavior.
+
+| Service | Default URL |
+| --- | --- |
+| Frontend | `http://localhost:5173` |
+| Backend | `http://localhost:8080` |
+| JSON-RPC | `http://localhost:8080/rpc/json` |
+
+## Hosted pilot or demo
+
+Use hosted environments for customer review, release smoke testing, and workflows that need stable external access.
+
+<Warning>
+Do not publish credentials, session cookies, CSRF tokens, or customer-specific endpoint values in docs.
+</Warning>
+
+## GitHub Pages UI
+
+The public UI build can be served from `https://toaditi.github.io/darpan-ui/`. For authenticated release validation, the UI must point at a real backend target through its environment variables.

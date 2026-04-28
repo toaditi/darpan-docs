@@ -1,152 +1,75 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Darpan JSON-RPC API",
+    "description": "Draft OpenAPI wrapper for Darpan's Moqui JSON-RPC service endpoint. Individual service contracts should be expanded from backend facade definitions as the API catalog matures.",
+    "version": "draft"
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "http://localhost:8080",
+      "description": "Local backend"
     }
   ],
   "security": [
     {
-      "bearerAuth": []
+      "csrfToken": []
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+    "/rpc/json": {
+      "post": {
+        "summary": "Call a Darpan service",
+        "description": "Submit a JSON-RPC request to a Darpan backend service. Authentication is session-cookie based and most calls require a valid CSRF token.",
+        "operationId": "callDarpanJsonRpcService",
+        "tags": [
+          "JSON-RPC"
         ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+        "requestBody": {
+          "description": "JSON-RPC request with a Moqui service name in `method` and service inputs in `params`.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonRpcRequest"
+              },
+              "examples": {
+                "sessionInfo": {
+                  "summary": "Get current session information",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "facade.AuthFacadeServices.get#SessionInfo",
+                    "params": {}
                   }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "JSON-RPC success or service-level error envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/JsonRpcSuccess"
+                    },
+                    {
+                      "$ref": "#/components/schemas/JsonRpcError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The session is missing, expired, or not authorized for the requested service."
+          },
+          "403": {
+            "description": "The request is missing a required CSRF token or the user lacks permission."
           }
         }
       }
@@ -154,63 +77,97 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "JsonRpcRequest": {
         "type": "object",
+        "required": [
+          "jsonrpc",
+          "id",
+          "method",
+          "params"
+        ],
         "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
+          "jsonrpc": {
+            "type": "string",
+            "const": "2.0"
           },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
+          "id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "method": {
+            "type": "string",
+            "description": "Moqui service name, for example `facade.AuthFacadeServices.get#SessionInfo`."
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
+      "JsonRpcSuccess": {
+        "type": "object",
+        "required": [
+          "jsonrpc",
+          "id",
+          "result"
+        ],
+        "properties": {
+          "jsonrpc": {
+            "type": "string"
           },
-          {
-            "required": [
-              "id"
-            ],
+          "id": {},
+          "result": {
             "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "JsonRpcError": {
+        "type": "object",
+        "required": [
+          "jsonrpc",
+          "id",
+          "error"
+        ],
+        "properties": {
+          "jsonrpc": {
+            "type": "string"
+          },
+          "id": {},
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
             "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
+              "code": {
+                "type": "integer"
+              },
+              "message": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": true
               }
             }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
           }
         }
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "csrfToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token",
+        "description": "CSRF token returned by the backend login/session flow."
       }
     }
   }

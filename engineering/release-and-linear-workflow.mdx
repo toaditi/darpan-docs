@@ -1,0 +1,36 @@
+---
+title: "Release and Linear workflow"
+description: "How Darpan planning, docs, and release work stay coordinated."
+---
+
+## Source of truth
+
+Linear is the source of truth for Darpan feature work, bug fixes, delivery streams, scope, acceptance criteria, dependencies, and status.
+
+GitHub is for branches, commits, pull requests, and review artifacts.
+
+## Classification
+
+Classify actionable repo asks as:
+
+| Type | Linear required |
+| --- | --- |
+| Feature | Yes |
+| Bug fix | Yes |
+| Neither | No |
+
+Pure release prep, release notes, version bumps, tagging, docs cleanup, and upgrade-data preparation are usually `neither` unless they also include feature or bug implementation.
+
+## Comment footer
+
+Every progress, verification, or closeout comment posted to Linear should include:
+
+```text
+LLM time this update: <minutes> minutes
+```
+
+Add `(<hours>h)` when the total is 60 minutes or more.
+
+## Release branch rule
+
+Treat `main` as release-oriented in the real Darpan code repos. Do active product implementation on topic branches and promote selectively after review and validation.

@@ -1,0 +1,28 @@
+---
+title: "Repo map"
+description: "Where Darpan work belongs."
+---
+
+## Workspace roots
+
+| Area | Path |
+| --- | --- |
+| Wrapper repo | `/Users/aditipatel/sandbox/darpan-master` |
+| Frontend app | `/Users/aditipatel/sandbox/darpan-master/darpan-ui` |
+| Backend app | `/Users/aditipatel/sandbox/darpan-master/darpan-backend` |
+| Darpan backend component | `/Users/aditipatel/sandbox/darpan-master/darpan-backend/runtime/component/darpan` |
+
+## High-signal paths
+
+| Surface | Paths |
+| --- | --- |
+| UI pages | `darpan-ui/src/pages/**` |
+| UI shared code | `darpan-ui/src/components/**`, `darpan-ui/src/lib/**`, `darpan-ui/src/router/**` |
+| Backend services | `darpan-backend/runtime/component/darpan/service/**` |
+| Backend logic | `darpan-backend/runtime/component/darpan/src/**` |
+| Backend entities | `darpan-backend/runtime/component/darpan/entity/**` |
+| Backend docs | `darpan-backend/runtime/component/darpan/docs/**` |
+
+## Boundary rule
+
+Do not implement or extend custom Darpan UI in backend `screen/**`, `template/**`, or `theme-library/**`. Add backend service contracts when the UI needs data, then consume them from `darpan-ui`.

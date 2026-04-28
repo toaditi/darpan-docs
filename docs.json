@@ -1,48 +1,56 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Darpan Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#166534",
+    "light": "#0EA5A4",
+    "dark": "#86EFAC"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Product docs",
         "groups": [
           {
             "group": "Getting started",
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "getting-started/overview",
+              "getting-started/core-concepts",
+              "getting-started/environments"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Guides",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "guides/connect-sftp",
+              "guides/connect-netsuite",
+              "guides/configure-ai",
+              "guides/create-schema",
+              "guides/run-reconciliation",
+              "guides/review-results"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Reference",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "reference/file-formats",
+              "reference/schema-model",
+              "reference/reconciliation-runs",
+              "reference/auth-and-access",
+              "reference/glossary"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Troubleshooting",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "troubleshooting/login-and-session",
+              "troubleshooting/file-upload",
+              "troubleshooting/connections",
+              "troubleshooting/reconciliation-runs"
             ]
           }
         ]
@@ -51,18 +59,35 @@
         "tab": "API reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/overview",
+              "api-reference/json-rpc",
+              "api-reference/service-catalog"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Generated reference",
+            "openapi": {
+              "source": "api-reference/openapi.json",
+              "directory": "api-reference/generated"
+            }
+          }
+        ]
+      },
+      {
+        "tab": "Engineering",
+        "groups": [
+          {
+            "group": "Engineering guide",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "development",
+              "engineering/overview",
+              "engineering/local-development",
+              "engineering/repo-map",
+              "engineering/ui-page-surface-contracts",
+              "engineering/backend-reconciliation-notes",
+              "engineering/release-and-linear-workflow"
             ]
           }
         ]
@@ -71,14 +96,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Darpan app",
+          "href": "https://toaditi.github.io/darpan-ui/",
+          "icon": "monitor"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/toaditi/darpan-docs",
+          "icon": "github"
         }
       ]
     }
@@ -90,33 +115,31 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Repository",
+        "href": "https://github.com/toaditi/darpan-docs"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Open Darpan",
+      "href": "https://toaditi.github.io/darpan-ui/"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/toaditi/darpan-docs"
     }
   }
 }

@@ -1,0 +1,25 @@
+---
+title: "Connect NetSuite"
+description: "Capture the NetSuite setup Darpan needs for reconciliation workflows."
+---
+
+NetSuite setup is split between authentication details and endpoint or RESTlet configuration.
+
+## Before you start
+
+Confirm the account, role, integration, token, and script deployment details with the NetSuite owner.
+
+## Recommended setup order
+
+1. Create the authentication configuration.
+2. Create or confirm endpoint configuration.
+3. Run a small read-only smoke request.
+4. Attach the configuration to the Darpan workflow that needs it.
+
+## Troubleshooting
+
+If the connection fails, capture the exact NetSuite error code and message. Most fixes start by checking role permissions, environment target, token validity, script deployment status, or SuiteQL field names.
+
+<Note>
+Use the API reference and engineering docs only for request shape. Secrets and account-specific values belong in secure configuration, not documentation.
+</Note>

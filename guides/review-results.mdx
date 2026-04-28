@@ -1,0 +1,30 @@
+---
+title: "Review results"
+description: "Understand generated reconciliation output."
+---
+
+Results show what Darpan found during a reconciliation run.
+
+## Review order
+
+1. Confirm the run metadata.
+2. Check whether the expected input files or source records were used.
+3. Review match counts and mismatch counts.
+4. Open generated output.
+5. Identify whether each difference is source data, schema, mapping, or expected business variance.
+
+## Common result categories
+
+| Category | Meaning |
+| --- | --- |
+| Matched | Darpan found corresponding records with no relevant difference. |
+| Missing in source | A record appears in one source but not the other. |
+| Value mismatch | A matched record has field-level differences. |
+| Processing error | The run could not parse, compare, or output part of the data. |
+
+## Next actions
+
+- Fix source data when the mismatch is real.
+- Adjust schema or field selection when parsing is wrong.
+- Adjust rules when business classification is wrong.
+- Re-run after the correction to preserve evidence.

@@ -1,0 +1,27 @@
+---
+title: "Schema model"
+description: "How to think about Darpan schemas."
+---
+
+A schema is a reusable contract for source data shape.
+
+## Good schema design
+
+- Use names that describe the source and record type.
+- Keep field names stable across runs.
+- Represent identifiers as strings unless arithmetic is required.
+- Represent money and quantities consistently.
+- Document fields that are derived or normalized.
+
+## Schema lifecycle
+
+| Stage | Action |
+| --- | --- |
+| Draft | Create the initial schema from a known source sample. |
+| Validate | Run a small reconciliation or parse test. |
+| Adopt | Use the schema for repeated workflows. |
+| Revise | Update only when the source shape or business contract changes. |
+
+## Change control
+
+Changing a schema can change future run output. When a schema change affects comparison behavior, record why the change was made and which workflows should use the revised schema.

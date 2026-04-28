@@ -1,0 +1,28 @@
+---
+title: "Core concepts"
+description: "Common terms used across Darpan."
+---
+
+## Schema
+
+A schema describes the structure Darpan expects from source data. It gives Darpan stable field names and types to use during parsing, mapping, and comparison.
+
+## Connection
+
+A connection is saved setup for an external system or provider. Darpan uses connection records for workflows such as SFTP file access, NetSuite calls, and AI-assisted features.
+
+## Reconciliation run
+
+A reconciliation run is one execution of a compare workflow. It records the selected inputs, processing outcome, and generated output.
+
+## Result
+
+A result is the reviewable output from a run. Results can include matched rows, mismatches, generated files, and links back to the run history.
+
+## RuleSet
+
+A RuleSet is a rules-backed model for configurable reconciliation behavior. Use this term when discussing rule compilation, decisioning, and rules-driven classification.
+
+## Active company or tenant
+
+Darpan scopes user activity through an active company or tenant context. Reads and writes should be interpreted through that active context when multi-company access is enabled.

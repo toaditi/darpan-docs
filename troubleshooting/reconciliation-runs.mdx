@@ -1,0 +1,32 @@
+---
+title: "Reconciliation runs"
+description: "Troubleshoot failed or surprising reconciliation output."
+---
+
+## Failed run
+
+Check:
+
+- Source inputs were present.
+- Schema or RuleSet selection was valid.
+- Connection records were reachable.
+- The backend logs show the first processing error, not only the final failure.
+
+## Zero matches
+
+Check:
+
+- Join keys are populated in both sources.
+- Identifiers use the same formatting.
+- The selected schema reads the intended columns.
+- The files are from the same business period.
+
+## Unexpected differences
+
+Classify each difference before changing configuration:
+
+- Source data issue
+- Schema parsing issue
+- Mapping or normalization issue
+- Rule classification issue
+- Expected business variance
