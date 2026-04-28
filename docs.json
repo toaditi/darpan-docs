@@ -115,11 +115,6 @@
           "anchor": "Darpan app",
           "href": "https://hotwax-darpan-dev.web.app/login",
           "icon": "/icons/darpan-app-b17b6c3.svg"
-        },
-        {
-          "anchor": "GitHub",
-          "href": "https://github.com/toaditi/darpan-docs",
-          "icon": "github"
         }
       ]
     }
@@ -129,12 +124,7 @@
     "dark": "/logo/dark-b17b6c3.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Repository",
-        "href": "https://github.com/toaditi/darpan-docs"
-      }
-    ],
+    "links": [],
     "primary": {
       "type": "button",
       "label": "Open Darpan",
@@ -152,10 +142,5 @@
       "cursor",
       "vscode"
     ]
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/toaditi/darpan-docs"
-    }
   }
 }
