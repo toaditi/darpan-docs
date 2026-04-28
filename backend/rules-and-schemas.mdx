@@ -40,10 +40,11 @@ Rule services include:
 ```text
 reconciliation.ReconciliationRuleEngineServices.compile#RuleSet
 reconciliation.ReconciliationRuleEngineServices.execute#RuleSet
-reconciliation.ReconciliationRuleEngineServices.execute#RuleSetJson
 reconciliation.ReconciliationRuleEngineServices.execute#RuleSetMatchedPairs
 reconciliation.ReconciliationRuleEngineServices.clear#RuleSetCache
 ```
+
+Execution services are file type agnostic. Callers parse CSV, JSON, or other source payloads into compare-ready data facts before invoking the RuleSet engine.
 
 ## JSON schema model
 
