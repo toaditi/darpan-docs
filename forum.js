@@ -11,10 +11,12 @@
   'use strict';
 
   var FORUM_CONFIG = {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    appId: '',
+    // Public client config by design; the security boundary is the Firestore
+    // rules (wrapper tools/feature-forum) plus App Check once enforced.
+    apiKey: 'AIzaSyDLS8qnR9BTzlROsVui12ZhJYbjmJlR0UA',
+    authDomain: 'darpan-forum.firebaseapp.com',
+    projectId: 'darpan-forum',
+    appId: '1:608366042877:web:56b3aa7bae800fdeb4a894',
     recaptchaSiteKey: '',
     useEmulator: false
   };
