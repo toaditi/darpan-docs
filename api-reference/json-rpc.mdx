@@ -91,6 +91,20 @@ The `message` is the real error string from the backend. The `code` distinguishe
 
 These codes are part of the generated contract: `JsonRpcError.code` in the [OpenAPI reference](/api-reference/openapi.json) carries the same enum, regenerated from the backend facade XML (`./gradlew :runtime:component:darpan:generateApiContract`).
 
+## Contract versioning
+
+The generated contract carries `info.x-darpan-contract-version`, decoupled from the
+product release version. The policy is additive-only:
+
+- **Non-breaking, no version bump:** new methods, new optional request parameters, new
+  response fields.
+- **Breaking, requires a conscious version bump:** removing a method, removing or renaming
+  a parameter or response field, changing a field's type, or making a parameter newly
+  required.
+
+CI compares every pull request's contract against its base and fails on breaking changes
+that arrive without a version bump.
+
 Service-specific fields vary by method. They are documented from backend facade definitions and verified runtime responses.
 
 For a catalog of available methods, see [Service catalog](/api-reference/service-catalog).
