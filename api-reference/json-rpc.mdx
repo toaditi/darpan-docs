@@ -36,6 +36,22 @@ X-CSRF-Token: <csrf-token>
 
 Authenticated calls also need the session cookie established by the login flow.
 
+## Authentication channels
+
+Two channels exist. Which one applies is not ambiguous:
+
+- **Browser app (canonical): HttpOnly cookie.** With cookie auth enabled, the app
+  authenticates through the `darpan_login_key` HttpOnly cookie plus the CSRF token from
+  `/apps/darpan/csrfToken`. No token is stored where page scripts can read it.
+- **Integration callers and fallback: `login_key` header.** Non-browser clients — and
+  browser deployments where credentialed CORS is unavailable — send the token returned by
+  `login#Session` in the `login_key` request header. Keep the token in memory; never put it
+  in query parameters.
+
+The backend CORS end-state is an exact-origin allowlist with
+`Access-Control-Allow-Credentials` for the app origins. A wildcard allowlist is an incident
+posture, not a configuration.
+
 ## Success shape
 
 ```json
