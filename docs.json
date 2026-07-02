@@ -8,6 +8,11 @@
     "dark": "#5F5F5F"
   },
   "favicon": "/favicon-b17b6c3.svg",
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.drpn.ai"
+    }
+  },
   "navigation": {
     "tabs": [
       {
