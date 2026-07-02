@@ -707,7 +707,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -908,7 +908,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -1136,7 +1136,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -1538,7 +1538,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -1742,7 +1742,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -1953,7 +1953,7 @@
                             "activeTenantPermissionGroupIds": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "canViewActiveTenantData": {
@@ -2519,7 +2519,7 @@
                     "fieldList": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 }
@@ -2769,7 +2769,7 @@
                     "fieldList": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 }
@@ -3342,7 +3342,7 @@
                     "errorMessages": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 }
@@ -5195,31 +5195,116 @@
                     "inputModes": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "object",
+                            "properties": {
+                                "enumId": {
+                                    "type": "string"
+                                },
+                                "enumCode": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "sequenceNum": {
+                                    "type": "integer"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "sourceTypes": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "object",
+                            "properties": {
+                                "enumId": {
+                                    "type": "string"
+                                },
+                                "enumCode": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "sequenceNum": {
+                                    "type": "integer"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "relativeWindows": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "object",
+                            "properties": {
+                                "enumId": {
+                                    "type": "string"
+                                },
+                                "enumCode": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "sequenceNum": {
+                                    "type": "integer"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "fileTypes": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "object",
+                            "properties": {
+                                "enumId": {
+                                    "type": "string"
+                                },
+                                "enumCode": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "sequenceNum": {
+                                    "type": "integer"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "systems": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "object",
+                            "properties": {
+                                "enumId": {
+                                    "type": "string"
+                                },
+                                "enumCode": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "sequenceNum": {
+                                    "type": "integer"
+                                },
+                                "label": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     },
                     "savedRuns": {
@@ -5635,7 +5720,7 @@
                                 "availableFormats": {
                                     "type": "array",
                                     "items": {
-                                        
+                                        "type": "string"
                                     }
                                 },
                                 "preferredDownloadFormat": {
@@ -5857,7 +5942,7 @@
                     "pinnedReconciliationMappingIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     },
                     "mappings": {
@@ -6039,7 +6124,7 @@
                     "pinnedSavedRunIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     },
                     "savedRuns": {
@@ -6790,13 +6875,13 @@
                             "validationErrors": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "processingWarnings": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "generatedOutput": {
@@ -6814,7 +6899,7 @@
                                     "availableFormats": {
                                         "type": "array",
                                         "items": {
-                                            
+                                            "type": "string"
                                         }
                                     },
                                     "preferredDownloadFormat": {
@@ -7099,13 +7184,13 @@
                             "validationErrors": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "processingWarnings": {
                                 "type": "array",
                                 "items": {
-                                    
+                                    "type": "string"
                                 }
                             },
                             "generatedOutput": {
@@ -7123,7 +7208,7 @@
                                     "availableFormats": {
                                         "type": "array",
                                         "items": {
-                                            
+                                            "type": "string"
                                         }
                                     },
                                     "preferredDownloadFormat": {
@@ -7558,7 +7643,7 @@
                     "pinnedReconciliationMappingIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 },
@@ -7585,7 +7670,7 @@
                     "pinnedReconciliationMappingIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 }
@@ -7656,7 +7741,7 @@
                     "pinnedSavedRunIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 },
@@ -7683,7 +7768,7 @@
                     "pinnedSavedRunIds": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     }
                 }
@@ -8445,7 +8530,7 @@
                     "types": {
                         "type": "array",
                         "items": {
-                            
+                            "type": "string"
                         }
                     },
                     "pageIndex": {
