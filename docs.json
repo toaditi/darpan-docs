@@ -150,8 +150,20 @@
         ]
       },
       {
-        "tab": "Releases",
+        "tab": "Roadmap & releases",
         "groups": [
+          {
+            "group": "Roadmap",
+            "pages": [
+              "releases/roadmap"
+            ]
+          },
+          {
+            "group": "Community",
+            "pages": [
+              "releases/feature-requests"
+            ]
+          },
           {
             "group": "Release notes",
             "pages": [

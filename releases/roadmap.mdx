@@ -1,0 +1,46 @@
+---
+title: "Roadmap"
+description: "Improvements and features coming to the Darpan engine and app, in order — plus what shipped most recently."
+---
+
+What we shipped most recently and what we are building next, in order. Shipped work moves to [Release updates](/releases/updates); the order below is influenced by [feature requests](/releases/feature-requests).
+
+## Recently shipped
+
+<div className="rm-card">
+  <p><strong>v2.1.3</strong> <span className="rm-pill">Shipped · Jul 2, 2026</span></p>
+  <p className="rm-muted">Backend hotfix: cross-origin session support so the app at app.drpn.ai talks directly to api.drpn.ai. [Release notes →](/releases/updates#v2-1-3)</p>
+</div>
+
+<div className="rm-card">
+  <p><strong>v2.1.2</strong> <span className="rm-pill">Shipped · May 6, 2026</span></p>
+  <p className="rm-muted">API-backed source artifacts are downloadable from run results; corrected order-extraction windows for API sources. [Release notes →](/releases/updates#v2-1-2)</p>
+</div>
+
+## Up next, in order
+
+<div className="rm-timeline">
+  <div className="rm-step">
+    <div className="rm-step-marker">1</div>
+    <div>
+      <p><strong>Inbound webhook ingestion</strong> <span className="rm-pill-next">Next up</span> <span className="rm-pill-surface">Engine</span></p>
+      <p className="rm-muted">Connected systems push events into Darpan the moment they happen — no more waiting on polling windows.</p>
+    </div>
+  </div>
+  <div className="rm-step">
+    <div className="rm-step-marker">2</div>
+    <div>
+      <p><strong>Composite-key reconciliation matching</strong> <span className="rm-pill-surface">Engine · App</span></p>
+      <p className="rm-muted">Match records on a combination of fields, not just a single key — configured in the rule builder.</p>
+    </div>
+  </div>
+  <div className="rm-step">
+    <div className="rm-step-marker">3</div>
+    <div>
+      <p><strong>Idempotency keys for API mutations</strong> <span className="rm-pill-surface">Engine</span></p>
+      <p className="rm-muted">Retry any mutating API call safely without duplicating work.</p>
+    </div>
+  </div>
+</div>
+
+<p className="rm-muted">Order and scope reflect current planning and can change. Want to influence this list? Vote on [feature requests](/releases/feature-requests).</p>
