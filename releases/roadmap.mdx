@@ -23,22 +23,29 @@ What we shipped most recently and what we are building next, in order. Shipped w
   <div className="rm-step">
     <div className="rm-step-marker">1</div>
     <div>
-      <p><strong>Inbound webhook ingestion</strong> <span className="rm-pill-next">Next up</span> <span className="rm-pill-surface">Engine</span></p>
-      <p className="rm-muted">Connected systems push events into Darpan the moment they happen — no more waiting on polling windows.</p>
+      <p><strong>Composite-key reconciliation matching</strong> <span className="rm-pill-next">Next up</span> <span className="rm-pill-surface">Engine · App</span></p>
+      <p className="rm-muted">Match records on a combination of fields, not just a single key — configured in the rule builder.</p>
     </div>
   </div>
   <div className="rm-step">
     <div className="rm-step-marker">2</div>
     <div>
-      <p><strong>Composite-key reconciliation matching</strong> <span className="rm-pill-surface">Engine · App</span></p>
-      <p className="rm-muted">Match records on a combination of fields, not just a single key — configured in the rule builder.</p>
+      <p><strong>Idempotency keys for API mutations</strong> <span className="rm-pill-surface">Engine</span></p>
+      <p className="rm-muted">Retry any mutating API call safely without duplicating work.</p>
     </div>
   </div>
   <div className="rm-step">
     <div className="rm-step-marker">3</div>
     <div>
-      <p><strong>Idempotency keys for API mutations</strong> <span className="rm-pill-surface">Engine</span></p>
-      <p className="rm-muted">Retry any mutating API call safely without duplicating work.</p>
+      <p><strong>Returns reconciliation</strong> <span className="rm-pill-surface">Engine · App</span></p>
+      <p className="rm-muted">Track returns against source and target systems, the same way orders are reconciled today.</p>
+    </div>
+  </div>
+  <div className="rm-step">
+    <div className="rm-step-marker">4</div>
+    <div>
+      <p><strong>Multi-file-source stitching for a run</strong> <span className="rm-pill-surface">Engine</span></p>
+      <p className="rm-muted">Combine multiple files into one side of a run instead of merging them by hand first.</p>
     </div>
   </div>
 </div>
