@@ -69,8 +69,11 @@ The `message` is the real error string from the backend. The `code` distinguishe
 | `-32600` | Invalid request (no method specified) |
 | `-32601` | Unknown or unavailable method |
 | `-32602` | Invalid params (named parameters required) |
+| `-32603` | Internal JSON-RPC error (defined by the dispatcher, rarely emitted) |
 | `500` | Service or internal error |
 | `403` | Authorization denied |
+
+These codes are part of the generated contract: `JsonRpcError.code` in the [OpenAPI reference](/api-reference/openapi.json) carries the same enum, regenerated from the backend facade XML (`./gradlew :runtime:component:darpan:generateApiContract`).
 
 Service-specific fields vary by method. They are documented from backend facade definitions and verified runtime responses.
 

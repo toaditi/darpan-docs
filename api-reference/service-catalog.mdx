@@ -59,8 +59,10 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `list#Automations` / `get#Automation` / `save#Automation` / `delete#Automation` | Manage automations. |
 | `pause#Automation` / `resume#Automation` / `run#AutomationNow` | Control automation execution. |
 | `list#AutomationExecutions` | List automation execution history. |
+| `reprocess#AutomationExecution` | Re-run a failed or dead-lettered automation execution. |
 | `list#AutomationSourceOptions` | List configured source options for automation setup. |
 | `list#GeneratedOutputs` / `get#GeneratedOutput` / `delete#GeneratedOutput` | Manage generated reconciliation outputs. |
+| `get#GeneratedOutputDifferences` | Page through the difference rows of one generated output. |
 
 ## Search (`facade.SearchFacadeServices`)
 
@@ -74,7 +76,7 @@ Source-system facades ship in sibling Moqui components and follow the same JSON-
 
 | Component | Facade | Methods |
 | --- | --- | --- |
-| `shopify-darpan` | `facade.ShopifyFacadeServices` | `list#ShopifyAuthConfigs`, `get#ShopifyAuthConfig`, `save#ShopifyAuthConfig`, `delete#ShopifyAuthConfig`, `list#ShopifySourceDefinitions`, `get#ShopifySourceDefinition` |
+| `shopify-darpan` | `facade.ShopifyFacadeServices` | `list#ShopifyAuthConfigs`, `get#ShopifyAuthConfig`, `save#ShopifyAuthConfig`, `delete#ShopifyAuthConfig` |
 | `darpan-hotwax` | `facade.HotWaxOmsFacadeServices` | `list#HotWaxOmsRestSourceConfigs`, `save#HotWaxOmsRestSourceConfig`, `delete#HotWaxOmsRestSourceConfig` |
 
 ## Reference shape
