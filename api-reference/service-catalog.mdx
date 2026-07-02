@@ -79,18 +79,20 @@ Source-system facades ship in sibling Moqui components and follow the same JSON-
 | `shopify-darpan` | `facade.ShopifyFacadeServices` | `list#ShopifyAuthConfigs`, `get#ShopifyAuthConfig`, `save#ShopifyAuthConfig`, `delete#ShopifyAuthConfig` |
 | `darpan-hotwax` | `facade.HotWaxOmsFacadeServices` | `list#HotWaxOmsRestSourceConfigs`, `save#HotWaxOmsRestSourceConfig`, `delete#HotWaxOmsRestSourceConfig` |
 
-## Reference shape
+## Per-method reference
 
-Dedicated service references describe:
+The machine-readable contract for every method above lives in the
+[generated OpenAPI reference](/api-reference/openapi.json), regenerated from the backend
+facade XML (`./gradlew :runtime:component:darpan:generateApiContract`) and drift-checked
+against this catalog in CI. How to read it:
 
-- Service name
-- Purpose
-- Authentication requirement
-- Required inputs
-- Optional inputs
-- Response shape
-- Error behavior
-- Example request
-- Related facade contract
+- Each method has four schemas in `components.schemas`, named from its verb#noun:
+  `<VerbNoun>Params` (request parameters, with `required` markers), `<VerbNoun>Result`
+  (the response payload the hand-written UI types model), and the `...Request`/`...Response`
+  JSON-RPC envelopes around them.
+- Parameter and field descriptions come straight from the service definitions.
+- Error behavior is uniform — see [JSON-RPC](/api-reference/json-rpc): protocol/dispatch
+  failures use the `JsonRpcError` codes; business validation returns `result.ok=false`
+  with `result.errors[]`.
 
 For the transport contract used by all methods above, see [JSON-RPC transport](/api-reference/json-rpc).
