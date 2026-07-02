@@ -66,30 +66,7 @@ posture, not a configuration.
 
 ## Error shape
 
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "error": {
-    "code": 500,
-    "message": "<service error message>"
-  }
-}
-```
-
-The `message` is the real error string from the backend. The `code` distinguishes protocol errors from runtime failures:
-
-| Code | Meaning |
-| --- | --- |
-| `-32700` | Parse error (invalid JSON) |
-| `-32600` | Invalid request (no method specified) |
-| `-32601` | Unknown or unavailable method |
-| `-32602` | Invalid params (named parameters required) |
-| `-32603` | Internal JSON-RPC error (defined by the dispatcher, rarely emitted) |
-| `500` | Service or internal error |
-| `403` | Authorization denied |
-
-These codes are part of the generated contract: `JsonRpcError.code` in the [OpenAPI reference](/api-reference/openapi.json) carries the same enum, regenerated from the backend facade XML (`./gradlew :runtime:component:darpan:generateApiContract`).
+Errors return an `error` object instead of `result`; facade business validation instead returns `result.ok: false` with `result.errors[]`. For the envelope, the code table, and the validation shape, see [Errors](/api-reference/errors).
 
 ## Contract versioning
 
