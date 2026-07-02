@@ -29,12 +29,15 @@ The following calls `get#SessionInfo` from the Auth facade:
 
 ## Required headers
 
+Every call sends:
+
 ```http
 Content-Type: application/json
-X-CSRF-Token: <csrf-token>
 ```
 
-Authenticated calls also need the session cookie established by the login flow.
+Which auth headers accompany it depends on the channel (see below): the browser-cookie
+channel adds `X-CSRF-Token` plus the `darpan_login_key` session cookie; the header-token
+channel adds `login_key` instead, with no CSRF token and no cookie.
 
 ## Authentication channels
 

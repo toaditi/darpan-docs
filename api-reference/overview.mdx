@@ -5,7 +5,7 @@ description: "Current JSON-RPC integration surface for Darpan backend calls."
 
 Darpan backend calls use Moqui JSON-RPC services through `/rpc/json`.
 
-All calls use `POST /rpc/json` with a JSON-RPC 2.0 envelope and session-cookie authentication. See [JSON-RPC transport](/api-reference/json-rpc) for the full request, response, and error shapes.
+All calls use `POST /rpc/json` with a JSON-RPC 2.0 envelope, authenticated by session cookie for the browser app or the `login_key` header for integration callers — see [JSON-RPC transport](/api-reference/json-rpc) for the authentication channels, plus the full request, response, and error shapes.
 
 Darpan uses JSON-RPC service methods rather than separate REST resources for the current backend integration surface. The OpenAPI file in this repo captures the shared transport shape; individual service contracts come from verified backend facade services. For the per-operation specification, see the **Generated reference** group in the API reference navigation — it is generated from the OpenAPI file in this repo.
 

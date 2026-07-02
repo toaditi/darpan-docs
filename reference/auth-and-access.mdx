@@ -31,8 +31,8 @@ Examples use placeholders for usernames, passwords, session cookies, login keys,
 
 Backend JSON-RPC calls usually require:
 
-- An authenticated session cookie
-- A valid `X-CSRF-Token`
+- For the browser app: an authenticated session cookie and a valid `X-CSRF-Token`
+- For integration callers: a `login_key` header instead of the cookie and CSRF token
 - Permission for the target service
 
 ---
