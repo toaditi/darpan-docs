@@ -1,0 +1,14 @@
+---
+title: "API changelog"
+description: "Contract-version history for the Darpan Facade API."
+---
+
+The generated contract carries `info.x-darpan-contract-version`, decoupled from the product release version. The policy is additive-only: new methods, new optional parameters, and new response fields ship without a bump; breaking changes require a conscious one. See [Contract versioning](/api-reference/json-rpc#contract-versioning).
+
+## Contract version 1
+
+Baseline contract (current; shipped alongside Darpan 2.1.2).
+
+- JSON-RPC 2.0 transport over `POST /rpc/json`; HTTP 200 for every dispatched call.
+- Auth channels: HttpOnly `darpan_login_key` cookie plus CSRF token (browser, canonical) and `login_key` header (integration callers and fallback).
+- Method surface as documented in the [service catalog](/api-reference/service-catalog).

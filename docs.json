@@ -103,7 +103,8 @@
               "api-reference/json-rpc",
               "api-reference/errors",
               "api-reference/service-catalog",
-              "reference/auth-and-access"
+              "reference/auth-and-access",
+              "api-reference/changelog"
             ]
           },
           {
