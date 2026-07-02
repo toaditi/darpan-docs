@@ -7,6 +7,24 @@ Tagged Darpan releases from newest to oldest, with product and operator changes 
 
 Backend and UI tags are coordinated for major and minor releases (`v2.0.0`, `v2.1.0`). Patch tags between them are backend-only; the UI stays on the previous coordinated tag.
 
+## v2.1.3
+
+Release date: `2026-07-02` (backend hotfix)
+
+Changes in this tag:
+
+- The app origins `app.drpn.ai` and `app-uat.drpn.ai` are allowed for cross-origin cookie auth, so the rebuilt app reaches `api.drpn.ai` directly.
+
+Validation and rollout notes:
+
+- Backend-only tag; the UI remains on `v2.1.0`.
+- Configuration-only delta versus `v2.1.2` (Dockerfiles and production Moqui conf); no application or security code changes.
+- Rollback target: `v2.1.2`.
+
+Public links:
+
+- Backend compare: `https://github.com/drpn-ai/darpan/compare/v2.1.2...v2.1.3`
+
 ## v2.1.2
 
 Release date: `2026-05-06` (backend hotfix)
