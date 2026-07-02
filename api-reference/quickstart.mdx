@@ -1,0 +1,69 @@
+---
+title: "API quickstart"
+description: "Make your first authenticated JSON-RPC call."
+---
+
+Every Darpan API call is `POST /rpc/json` with a JSON-RPC 2.0 envelope. This page goes from credentials to a first authenticated response.
+
+Production base URL: `https://api.drpn.ai/rpc/json`. Against a local stack started with `./dev-stack.sh`, use `http://localhost:8080/rpc/json`.
+
+## 1. Get a token
+
+`login#Session` is anonymous — no cookie or CSRF bootstrap is needed. It returns a Moqui login-key token.
+
+```bash
+curl -sS https://api.drpn.ai/rpc/json \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "facade.AuthFacadeServices.login#Session",
+    "params": {"username": "<username>", "password": "<password>"}
+  }'
+```
+
+The response carries the token in `result.authToken`:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "ok": true,
+    "authenticated": true,
+    "authToken": "<token>",
+    "authTokenHeaderName": "login_key",
+    "authTokenExpiresInSeconds": 3600
+  }
+}
+```
+
+Keep the token in memory. Never put it in query parameters.
+
+## 2. Call a method
+
+Send the token in the `login_key` header on every later call. `get#SessionInfo` returns the session, user, and active-tenant context:
+
+```bash
+export AUTH_TOKEN="<token from step 1>"
+
+curl -sS https://api.drpn.ai/rpc/json \
+  -H 'Content-Type: application/json' \
+  -H "login_key: $AUTH_TOKEN" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "facade.AuthFacadeServices.get#SessionInfo",
+    "params": {}
+  }'
+```
+
+## 3. Read the result
+
+HTTP status is 200 for every dispatched call; outcomes are distinguished by shape. A `result` object is success, an `error` object is a protocol or service failure, and business validation returns `result.ok: false` with `result.errors[]`. See [Errors](/api-reference/errors).
+
+## Next steps
+
+- [Service catalog](/api-reference/service-catalog) — every available method.
+- [JSON-RPC transport](/api-reference/json-rpc) — envelope, headers, and auth channels.
+- [Auth and access](/reference/auth-and-access) — users, tenants, and permissions.

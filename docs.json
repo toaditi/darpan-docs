@@ -99,6 +99,7 @@
             "group": "Overview",
             "pages": [
               "api-reference/overview",
+              "api-reference/quickstart",
               "api-reference/json-rpc",
               "api-reference/service-catalog",
               "reference/auth-and-access"
