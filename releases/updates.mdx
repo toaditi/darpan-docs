@@ -7,6 +7,13 @@ Tagged Darpan releases from newest to oldest, with product and operator changes 
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
 
+## v1.0.1 — July 3, 2026
+
+Patch release: production images now build directly from the tag's own tree. No product changes — the application code is identical to v1.0.0.
+
+- **Operators**: build production images from `v1.0.1` (its Dockerfile pins post-migration companion component tags); do not build from `v1.0.0`'s Dockerfile.
+- **Upgrade**: no data-load action.
+
 ## v1.0.0 — July 3, 2026
 
 First release on Darpan's new independent repository baseline, and the version production images now pin to and build from. Backend-only tag; the app is unaffected and versions independently.
