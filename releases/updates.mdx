@@ -7,6 +7,12 @@ Tagged Darpan releases from newest to oldest, with product and operator changes 
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
 
+## v1.0.2 — July 3, 2026
+
+Hotfix: in-container data loads (`types=darpan-seed`) now work from a plain exec shell — a config-expansion bug previously crashed any process started outside the container entrypoint. Also pins the NetSuite integration component to its new post-migration tag. No product changes.
+
+- **Operators**: production deploys pin this version; no data-load action from this tag itself.
+
 ## v1.0.1 — July 3, 2026
 
 Patch release: production images now build directly from the tag's own tree. No product changes — the application code is identical to v1.0.0.
