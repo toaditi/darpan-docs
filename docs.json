@@ -202,7 +202,7 @@
     "primary": {
       "type": "button",
       "label": "Open Darpan",
-      "href": "https://darpan-app.hotwax.io"
+      "href": "https://app.drpn.ai"
     }
   },
   "contextual": {
