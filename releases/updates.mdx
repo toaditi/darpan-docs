@@ -7,10 +7,18 @@ Tagged Darpan releases from newest to oldest, with product and operator changes 
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
 
+## v1.0.0 — July 3, 2026
+
+First release on Darpan's new independent repository baseline, and the version production images now pin to and build from. Backend-only tag; the app is unaffected and versions independently.
+
+- **Product**: no behavior changes — the baseline is identical to the last pre-move state.
+- **Upgrade**: no data-load action for existing environments; fresh environments use the standard full data load.
+- **Rollback**: no earlier tag exists on the new baseline. Retired pre-move tags must not be used as fallback targets.
+
 ## Versioning restarted — July 2026
 
 Darpan moved to a new, independent repository baseline on July 3, 2026. Releases tagged before the move (`v1.0.0` through `v2.1.3`) were retired along with the old repository history, so their tags, release pages, and compare links no longer resolve.
 
-Versioning restarts at `v1.0.0` with the next tagged release, and entries will appear here from that release onward.
+Versioning restarted at `v1.0.0` (above); entries appear here from that release onward.
 
 Nothing changed in the product itself: the new baseline is identical to the last pre-move state, and deployed environments are unaffected.
