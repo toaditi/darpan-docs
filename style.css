@@ -218,3 +218,20 @@ html.dark .ff-list { border-color: rgba(255, 255, 255, 0.14); }
 html.dark .ff-row + .ff-row { border-top-color: rgba(255, 255, 255, 0.08); }
 html.dark .ff-sort-active { color: #f2f2f2; }
 html.dark .ff-chip { background: rgba(255, 255, 255, 0.08); color: #b5b5b5; }
+
+/* Forum v2: threads + lifecycle */
+.ff-meta { font-size: 0.75rem; color: #9a9a9a; margin: 0.15rem 0 0; }
+.ff-arrow:disabled { opacity: 0.35; cursor: default; }
+.ff-chip-awaiting { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
+.ff-thread {
+  padding: 0.4rem 1rem 0.9rem 4rem;
+  border-top: 1px dashed rgba(28, 28, 28, 0.08);
+}
+.ff-comment { margin: 0.55rem 0; }
+.ff-cauthor { font-size: 0.78rem; font-weight: 600; margin: 0; }
+.ff-ctime { color: #9a9a9a; font-weight: 400; }
+.ff-ctext { font-size: 0.85rem; margin: 0.1rem 0 0; white-space: pre-wrap; }
+.ff-composer { margin-top: 0.7rem; }
+html.dark .ff-thread { border-top-color: rgba(255, 255, 255, 0.1); }
+html.dark .ff-meta { color: #8a8a8a; }
+html.dark .ff-chip-awaiting { background: rgba(155, 120, 245, 0.16); color: #b9a5f7; }
