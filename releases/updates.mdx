@@ -9,29 +9,17 @@ Backend and UI tags are coordinated for major and minor releases; patch tags bet
 
 ## v1.0.2 — July 3, 2026
 
-Hotfix: in-container data loads (`types=darpan-seed`) now work from a plain exec shell — a config-expansion bug previously crashed any process started outside the container entrypoint. Also pins the NetSuite integration component to its new post-migration tag. No product changes.
-
-- **Operators**: production deploys pin this version; no data-load action from this tag itself.
-
-## v1.0.1 — July 3, 2026
-
-Patch release: production images now build directly from the tag's own tree. No product changes — the application code is identical to v1.0.0.
-
-- **Operators**: build production images from `v1.0.1` (its Dockerfile pins post-migration companion component tags); do not build from `v1.0.0`'s Dockerfile.
-- **Upgrade**: no data-load action.
-
-## v1.0.0 — July 3, 2026
-
-First release on Darpan's new independent repository baseline, and the version production images now pin to and build from. Backend-only tag; the app is unaffected and versions independently.
+First release on Darpan's new independent repository baseline, and the version production images pin to and build from. Backend-only tag; the app is unaffected and versions independently. (Deploy `v1.0.2` — the interim `v1.0.0`/`v1.0.1` tags were folded into it.)
 
 - **Product**: no behavior changes — the baseline is identical to the last pre-move state.
+- **Operators**: production images build directly from this tag with no overrides; integration components (HotWax OMS, Shopify, NetSuite) are pinned to matching tags; in-container data loads (`types=darpan-seed`) work from a plain exec shell.
 - **Upgrade**: no data-load action for existing environments; fresh environments use the standard full data load.
-- **Rollback**: no earlier tag exists on the new baseline. Retired pre-move tags must not be used as fallback targets.
+- **Rollback**: no earlier deployable tag exists on the new baseline. Retired pre-move tags must not be used as fallback targets.
 
 ## Versioning restarted — July 2026
 
 Darpan moved to a new, independent repository baseline on July 3, 2026. Releases tagged before the move (`v1.0.0` through `v2.1.3`) were retired along with the old repository history, so their tags, release pages, and compare links no longer resolve.
 
-Versioning restarted at `v1.0.0` (above); entries appear here from that release onward.
+Versioning restarted with the release above; entries appear here from that release onward.
 
 Nothing changed in the product itself: the new baseline is identical to the last pre-move state, and deployed environments are unaffected.
