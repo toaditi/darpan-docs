@@ -12,9 +12,9 @@ Backend and UI tags are coordinated for major and minor releases; patch tags bet
 First release on Darpan's new independent repository baseline, and the version production images pin to and build from. Backend-only tag; the app is unaffected and versions independently. (Deploy `v1.0.3` — the interim `v1.0.0`/`v1.0.1`/`v1.0.2` tags were folded into it.)
 
 - **Product**: no behavior changes — the baseline is identical to the last pre-move state.
-- **Operators**: production images build directly from this tag with no overrides; integration components (HotWax OMS, Shopify, NetSuite) are pinned to matching tags; fresh MySQL databases now provision cleanly — before this tag, NetSuite Restlet configuration table creation and the security seed load both failed on brand-new MySQL databases; in-container data loads (`types=darpan-seed-initial,darpan-seed`) work from a plain exec shell.
-- **Upgrade**: no data-load action for healthy existing environments; an environment whose earlier `darpan-seed` load failed part-way should re-run it once on this tag; fresh environments use the standard full data load.
-- **Rollback**: no earlier deployable tag exists on the new baseline — freshly provisioned environments must not roll back to superseded interim tags. Retired pre-move tags must not be used as fallback targets.
+- **Operators**: production images build directly from this tag with no overrides; integration components (HotWax OMS, Shopify, NetSuite) are pinned to matching tags; first-time provisioning of new MySQL-backed environments is reliable end to end; in-container data loads (`types=darpan-seed-initial,darpan-seed`) work from a plain exec shell.
+- **Upgrade**: no data-load action for existing environments; an environment whose initial data load did not complete should run it once on this tag; fresh environments use the standard full data load.
+- **Rollback**: no earlier deployable tag exists on the new baseline; interim folded tags are superseded and are not deployment targets. Retired pre-move tags must not be used as fallback targets.
 
 ## Versioning restarted — July 2026
 
