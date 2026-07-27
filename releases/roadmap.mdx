@@ -8,13 +8,13 @@ What we shipped most recently and what we are building next, in order. Shipped w
 ## Recently shipped
 
 <div className="rm-card">
-  <p><strong>v1.0.3 — new release baseline</strong> <span className="rm-pill">Shipped · Jul 3, 2026</span></p>
-  <p className="rm-muted">First tag on Darpan's new independent baseline — the version production deploys pin to. No product changes; see [Release updates](/releases/updates).</p>
+  <p><strong>v1.1.0 — composite keys + live run visibility</strong> <span className="rm-pill">Shipped · Jul 27, 2026</span></p>
+  <p className="rm-muted">Match records on a combination of key fields, watch runs progress live through a step timeline, and trust missing-in-Shopify results verified by direct lookups. Ships with app v2.2.0; see [Release updates](/releases/updates).</p>
 </div>
 
 <div className="rm-card">
-  <p><strong>Cross-origin app sessions</strong> <span className="rm-pill">Shipped · Jul 2, 2026</span></p>
-  <p className="rm-muted">Cross-origin session support so the app at app.drpn.ai talks directly to api.drpn.ai.</p>
+  <p><strong>v1.0.3 — new release baseline</strong> <span className="rm-pill">Shipped · Jul 3, 2026</span></p>
+  <p className="rm-muted">First tag on Darpan's new independent baseline — the version production deploys pin to. No product changes; see [Release updates](/releases/updates).</p>
 </div>
 
 ## Up next, in order
@@ -23,26 +23,19 @@ What we shipped most recently and what we are building next, in order. Shipped w
   <div className="rm-step">
     <div className="rm-step-marker">1</div>
     <div>
-      <p><strong>Composite-key reconciliation matching</strong> <span className="rm-pill-next">Next up</span> <span className="rm-pill-surface">Engine · App</span></p>
-      <p className="rm-muted">Match records on a combination of fields, not just a single key — configured in the rule builder.</p>
-    </div>
-  </div>
-  <div className="rm-step">
-    <div className="rm-step-marker">2</div>
-    <div>
-      <p><strong>Idempotency keys for API mutations</strong> <span className="rm-pill-surface">Engine</span></p>
+      <p><strong>Idempotency keys for API mutations</strong> <span className="rm-pill-next">Next up</span> <span className="rm-pill-surface">Engine</span></p>
       <p className="rm-muted">Retry any mutating API call safely without duplicating work.</p>
     </div>
   </div>
   <div className="rm-step">
-    <div className="rm-step-marker">3</div>
+    <div className="rm-step-marker">2</div>
     <div>
       <p><strong>Returns reconciliation</strong> <span className="rm-pill-surface">Engine · App</span></p>
       <p className="rm-muted">Track returns against source and target systems, the same way orders are reconciled today.</p>
     </div>
   </div>
   <div className="rm-step">
-    <div className="rm-step-marker">4</div>
+    <div className="rm-step-marker">3</div>
     <div>
       <p><strong>Multi-file-source stitching for a run</strong> <span className="rm-pill-surface">Engine</span></p>
       <p className="rm-muted">Combine multiple files into one side of a run instead of merging them by hand first.</p>

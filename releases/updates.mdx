@@ -7,6 +7,15 @@ Tagged Darpan releases from newest to oldest, with product and operator changes 
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
 
+## v1.1.0 — July 27, 2026
+
+First minor release on the new baseline, cut together with app `v2.2.0` and matching integration-component tags (`darpan-hotwax v0.4.0`, `shopify-darpan v0.4.0`).
+
+- **Product**: rule sets can match records on a combination of key fields, entered as chips in the rule builder and saved-run settings, with run summaries showing every key field — single-field rule sets behave exactly as before. Runs now show live progress: current stage in the runs list and a step-by-step timeline on the run page that refreshes when the run completes. Rows that would be reported as missing in Shopify are verified with direct lookups before they reach the result, so bulk-export lag no longer produces false differences. Long-running saved runs complete reliably, independent of the API request window. Signing out ends only the current session, automation schedule times are labeled UTC, app pages load noticeably faster, and the app gets clearer not-found, access-denied, offline, and session-expiry states. A new database source type lets automated runs pull one side from a database query where the database connector component is deployed.
+- **Operators**: production images pin `DARPAN_REF=v1.1.0` with `darpan-hotwax`/`shopify-darpan` at `v0.4.0` — these move together, since v1.1.0's connector registry references services introduced in the v0.4.0 components. Deploy the backend before the app; app `v2.2.0` reads the run-status service introduced in this release. OMS extraction is substantially faster and lighter (streaming, compression, field projection).
+- **Upgrade**: existing environments load six seed records (two source-type enums, composite-key entity security, two connector-registry rows) via `./gradlew loadDarpanUpgradeData`; environments with the startup seed load enabled pick them up automatically.
+- **Rollback**: schema additions are additive, so rolling the backend to `v1.0.3` is structurally safe — but do not roll back once composite-key rule sets exist, and keep the app on `v2.1.0` if the backend goes back. Roll all component pins back together.
+
 ## v1.0.3 — July 3, 2026
 
 First release on Darpan's new independent repository baseline, and the version production images pin to and build from. Backend-only tag; the app is unaffected and versions independently. (Deploy `v1.0.3` — the interim `v1.0.0`/`v1.0.1`/`v1.0.2` tags were folded into it.)
