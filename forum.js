@@ -179,6 +179,7 @@
         detail: String(data.detail || ''),
         status: STATUS_LABELS[data.status] ? data.status : 'under_review',
         createdAt: data.createdAt && data.createdAt.toMillis ? data.createdAt.toMillis() : 0,
+        author: pseudonym(String(data.createdBy || '')),
         up: (n + score) / 2,
         down: (n - score) / 2,
         score: score,
@@ -222,7 +223,8 @@
     });
     items.unshift({
       id: ref.id, title: title, detail: detail, status: 'under_review',
-      createdAt: Date.now(), up: 0, down: 0, score: 0, myVote: 0,
+      createdAt: Date.now(), author: pseudonym(fb.auth.currentUser.uid),
+      up: 0, down: 0, score: 0, myVote: 0,
       commentCount: 0, comments: [], expanded: false
     });
   }
@@ -362,9 +364,10 @@
       body.style.cursor = 'pointer';
       body.appendChild(el('p', 'ff-title', item.title));
       if (item.detail) body.appendChild(el('p', 'ff-detail', item.detail));
-      var meta = open
-        ? 'closes in ' + closesInDays(item) + 'd · ' + item.commentCount + (item.commentCount === 1 ? ' comment' : ' comments')
-        : item.commentCount + (item.commentCount === 1 ? ' comment' : ' comments');
+      var counts = item.commentCount + (item.commentCount === 1 ? ' comment' : ' comments');
+      var meta = item.author
+        + (open ? ' · closes in ' + closesInDays(item) + 'd' : '')
+        + ' · ' + counts;
       body.appendChild(el('p', 'ff-meta', meta + (item.expanded ? ' ▾' : ' ▸')));
       if (item.error) {
         body.appendChild(el('p', 'ff-error', item.error));
