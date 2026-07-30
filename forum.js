@@ -99,7 +99,7 @@
   var sdkPromise = null; // single-flight guard: the SSR mount and the hydrated
                          // mount both boot, and a second init would call
                          // connectFirestoreEmulator on an already-started instance
-  var items = null;     // [{ id, title, detail, status, createdAt, score, myVote }]
+  var items = null;     // [{ id, title, detail, status, createdAt, up, down, score, myVote }]
   var sortMode = 'top';
   var currentMount = null;
 
@@ -140,6 +140,10 @@
       fs.connectFirestoreEmulator(db, '127.0.0.1', 8087);
       authMod.connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
     }
+    // The persisted anonymous session restores asynchronously; fetchAll keys
+    // myVote off currentUser, so without this wait a slow restore renders the
+    // visitor as a first-time voter (no highlight, wrong optimistic math).
+    await auth.authStateReady();
     fb = { app: app, auth: auth, db: db, fs: fs, authMod: authMod };
     return fb;
   }
@@ -156,7 +160,7 @@
     var uid = fb.auth.currentUser ? fb.auth.currentUser.uid : null;
     items = await Promise.all(snap.docs.map(async function (d) {
       var votes = f.collection(fb.db, 'requests', d.id, 'votes');
-      var agg = await f.getAggregateFromServer(votes, { score: f.sum('value') });
+      var agg = await f.getAggregateFromServer(votes, { score: f.sum('value'), n: f.count() });
       var commentsCol = f.collection(fb.db, 'requests', d.id, 'comments');
       var cAgg = await f.getAggregateFromServer(commentsCol, { n: f.count() });
       var myVote = 0;
@@ -165,13 +169,19 @@
         if (mine.exists()) myVote = mine.data().value;
       }
       var data = d.data();
+      // Vote values are ±1 (enforced by firestore.rules), so one aggregate
+      // yields both directions: up + down = n, up - down = score.
+      var score = agg.data().score || 0;
+      var n = agg.data().n || 0;
       return {
         id: d.id,
         title: String(data.title || ''),
         detail: String(data.detail || ''),
         status: STATUS_LABELS[data.status] ? data.status : 'under_review',
         createdAt: data.createdAt && data.createdAt.toMillis ? data.createdAt.toMillis() : 0,
-        score: agg.data().score || 0,
+        up: (n + score) / 2,
+        down: (n - score) / 2,
+        score: score,
         myVote: myVote,
         commentCount: cAgg.data().n || 0,
         comments: null,
@@ -188,13 +198,16 @@
     var ref = f.doc(fb.db, 'requests', item.id, 'votes', uid);
     if (item.myVote === value) {          // clicking the same arrow removes the vote
       await f.deleteDoc(ref);
-      item.score -= value;
+      if (value === 1) item.up -= 1; else item.down -= 1;
       item.myVote = 0;
     } else {                              // new vote or switch
       await f.setDoc(ref, { value: value, createdAt: f.serverTimestamp() });
-      item.score += value - item.myVote;
+      if (item.myVote === 1) item.up -= 1;
+      if (item.myVote === -1) item.down -= 1;
+      if (value === 1) item.up += 1; else item.down += 1;
       item.myVote = value;
     }
+    item.score = item.up - item.down;
   }
 
   async function submitRequest(title, detail) {
@@ -209,7 +222,7 @@
     });
     items.unshift({
       id: ref.id, title: title, detail: detail, status: 'under_review',
-      createdAt: Date.now(), score: 0, myVote: 0,
+      createdAt: Date.now(), up: 0, down: 0, score: 0, myVote: 0,
       commentCount: 0, comments: [], expanded: false
     });
   }
@@ -335,9 +348,14 @@
           });
         });
       }
-      votebox.appendChild(up);
-      votebox.appendChild(el('div', 'ff-score', String(item.score)));
-      votebox.appendChild(down);
+      var upRow = el('div', 'ff-voterow');
+      upRow.appendChild(up);
+      upRow.appendChild(el('span', 'ff-count', String(item.up)));
+      var downRow = el('div', 'ff-voterow');
+      downRow.appendChild(down);
+      downRow.appendChild(el('span', 'ff-count', String(item.down)));
+      votebox.appendChild(upRow);
+      votebox.appendChild(downRow);
 
       var body = el('div');
       body.style.flex = '1';
