@@ -236,3 +236,94 @@ html.dark .ff-chip { background: rgba(255, 255, 255, 0.08); color: #b5b5b5; }
 html.dark .ff-thread { border-top-color: rgba(255, 255, 255, 0.1); }
 html.dark .ff-meta { color: #8a8a8a; }
 html.dark .ff-chip-awaiting { background: rgba(155, 120, 245, 0.16); color: #b9a5f7; }
+
+/* Bug board: reuses the .ff-* vocabulary so both community boards match */
+.ff-warn {
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #9a7b45;
+  margin: 0 0 0.5rem;
+}
+.ff-link {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: #8a8a8a;
+  margin: 0.15rem 0 0;
+  overflow-wrap: anywhere;
+}
+.ff-affectbox { width: 82px; }
+.ff-affect {
+  background: none;
+  border: 1px solid rgba(28, 28, 28, 0.16);
+  border-radius: 999px;
+  color: #6b6b6b;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+}
+.ff-affect-active { border-color: #1e7c3c; color: #1e7c3c; }
+.ff-affect:disabled { opacity: 0.4; cursor: default; }
+.ff-affectbox .ff-count { display: block; margin-top: 0.2rem; padding-left: 0.15rem; }
+.ff-expand { padding: 0.2rem 1rem 0 4rem; }
+.ff-shots {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0.5rem 0 0.2rem;
+}
+.ff-shot {
+  flex-shrink: 0;
+  border: 1px solid rgba(28, 28, 28, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  line-height: 0;
+}
+.ff-shot img { height: 108px; width: auto; max-width: 260px; object-fit: cover; }
+.ff-shot-pick { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem; }
+.ff-shot-thumb { position: relative; line-height: 0; }
+.ff-shot-thumb img {
+  height: 52px;
+  width: auto;
+  max-width: 110px;
+  object-fit: cover;
+  border: 1px solid rgba(28, 28, 28, 0.12);
+  border-radius: 6px;
+}
+.ff-shot-drop {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 17px;
+  height: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #1c1c1c;
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.ff-shot-add {
+  border: 1px dashed rgba(28, 28, 28, 0.24);
+  border-radius: 6px;
+  color: #6b6b6b;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+}
+.ff-shot-add input { display: none; }
+.ff-chip-confirmed { background: rgba(160, 95, 0, 0.1); color: #a05f00; }
+.ff-chip-fixed { background: rgba(30, 124, 60, 0.12); color: #1e7c3c; }
+html.dark .ff-warn { color: #c8a468; }
+html.dark .ff-link { color: #8a8a8a; }
+html.dark .ff-affect { border-color: rgba(255, 255, 255, 0.2); color: #b5b5b5; }
+html.dark .ff-affect-active { border-color: #6fd394; color: #6fd394; }
+html.dark .ff-shot,
+html.dark .ff-shot-thumb img { border-color: rgba(255, 255, 255, 0.14); }
+html.dark .ff-shot-drop { background: #f2f2f2; color: #1c1c1c; }
+html.dark .ff-shot-add { border-color: rgba(255, 255, 255, 0.24); color: #b5b5b5; }
+html.dark .ff-chip-confirmed { background: rgba(220, 150, 40, 0.16); color: #e0ae62; }
+html.dark .ff-chip-fixed { background: rgba(70, 190, 110, 0.16); color: #6fd394; }

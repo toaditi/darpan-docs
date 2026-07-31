@@ -27,7 +27,7 @@ When the automation asks **Which saved run should this automation use?**, it poi
 A JVM crash or container restart mid-run can leave a reconciliation run result in a running state, which blocks re-triggering. An internal scheduled reaper (`reconciliation.ReconciliationAutomationServices.sweep#StuckReconciliationRuns`) automatically flips run results that have been in a running or pending state for more than 120 minutes to failed with an explanatory status message. No user action is required — wait for the next reaper cycle, then trigger the automation again.
 
 <Note>
-The stuck-run reaper is an internal service (`allow-remote="false"`) and does not expose a user-facing trigger. If a run appears stuck for longer than 120 minutes and is not swept, contact support.
+The stuck-run reaper is an internal service (`allow-remote="false"`) and does not expose a user-facing trigger. If a run appears stuck for longer than 120 minutes and is not swept, [report it](/releases/bug-reports) with a link to the run.
 </Note>
 
 ## Alert never arrived

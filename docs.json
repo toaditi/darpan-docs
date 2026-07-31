@@ -161,7 +161,8 @@
           {
             "group": "Community",
             "pages": [
-              "releases/feature-requests"
+              "releases/feature-requests",
+              "releases/bug-reports"
             ]
           },
           {
