@@ -45,6 +45,10 @@
   // rules cannot count documents in a subcollection; keep these in step with it.
   var SHOT_MAX = 3, SHOT_EDGE = 1600, SHOT_CHARS = 700000;
   var SHOT_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+  // Mirrors the firestore.rules pattern. The rules already reject anything else,
+  // but a stored value reaches an <a href> and an <img src>, and a URL sink must
+  // not depend on a single remote control being correctly deployed.
+  var SHOT_URL = /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/;
   var HEADLINE_MAX = 90;
 
   var DAY_MS = 86400000, WINDOW_DAYS = 14;
@@ -365,7 +369,7 @@
     var bySlot = {};
     snap.docs.forEach(function (d) { bySlot[d.id] = String(d.data().data || ''); });
     item.shots = ['1', '2', '3'].map(function (slot) { return bySlot[slot]; })
-      .filter(function (v) { return !!v; });
+      .filter(function (v) { return !!v && SHOT_URL.test(v); });
   }
 
   /* ---- screenshot preparation (client-side, before any write) ---- */
@@ -401,6 +405,7 @@
     var attempts = [[SHOT_EDGE, 0.8], [SHOT_EDGE, 0.6], [1200, 0.6]];
     for (var i = 0; i < attempts.length; i++) {
       var url = encodeImage(img, attempts[i][0], attempts[i][1]);
+      if (!SHOT_URL.test(url)) throw new Error('type');   // canvas produced something we will not store
       if (url.length <= SHOT_CHARS) return url;
     }
     throw new Error('size');
@@ -790,6 +795,9 @@
       return strip;
     }
     item.shots.forEach(function (dataUrl, index) {
+      // Final gate at the sink itself, so the guarantee holds no matter which
+      // path populated item.shots.
+      if (!SHOT_URL.test(dataUrl)) return;
       var link = document.createElement('a');
       link.href = dataUrl;
       link.target = '_blank';
