@@ -18,14 +18,35 @@ A reconciliation run is one execution of a reconciliation.
 
 ## Status interpretation
 
-| Status | Meaning |
-| --- | --- |
-| Pending | The run record exists but processing has not started or completed. |
-| Running | Darpan is processing inputs. |
-| Succeeded | Processing finished and output is ready to review. |
-| No data | Processing finished but no input data was available. |
-| Failed | Processing stopped before producing expected output. |
-| Skipped duplicate | The run matched an existing run and was skipped as a duplicate. |
+| Status | Enum ID | Meaning |
+| --- | --- | --- |
+| Pending | `AUT_STAT_PENDING` | The run record exists but processing has not started or completed. |
+| Running | `AUT_STAT_RUNNING` | Darpan is processing inputs. |
+| Succeeded | `AUT_STAT_SUCCESS` | Processing finished and output is ready to review. |
+| No data | `AUT_STAT_NO_DATA` | Processing finished but no input data was available. |
+| Failed | `AUT_STAT_FAILED` | Processing stopped before producing expected output. |
+| Skipped duplicate | `AUT_STAT_SKIP_DUP` | The run matched an existing run and was skipped as a duplicate. |
+| Cancelled | `AUT_STAT_CANCELLED` | An operator stopped the run before it finished. Work completed before the stop is discarded. |
+
+Pending and Running are the active statuses. The remaining five are terminal: a run in any of them is finished, will not change status again, and triggers run-completion alerts.
+
+## Stage sequence
+
+A run advances through stages in a fixed order. The current stage is exposed on live run status and identifies where a run is spending time or where it stopped.
+
+| Order | Stage | Purpose |
+| --- | --- | --- |
+| 1 | `RESOLVE` | Resolve the saved run, its sources, and the date window. |
+| 2 | `EXTRACT_FILE1` | Extract records from the first source. |
+| 3 | `EXTRACT_FILE2` | Extract records from the second source. |
+| 4 | `COMPARE` | Match records and apply rules. |
+| 5 | `WRITE_OUTPUT` | Write the reviewable result. |
+| 6 | `VERIFY` | Point-lookup recheck of missing-in-side differences against lookup-capable sources; may rewrite the written artifact. |
+| 7 | `NOTIFY` | Deliver run-completion alerts. |
+
+## Failure visibility
+
+A failed run stays visible rather than disappearing. Runs that failed after the most recent completed run are grouped under **Needs Attention** in run history, and a run that failed before producing any output file is still listed — a failure with no artifact is a result worth seeing, not an absence.
 
 ## Review principle
 

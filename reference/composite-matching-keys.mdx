@@ -1,0 +1,45 @@
+---
+title: "Composite matching keys"
+description: "How Darpan builds a compare ID from more than one field, and the rules a composite key must satisfy."
+---
+
+A composite matching key identifies a record using two or more fields, for cases where no single field is unique across both sources — an order line identified by order number plus line number, or a transaction identified by date plus reference.
+
+## How the compare ID is built
+
+For each source, Darpan resolves every configured key field, applies that field's normalizer, and joins the results in the order the fields are configured. The separator is the ASCII Unit Separator, `U+001F`.
+
+The separator is deliberately non-printable. A printable delimiter such as `-` or `::` can appear inside ordinary field values, so `AB-1` + `2` and `AB` + `1-2` would produce the same key. `U+001F` does not occur in normal source data, so composed keys cannot collide that way.
+
+Field order is part of the key. Both sources must list their key fields in the same logical order, or equivalent records produce different compare IDs and every row reports as missing from the other side.
+
+## Single-field keys are unchanged
+
+A key of exactly one field produces the same compare ID it always has — the field value after normalization, with no separator involved. Saved runs that use a single field are byte-identical to their previous behavior, and none of the composite-only validation below applies to them.
+
+## Validation rules
+
+These apply only to keys of two or more fields.
+
+| Rule | Behavior when violated |
+| --- | --- |
+| Every key field must be present and non-blank on every row | The run fails with an error naming the key field expressions. |
+| For JSON sources, all key fields must resolve at the same array or record level | The run is rejected before comparison, with an error stating that key fields resolved under different array paths. |
+
+Both are deliberate hard failures rather than warnings.
+
+Spark's `concat_ws` skips null columns instead of returning null for the whole expression. Without the first rule, a row missing one field of a three-field key would silently produce a shorter compare ID that could collide with an unrelated record — a wrong match reported as a confident one. Failing the run is the safer outcome.
+
+The second rule prevents a different silent error: key fields resolved under different array paths would expand into a cross product of every combination rather than one composite key per record.
+
+<Note>
+Single-field sources keep their existing behavior for missing values: rows with a null ID are dropped from the comparison rather than failing the run. Only composite keys fail loudly, because only composite keys can silently collide.
+</Note>
+
+## Normalizers
+
+Each key field carries its own normalizer, applied before the fields are joined. `CASE_FOLD` compares values without regard to case. Normalizing per field rather than across the joined key means one component can be case-insensitive while another stays exact.
+
+---
+
+To configure key fields on a saved run, see [Set up a reconciliation run](/guides/setup-reconciliation-run). For how the resulting matches are reported, see [Reconciliation runs](/reference/reconciliation-runs).

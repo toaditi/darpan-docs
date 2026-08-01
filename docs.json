@@ -63,6 +63,7 @@
             "pages": [
               "reference/file-formats",
               "reference/schema-model",
+              "reference/composite-matching-keys",
               "reference/reconciliation-runs",
               "reference/glossary"
             ]

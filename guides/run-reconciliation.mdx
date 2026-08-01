@@ -32,10 +32,38 @@ Confirm:
 2. Select the saved run or source strategy required by the workflow.
 3. Confirm schemas, primary ID fields, and RuleSet selection.
 4. Provide source files or connection-backed inputs.
-5. Start the run.
+5. Start the run. Darpan opens the run so you can watch it work.
 6. Wait for generated output.
 
 If the run setup does not exist yet, start with [Set up a reconciliation run](/guides/setup-reconciliation-run).
+
+## Watching a run
+
+Starting a run takes you straight to it, so a long extract is something you can watch rather than guess at. The run shows its current stage, the files it has pulled so far, and results as they land.
+
+A run moves through a fixed sequence of stages, and the stage it is on tells you where the time is going:
+
+| Stage | What is happening |
+| --- | --- |
+| `RESOLVE` | Working out what to compare: the saved run, its sources, and the date window. |
+| `EXTRACT_FILE1` | Pulling records from the first source. |
+| `EXTRACT_FILE2` | Pulling records from the second source. |
+| `COMPARE` | Matching records and applying rules. |
+| `WRITE_OUTPUT` | Writing the result you will review. |
+| `VERIFY` | Rechecking differences against sources that support point lookups, so an export timing skew is not reported as a real difference. |
+| `NOTIFY` | Sending run-completion alerts. |
+
+To be told when it finishes instead of watching, choose **Notify me** — see [Run-completion alerts](/guides/run-completion-alerts).
+
+## Stopping a run
+
+A run started against the wrong date window does not have to finish. On a running run, choose **Cancel run**, then confirm with **Stop run**.
+
+Stopping is cooperative rather than instant. Darpan records the request and the run ends itself at its next checkpoint — a stage boundary, or a progress tick during a long paged extract — so it may keep reporting as running for a few seconds. The button reads **Stopping run…** in the meantime.
+
+<Warning>
+Any work completed so far is discarded. A stopped run finishes as cancelled and produces no reviewable output — it is not a pause, and it cannot be resumed.
+</Warning>
 
 ## Expected result
 
