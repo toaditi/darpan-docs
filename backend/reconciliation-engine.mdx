@@ -108,22 +108,32 @@ facade.ReconciliationFacadeServices.delete#GeneratedOutput
 
 ## Run-completion notifications
 
-Completed runs can alert the owning tenant so sync issues surface without anyone watching the run history page. The flow is:
+Runs that reach a terminal state alert the owning tenant so sync issues surface without anyone watching the run history page. Destinations are resolved per run rather than per tenant, which is what lets one person follow a single run without changing shared configuration.
 
-1. A run completes through one of three paths: a manual saved-run diff (`facade.ReconciliationFacadeServices.run#SavedRunDiff`), a scheduled automation execution, or SFTP polling.
-2. The completion path calls the tenant notification helper (`darpan.reconciliation.notification.TenantNotificationSupport`), which loads the tenant's `darpan.reconciliation.TenantNotificationSetting` record.
-3. If the setting is active and a Google Chat webhook URL is configured, the helper builds the message through `reconciliation.ReconciliationNotificationServices.build#RunCompletedPayload` and posts it to the webhook.
+1. A run reaches a terminal state through one of three paths: a manual saved-run diff (`facade.ReconciliationFacadeServices.run#SavedRunDiff`), a scheduled automation execution, or SFTP polling. Terminal states are `AUT_STAT_SUCCESS`, `AUT_STAT_FAILED`, `AUT_STAT_NO_DATA`, `AUT_STAT_SKIP_DUP`, and `AUT_STAT_CANCELLED`.
+2. The completion path calls `darpan.reconciliation.notification.TenantNotificationSupport`, which resolves destinations through `resolveDestinationChatSpaces`: the automation's linked `chatSpaceId`, plus the snapshotted space on every `darpan.reconciliation.ReconciliationRunNotifySubscription` row for the run.
+3. That set is deduplicated and filtered to `darpan.reconciliation.TenantChatSpace` rows that are active, hold a webhook URL, and belong to the run's own tenant. A dropped *automation-linked* space is logged as a warning; a dropped subscriber space is expected churn and stays silent.
+4. The helper builds the message through `reconciliation.ReconciliationNotificationServices.build#RunCompletedPayload` and posts it to each surviving destination.
 
-The payload includes the run name, tenant label, result ID, a link back to the run result, the difference count, and the only-in-source counts. The run-result link base URL comes from the `DARPAN_APP_BASE_URL` environment variable or the `darpan.app.baseUrl` property, falling back to the first allowed origin.
+Delivery is claim-then-deliver: a single claim per run-result means at most one notification pass even when several stages report completion. Subscription rows are purged once the run is terminal. The payload includes the run name, tenant label, result ID, a link back to the run result, the difference count, and the only-in-source counts. The run-result link base URL comes from the `DARPAN_APP_BASE_URL` environment variable or the `darpan.app.baseUrl` property, falling back to the first allowed origin.
 
-Tenants configure notifications through:
+The registry and the per-user default are configured through:
 
 ```text
-facade.SettingsFacadeServices.get#TenantNotificationSettings
-facade.SettingsFacadeServices.save#TenantNotificationSettings
+facade.SettingsFacadeServices.list#TenantChatSpaces
+facade.SettingsFacadeServices.save#TenantChatSpace
+facade.SettingsFacadeServices.delete#TenantChatSpace
+facade.SettingsFacadeServices.get#UserNotificationDefault
+facade.SettingsFacadeServices.save#UserNotificationDefault
+facade.ReconciliationFacadeServices.subscribe#RunNotification
+facade.ReconciliationFacadeServices.unsubscribe#RunNotification
 ```
 
-The webhook URL must be an `https` Google Chat space-messages endpoint on `chat.googleapis.com` with `key` and `token` query parameters. It is stored encrypted and returned only in masked form. The product-side setup flow is described in [Manage tenant settings](/guides/manage-tenant-settings).
+`save#TenantChatSpace` requires tenant write access; `save#UserNotificationDefault` and the subscribe pair are personal preferences and do not. `delete#TenantChatSpace` hard-deletes only unreferenced spaces — a space an automation or subscription points at must be deactivated instead.
+
+The webhook URL must be an `https` Google Chat space-messages endpoint on `chat.googleapis.com` with `key` and `token` query parameters. It is stored encrypted and is write-only: facade responses never return it, masked or otherwise.
+
+The single-webhook `darpan.reconciliation.TenantNotificationSetting` entity this replaced is retired. `reconciliation.ReconciliationNotificationServices.migrate#TenantNotificationSettings` is the one-time v1.2.0 upgrade that copies each tenant's old webhook into a space named `Default space` and links that tenant's space-less automations to it. It is idempotent and internal only (`allow-remote="false"`). The product-side setup flow is described in [Manage tenant settings](/guides/manage-tenant-settings).
 
 ## Stuck-run recovery
 

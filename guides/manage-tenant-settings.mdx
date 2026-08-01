@@ -1,9 +1,9 @@
 ---
 title: "Manage tenant settings"
-description: "Update tenant timezone and run-completion notification settings."
+description: "Set the shared tenant timezone and register the Google Chat spaces that reconciliation runs report to."
 ---
 
-Two settings define how your tenant behaves for everyone on it: the shared timezone and the run-completion notification channel. Neither takes long to configure — but getting both right before your first automated run saves your team from reading timestamps in the wrong zone and having to open the app to find out whether a sync failed.
+Two settings define how your tenant behaves for everyone on it: the shared timezone and the chat spaces runs report to. Neither takes long to configure — but getting both right before your first automated run saves your team from reading timestamps in the wrong zone and having to open the app to find out whether a sync failed.
 
 <Note>
 Confirm the active tenant before saving. Tenant settings apply to the selected tenant, not every tenant you can access.
@@ -16,14 +16,14 @@ Confirm:
 - You are signed in as a Tenant Admin for the tenant you want to manage.
 - The active tenant shown in **Open User Settings** is correct.
 - The tenant timezone is known.
-- The Google Chat webhook is available when run-completion notifications should be enabled.
+- A Google Chat incoming webhook is available for each space you intend to register.
 
 ## What Tenant Settings controls
 
 | Setting | Use it for | Tenant Admin access |
 | --- | --- | --- |
-| Timezone | Shared tenant date and time interpretation for workflows and schedules. | View and edit |
-| Notifications | Google Chat run-completion notifications for manual runs and automations. | View and edit |
+| Timezone | The tenant's default date and time interpretation for workflows, schedules, and date windows. | View and edit |
+| Notifications | The registry of named Google Chat spaces that finished runs report to. | View and edit |
 | AI configuration | Provider setup for assisted workflows. | Darpan Admin only |
 
 ## Steps
@@ -47,24 +47,34 @@ In **Localization**, choose **Timezone**.
 
 Select the timezone for the tenant and save. Use the timezone that operators expect for schedules, date windows, and review timestamps.
 
+This is the tenant default, not a hard rule. Anyone can set a personal timezone in **User Settings** that overrides it for their own view — see [Timezones and how dates resolve](#timezones-and-how-dates-resolve) below.
+
 </Step>
-<Step title="Configure notifications">
+<Step title="Register chat spaces">
 
 In **Operations**, choose **Notifications**.
 
-Choose the Google Chat notification action, enter the webhook URL when configuring or replacing the webhook, choose the status, and save.
+Add one entry per destination Google Chat space: a name that is unique within the tenant, and the space's incoming webhook URL. Darpan validates the URL on save and stores it encrypted — saved spaces show their name and status, never the full URL.
 
-Darpan shows saved webhook status without exposing the full webhook URL.
-
-For the end-to-end run-completion alert flow, including how alerts fire and what they contain, see [Run-completion alerts](/guides/run-completion-alerts).
+Automations link to a space, and individual users pick one of these spaces as their personal default. For the end-to-end alert flow, see [Run-completion alerts](/guides/run-completion-alerts).
 
 </Step>
 <Step title="Verify the change">
 
-Return to **Open Tenant Settings** and confirm the timezone and notification status. For notification changes, run a small saved reconciliation or automation test when the team needs proof that messages are delivered.
+Return to **Open Tenant Settings** and confirm the timezone and the registered spaces. For notification changes, run a small saved reconciliation or automation test when the team needs proof that messages are delivered.
 
 </Step>
 </Steps>
+
+## Timezones and how dates resolve
+
+Darpan resolves the timezone it displays and calculates in from the first of these that is set:
+
+1. The signed-in user's preferred timezone, from **User Settings**.
+2. The tenant timezone, from **Tenant Settings**.
+3. The browser's own timezone.
+
+This affects more than formatting. Run date windows and API day ranges are anchored to midnight in the resolved timezone, so two people on the same tenant with different personal timezones can produce different day boundaries for the same saved run. Set the tenant timezone to the one your operations actually run on, and treat personal overrides as a convenience for people working elsewhere.
 
 ## Troubleshooting
 
@@ -72,5 +82,7 @@ Return to **Open Tenant Settings** and confirm the timezone and notification sta
 | --- | --- |
 | You cannot save tenant settings | Confirm you are a Tenant Admin for the active tenant. Tenant Users can view tenant data and run reconciliation but cannot edit tenant settings. |
 | The wrong tenant changed | Switch to the intended tenant from **Open User Settings**, then review **Open Tenant Settings** again. |
-| Notification status is configured but no message arrives | Confirm the webhook is active, the run completed, and the destination space allows incoming webhooks. |
+| A space is registered but no message arrives | Confirm the space is active and still has a webhook, and that an automation is linked to it or someone subscribed with **Notify me**. Registering a space does not by itself route any run to it. |
+| A space cannot be deleted | An automation or an active run subscription still references it. Deactivate it instead. |
+| Timestamps differ between two people on the same tenant | One of them has a personal timezone set in **User Settings** that overrides the tenant default. |
 | AI configuration is unavailable | AI provider settings are Darpan Admin only. Tenant Admins manage tenant settings and tenant-owned reconciliation setup. |

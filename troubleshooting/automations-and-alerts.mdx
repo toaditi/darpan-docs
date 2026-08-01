@@ -32,7 +32,7 @@ The stuck-run reaper is an internal service (`allow-remote="false"`) and does no
 
 ## Alert never arrived
 
-Run-completion alerts post a Google Chat message to the tenant's configured webhook when any reconciliation run finishes — manual or automated. If no message arrived, check the following.
+Run-completion alerts post a Google Chat message when any reconciliation run reaches a final state — manual or automated, succeeded or failed. A run reports to the chat space its automation is linked to, plus the space of anyone who subscribed with **Notify me**. Registering a space in Tenant Settings does not by itself route any run to it, which is the most common reason a correctly configured space stays quiet.
 
 <Note>
 Notification delivery is best-effort. A run never fails because an alert could not be sent. The run result is always saved and viewable in the app regardless of whether the alert fired.
@@ -40,15 +40,21 @@ Notification delivery is best-effort. A run never fails because an alert could n
 
 | Symptom | What to check |
 | --- | --- |
-| No message arrives after a run | Confirm the webhook status is active for the correct tenant, the run actually completed, and the Google Chat space allows incoming webhooks. |
+| No message arrives after a run | Confirm something routes the run to a space: the automation is linked to one, or you subscribed with **Notify me**. Then confirm the space is active, still has a webhook, and belongs to the run's tenant. |
+| One automation's alerts stopped, others still arrive | Its linked space was deactivated or lost its webhook. Darpan logs a warning naming the dropped space. Relink the automation or reactivate the space. |
+| **Notify me** does not subscribe | You have no default chat space set. Set one in **User Settings**, then subscribe again. |
+| Alerts arrived for older runs but not this one | Subscriptions cover a single run and are cleared once it finishes. Subscribe again on the new run. |
 | Save is rejected | The webhook URL must be `https` on `chat.googleapis.com`, target a space messages endpoint, and include `key` and `token` query parameters. |
+| A space cannot be deleted | An automation or an active subscription still references it. Deactivate it instead. |
 | Message arrives but the link does not open the result | Confirm the run produced a saved result and that the app base URL for the environment is reachable. |
-| Alerts stopped after a tenant switch | Notification settings are per tenant. Confirm the active tenant matches the runs you expect alerts for. |
+| Alerts stopped after a tenant switch | Chat spaces are per tenant. Confirm the active tenant matches the runs you expect alerts for. |
 
 **Run-result link points to the wrong URL**
 
 The link in the alert derives its base URL from the `DARPAN_APP_BASE_URL` environment variable or the `darpan.app.baseUrl` property, falling back to the first allowed origin. If the link opens the wrong environment, verify these settings on the server side.
 
-**Set up or update the webhook**
+**Set up or update a chat space**
 
-To configure or change the Google Chat webhook, go to [Run-completion alerts](/guides/run-completion-alerts). Notification settings are managed in **Tenant Settings** under **Operations → Notifications**. Only Tenant Admins can save changes there.
+To add, rename, or deactivate a chat space, go to [Run-completion alerts](/guides/run-completion-alerts). The registry lives in **Tenant Settings** under **Operations → Notifications**, and only Tenant Admins can save changes there.
+
+Choosing your own default space in **User Settings** and using **Notify me** on a run are personal preferences and need no tenant write access.

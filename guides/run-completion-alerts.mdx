@@ -1,20 +1,24 @@
 ---
 title: "Run-completion alerts"
-description: "Get a Google Chat message whenever a reconciliation run finishes, so sync differences surface without manual checking."
+description: "Send finished reconciliation runs to named Google Chat spaces, and let anyone follow a single run without changing tenant settings."
 ---
 
-Without alerts, a failed reconciliation runs and no one knows until someone opens the app to check. Run-completion alerts close that gap — when any run finishes, Darpan posts a summary to your tenant's Google Chat space with the difference counts and a link straight to the result. A sync break surfaces in chat the moment it happens.
+A run that fails at 3am is only a problem if nobody finds out until morning. Run-completion alerts close that gap: when a run reaches any final state — succeeded, failed, cancelled, or nothing-to-compare — Darpan posts a summary to Google Chat with the difference counts and a link straight to the result.
 
-Alerts fire for both manual runs and automations, so a scheduled comparison reaches the team without any manual checking.
+Alerts are built around a **registry of named chat spaces** for the tenant. An automation points at one space permanently. Anyone watching a run can point that single run at their own space with **Notify me**, without touching tenant settings or interrupting anyone else's alerts.
 
 ## How the flow works
 
-1. A reconciliation run finishes. This happens for a run started manually and for a run started by an [automation](/guides/setup-automation).
-2. Darpan checks the active tenant's notification setting. If a Google Chat webhook is configured and active, it continues. If not, the run completes normally with no alert.
-3. Darpan builds a run-completed summary from the result: the run name, tenant, result ID, difference count, the "only in" counts for each side, and a link to open the run result.
-4. Darpan posts that summary to the tenant's Google Chat webhook.
+1. A run finishes. This applies to a run started manually and to a run started by an [automation](/guides/setup-automation).
+2. Darpan collects the destinations for that run: the automation's linked chat space, plus one space for each person who subscribed with **Notify me**.
+3. That list is deduplicated, then filtered to spaces that are active, have a webhook configured, and belong to the run's own tenant. One space subscribed by three people receives one message.
+4. Darpan builds a summary from the result and posts it to each surviving destination.
 
-Notification delivery is best-effort. A run never fails because an alert could not be sent. If the webhook is unreachable, the run result is still saved and viewable in the app.
+A run never fails because an alert could not be sent. If a webhook is unreachable, the result is still saved and viewable in the app. Each run notifies at most once, even if several stages report completion.
+
+<Note>
+Alerts fire on every final state, not only success. A failed run, a cancelled run, and a run that found no data all produce a message — which is the point, since silence used to be indistinguishable from success.
+</Note>
 
 ## What the alert contains
 
@@ -31,11 +35,11 @@ Notification delivery is best-effort. A run never fails because an alert could n
 
 Confirm:
 
-- You are a Tenant Admin for the tenant you want alerts on.
+- You are a Tenant Admin for the tenant, if you intend to add or change chat spaces. Choosing your own default space and using **Notify me** are personal preferences and need no tenant write access.
 - The correct tenant is active.
-- You can create or read a Google Chat incoming webhook for the destination space. The webhook URL must be an `https` URL on `chat.googleapis.com` that targets a space messages endpoint and includes its `key` and `token` query parameters.
+- You can create or read a Google Chat incoming webhook for each destination space. The webhook URL must be an `https` URL on `chat.googleapis.com` that targets a space messages endpoint and includes its `key` and `token` query parameters.
 
-## Steps
+## Register a chat space
 
 <Steps>
 <Step title="Create the Google Chat webhook">
@@ -48,35 +52,59 @@ In the Google Chat space that should receive alerts, create an incoming webhook 
 Open **Ask Darpan**, search for **Open Tenant Settings**, and open the result. Confirm the active tenant is the one you want alerts on.
 
 </Step>
-<Step title="Save the webhook">
+<Step title="Add the space">
 
-In **Operations**, choose **Notifications**. Choose the Google Chat notification action, paste the webhook URL, set the status to active, and save.
+In **Operations**, choose **Notifications**. Add a space, give it a name, and paste the webhook URL.
 
-Darpan validates the webhook URL on save and stores it encrypted. Saved settings show the webhook status without exposing the full URL.
+The name must be unique within the tenant and is what everyone else picks from later, so name it after the destination rather than the run — `Ops alerts` rather than `Nightly Shopify`.
 
-</Step>
-<Step title="Verify delivery">
-
-Run a small saved reconciliation, or wait for the next automation, and confirm a run-completed message arrives in the Google Chat space. Open the run result link from the message to confirm it points at the right result.
+Darpan validates the webhook URL on save and stores it encrypted. The URL is write-only: saved spaces show their status and name, never the full URL.
 
 </Step>
 </Steps>
 
+Repeat for each destination. A tenant can hold as many spaces as it needs — one for operations, one for a client-facing channel, one for a single team.
+
+## Route alerts to a space
+
+There are three ways a message reaches a space, and they stack.
+
+**An automation's linked space.** When you create or edit an [automation](/guides/setup-automation), the chat-space step offers your default space, any existing space, a new space, or none. Every run that automation starts reports to the space it is linked to.
+
+**Your personal default.** In **User Settings**, the **Notifications** card sets which space your own alerts go to. This is a personal preference — it needs no tenant write access, and it does not change anyone else's alerts. A default pointing at a space that was deleted or deactivated reads as not configured.
+
+**Notify me, for one run.** On a running run, choose **Notify me**. Darpan snapshots your default space at that moment and notifies it when that run finishes; the button then reads **Notifying —** followed by the space name. Choosing it again unsubscribes. Subscriptions are cleared once the run finishes, so they never leak into later runs.
+
+<Note>
+**Notify me** needs a default chat space to snapshot. If you have not set one, Darpan says so instead of subscribing you silently — set the default in **User Settings** first.
+</Note>
+
 ## Expected result
 
-Every completed run for the tenant posts a summary to Google Chat while the webhook is active. A run with differences is visible in chat with a one-click path to the result, so authored rules turn directly into alerts.
+Every finished run reports to its automation's space, and to the space of anyone who asked to be notified. A failure surfaces in chat with a one-click path to the result.
 
 ## Turning alerts off
 
-Set the notification status to inactive in **Tenant Settings**. The webhook stays stored but no messages are sent until it is reactivated.
+Deactivate the space in **Tenant Settings** to stop messages while keeping the configuration. Alternatively, unlink the automation from its space, or clear your personal default.
+
+A space that nothing references can be deleted outright. A space still referenced by an automation or a subscription must be deactivated instead — Darpan refuses the delete rather than silently breaking the automation pointing at it.
+
+## Upgrading from the single tenant webhook
+
+Before v1.2.0 a tenant had exactly one Google Chat webhook. On upgrade, that webhook is copied into a space named **Default space**, and every automation without its own space is linked to it. Existing alerts keep arriving in the same place with no action from you.
+
+The one change worth making afterwards is renaming **Default space** to something that describes the destination, since it now sits in a list beside the others.
 
 ## Troubleshooting
 
 | Symptom | What to check |
 | --- | --- |
-| No message arrives after a run | Confirm the webhook status is active for the correct tenant, the run actually completed, and the Google Chat space allows incoming webhooks. |
+| No message arrives after a run | Confirm the space is active and still has a webhook, the automation is linked to it, and the run reached a final state. |
+| An automation's alerts stopped, but others still arrive | The linked space was deactivated or lost its webhook. Darpan logs a warning naming the dropped space; relink the automation or reactivate the space. |
+| **Notify me** does not subscribe | You have no default chat space set. Set one in **User Settings**. |
 | Save is rejected | The webhook URL must be `https` on `chat.googleapis.com`, target a space messages endpoint, and include `key` and `token` query parameters. |
+| A space cannot be deleted | An automation or an active subscription still references it. Deactivate it instead. |
 | Message arrives but the link does not open the result | Confirm the run produced a saved result and that the app base URL for the environment is reachable. |
-| Alerts stopped after a tenant switch | Notification settings are per tenant. Confirm the active tenant matches the runs you expect alerts for. |
+| Alerts stopped after a tenant switch | Chat spaces are per tenant. Confirm the active tenant matches the runs you expect alerts for. |
 
 See [Manage tenant settings](/guides/manage-tenant-settings) for the full tenant settings surface and [Author reconciliation rules](/guides/author-rules) for the rules that produce the differences these alerts report.
