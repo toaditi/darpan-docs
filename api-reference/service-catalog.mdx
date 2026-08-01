@@ -16,7 +16,7 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `logout#AllSessions` | Invalidate every session for the current user. |
 | `get#SessionInfo` | Return current session, user, and active-tenant context. Anonymous-safe. |
 | `save#ActiveTenant` | Switch the active tenant for the session. |
-| `save#UserSettings` | Save per-user settings. |
+| `save#UserSettings` | Save per-user settings, including display name and preferred display timezone (IANA id; empty string clears the preference). Returns refreshed session metadata. |
 | `verify#OwnPassword` | Re-verify the current user's password. |
 | `change#OwnPassword` | Change the current user's password. |
 
@@ -27,7 +27,9 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `list#EnumOptions` | List enumeration options for settings surfaces. |
 | `get#LlmSettings` / `save#LlmSettings` | Read and save AI provider settings. |
 | `get#TenantSettings` / `save#TenantSettings` | Read and save tenant-level settings such as timezone. |
-| `get#TenantNotificationSettings` / `save#TenantNotificationSettings` | Read and save run-completion Google Chat notification settings. Webhook URLs are returned masked. |
+| `list#TenantChatSpaces` / `save#TenantChatSpace` / `delete#TenantChatSpace` | Manage the tenant's registry of named Google Chat spaces. Webhook URLs are write-only and never returned. `delete` succeeds only for unreferenced spaces. |
+| `get#UserNotificationDefault` / `save#UserNotificationDefault` | Read and set the caller's own default chat space for the active tenant. Personal preference — no tenant write access required. |
+| `test#SourceConnection` | Run a connectivity probe against a configured source. |
 | `list#SftpServers` / `save#SftpServer` | List and save SFTP server records. |
 | `list#NsAuthConfigs` / `save#NsAuthConfig` | List and save NetSuite auth configurations. |
 | `list#NsRestletConfigs` / `save#NsRestletConfig` | List and save NetSuite RESTlet endpoint configurations. |
@@ -63,6 +65,9 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `list#AutomationSourceOptions` | List configured source options for automation setup. |
 | `list#GeneratedOutputs` / `get#GeneratedOutput` / `delete#GeneratedOutput` | Manage generated reconciliation outputs. |
 | `get#GeneratedOutputDifferences` | Page through the difference rows of one generated output. |
+| `get#ReconciliationRunStatus` | Live status and per-stage timeline for one run. Tenant-gated. |
+| `cancel#ReconciliationRun` | Request that a running reconciliation stop. Cooperative — the run ends at its next checkpoint, so it may still report as running briefly. |
+| `subscribe#RunNotification` / `unsubscribe#RunNotification` | Subscribe the caller to completion notification for one active run, snapshotting their default chat space, or remove that subscription. |
 
 ## Search (`facade.SearchFacadeServices`)
 

@@ -7,8 +7,40 @@ The generated contract carries `info.x-darpan-contract-version`, decoupled from 
 
 ## Contract version 1
 
-Baseline contract (current; shipped alongside Darpan 2.1.2).
+Baseline contract (current).
 
 - JSON-RPC 2.0 transport over `POST /rpc/json`; HTTP 200 for every dispatched call.
 - Auth channels: HttpOnly `darpan_login_key` cookie plus CSRF token (browser, canonical) and `login_key` header (integration callers and fallback).
 - Method surface as documented in the [service catalog](/api-reference/service-catalog).
+
+### Method surface changes
+
+**Added — run observability**
+
+- `facade.ReconciliationFacadeServices.get#ReconciliationRunStatus`
+- `facade.ReconciliationFacadeServices.cancel#ReconciliationRun`
+- `facade.ReconciliationFacadeServices.subscribe#RunNotification`
+- `facade.ReconciliationFacadeServices.unsubscribe#RunNotification`
+
+**Added — chat-space notifications**
+
+- `facade.SettingsFacadeServices.list#TenantChatSpaces`
+- `facade.SettingsFacadeServices.save#TenantChatSpace`
+- `facade.SettingsFacadeServices.delete#TenantChatSpace`
+- `facade.SettingsFacadeServices.get#UserNotificationDefault`
+- `facade.SettingsFacadeServices.save#UserNotificationDefault`
+
+**Added — connections**
+
+- `facade.SettingsFacadeServices.test#SourceConnection`
+
+**Removed — replaced by the chat-space registry**
+
+- `facade.SettingsFacadeServices.get#TenantNotificationSettings`
+- `facade.SettingsFacadeServices.save#TenantNotificationSettings`
+
+Callers reading or writing the single tenant webhook should move to `list#TenantChatSpaces` and `save#TenantChatSpace`. Existing webhooks are carried over automatically on upgrade — see [Run-completion alerts](/guides/run-completion-alerts#upgrading-from-the-single-tenant-webhook).
+
+<Note>
+Administrative provisioning methods (`admin.*`) exist in the backend contract but are not part of the public API surface and are excluded from this reference.
+</Note>

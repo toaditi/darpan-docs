@@ -2,9 +2,9 @@
     "openapi": "3.1.0",
     "info": {
         "title": "Darpan Facade API",
-        "version": "2.1.2",
+        "version": "1.1.0",
         "x-darpan-contract-version": 1,
-        "description": "GENERATED from the facade service XML \u2014 do not edit by hand. Regenerate with ./gradlew :runtime:component:darpan:generateApiContract.\n\nTransport: JSON-RPC 2.0 over POST /rpc/json. Auth channels: browser SPA uses the HttpOnly darpan_login_key cookie + CSRF token (canonical); integration callers and no-credentialed-CORS fallbacks use the login_key header (in-memory only, never query params). HTTP status is 200 for every dispatched call; distinguish outcomes by shape. JSON-RPC error object: protocol failures (-32700 parse, -32600 invalid request, -32601 method not found, -32602 invalid params), unhandled service errors (code 500), authorization denial (code 403). Facade business validation instead returns a success envelope with result.ok=false and result.errors[]."
+        "description": "GENERATED from the facade service XML — do not edit by hand. Regenerate with ./gradlew :runtime:component:darpan:generateApiContract.\n\nTransport: JSON-RPC 2.0 over POST /rpc/json. Auth channels: browser SPA uses the HttpOnly darpan_login_key cookie + CSRF token (canonical); integration callers and no-credentialed-CORS fallbacks use the login_key header (in-memory only, never query params). HTTP status is 200 for every dispatched call; distinguish outcomes by shape. JSON-RPC error object: protocol failures (-32700 parse, -32600 invalid request, -32601 method not found, -32602 invalid params), unhandled service errors (code 500), authorization denial (code 403). Facade business validation instead returns a success envelope with result.ok=false and result.errors[]."
     },
     "servers": [
         {
@@ -81,6 +81,9 @@
                                         "$ref": "#/components/schemas/ValidateJsonTextAgainstSchemaRequest"
                                     },
                                     {
+                                        "$ref": "#/components/schemas/CancelReconciliationRunRequest"
+                                    },
+                                    {
                                         "$ref": "#/components/schemas/CreateCsvRunRequest"
                                     },
                                     {
@@ -109,6 +112,9 @@
                                     },
                                     {
                                         "$ref": "#/components/schemas/GetMappingRequest"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/GetReconciliationRunStatusRequest"
                                     },
                                     {
                                         "$ref": "#/components/schemas/ListAutomationExecutionsRequest"
@@ -165,16 +171,25 @@
                                         "$ref": "#/components/schemas/SaveSavedRunNameRequest"
                                     },
                                     {
+                                        "$ref": "#/components/schemas/SubscribeRunNotificationRequest"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/UnsubscribeRunNotificationRequest"
+                                    },
+                                    {
                                         "$ref": "#/components/schemas/SearchNavigationTargetsRequest"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/DeleteTenantChatSpaceRequest"
                                     },
                                     {
                                         "$ref": "#/components/schemas/GetLlmSettingsRequest"
                                     },
                                     {
-                                        "$ref": "#/components/schemas/GetTenantNotificationSettingsRequest"
+                                        "$ref": "#/components/schemas/GetTenantSettingsRequest"
                                     },
                                     {
-                                        "$ref": "#/components/schemas/GetTenantSettingsRequest"
+                                        "$ref": "#/components/schemas/GetUserNotificationDefaultRequest"
                                     },
                                     {
                                         "$ref": "#/components/schemas/ListEnumOptionsRequest"
@@ -189,6 +204,9 @@
                                         "$ref": "#/components/schemas/ListSftpServersRequest"
                                     },
                                     {
+                                        "$ref": "#/components/schemas/ListTenantChatSpacesRequest"
+                                    },
+                                    {
                                         "$ref": "#/components/schemas/SaveLlmSettingsRequest"
                                     },
                                     {
@@ -201,10 +219,16 @@
                                         "$ref": "#/components/schemas/SaveSftpServerRequest"
                                     },
                                     {
-                                        "$ref": "#/components/schemas/SaveTenantNotificationSettingsRequest"
+                                        "$ref": "#/components/schemas/SaveTenantChatSpaceRequest"
                                     },
                                     {
                                         "$ref": "#/components/schemas/SaveTenantSettingsRequest"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/SaveUserNotificationDefaultRequest"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/TestSourceConnectionRequest"
                                     },
                                     {
                                         "$ref": "#/components/schemas/DeleteShopifyAuthConfigRequest"
@@ -241,6 +265,7 @@
                                         "facade.JsonSchemaFacadeServices.save#JsonSchemaText": "#/components/schemas/SaveJsonSchemaTextRequest",
                                         "facade.JsonSchemaFacadeServices.save#RefinedSchema": "#/components/schemas/SaveRefinedSchemaRequest",
                                         "facade.JsonSchemaFacadeServices.validate#JsonTextAgainstSchema": "#/components/schemas/ValidateJsonTextAgainstSchemaRequest",
+                                        "facade.ReconciliationFacadeServices.cancel#ReconciliationRun": "#/components/schemas/CancelReconciliationRunRequest",
                                         "facade.ReconciliationFacadeServices.create#CsvRun": "#/components/schemas/CreateCsvRunRequest",
                                         "facade.ReconciliationFacadeServices.create#Mapping": "#/components/schemas/CreateMappingRequest",
                                         "facade.ReconciliationFacadeServices.create#RuleSetRun": "#/components/schemas/CreateRuleSetRunRequest",
@@ -251,6 +276,7 @@
                                         "facade.ReconciliationFacadeServices.get#GeneratedOutput": "#/components/schemas/GetGeneratedOutputRequest",
                                         "facade.ReconciliationFacadeServices.get#GeneratedOutputDifferences": "#/components/schemas/GetGeneratedOutputDifferencesRequest",
                                         "facade.ReconciliationFacadeServices.get#Mapping": "#/components/schemas/GetMappingRequest",
+                                        "facade.ReconciliationFacadeServices.get#ReconciliationRunStatus": "#/components/schemas/GetReconciliationRunStatusRequest",
                                         "facade.ReconciliationFacadeServices.list#AutomationExecutions": "#/components/schemas/ListAutomationExecutionsRequest",
                                         "facade.ReconciliationFacadeServices.list#AutomationSourceOptions": "#/components/schemas/ListAutomationSourceOptionsRequest",
                                         "facade.ReconciliationFacadeServices.list#Automations": "#/components/schemas/ListAutomationsRequest",
@@ -269,20 +295,26 @@
                                         "facade.ReconciliationFacadeServices.save#Mapping": "#/components/schemas/SaveMappingRequest",
                                         "facade.ReconciliationFacadeServices.save#RuleSetRun": "#/components/schemas/SaveRuleSetRunRequest",
                                         "facade.ReconciliationFacadeServices.save#SavedRunName": "#/components/schemas/SaveSavedRunNameRequest",
+                                        "facade.ReconciliationFacadeServices.subscribe#RunNotification": "#/components/schemas/SubscribeRunNotificationRequest",
+                                        "facade.ReconciliationFacadeServices.unsubscribe#RunNotification": "#/components/schemas/UnsubscribeRunNotificationRequest",
                                         "facade.SearchFacadeServices.search#NavigationTargets": "#/components/schemas/SearchNavigationTargetsRequest",
+                                        "facade.SettingsFacadeServices.delete#TenantChatSpace": "#/components/schemas/DeleteTenantChatSpaceRequest",
                                         "facade.SettingsFacadeServices.get#LlmSettings": "#/components/schemas/GetLlmSettingsRequest",
-                                        "facade.SettingsFacadeServices.get#TenantNotificationSettings": "#/components/schemas/GetTenantNotificationSettingsRequest",
                                         "facade.SettingsFacadeServices.get#TenantSettings": "#/components/schemas/GetTenantSettingsRequest",
+                                        "facade.SettingsFacadeServices.get#UserNotificationDefault": "#/components/schemas/GetUserNotificationDefaultRequest",
                                         "facade.SettingsFacadeServices.list#EnumOptions": "#/components/schemas/ListEnumOptionsRequest",
                                         "facade.SettingsFacadeServices.list#NsAuthConfigs": "#/components/schemas/ListNsAuthConfigsRequest",
                                         "facade.SettingsFacadeServices.list#NsRestletConfigs": "#/components/schemas/ListNsRestletConfigsRequest",
                                         "facade.SettingsFacadeServices.list#SftpServers": "#/components/schemas/ListSftpServersRequest",
+                                        "facade.SettingsFacadeServices.list#TenantChatSpaces": "#/components/schemas/ListTenantChatSpacesRequest",
                                         "facade.SettingsFacadeServices.save#LlmSettings": "#/components/schemas/SaveLlmSettingsRequest",
                                         "facade.SettingsFacadeServices.save#NsAuthConfig": "#/components/schemas/SaveNsAuthConfigRequest",
                                         "facade.SettingsFacadeServices.save#NsRestletConfig": "#/components/schemas/SaveNsRestletConfigRequest",
                                         "facade.SettingsFacadeServices.save#SftpServer": "#/components/schemas/SaveSftpServerRequest",
-                                        "facade.SettingsFacadeServices.save#TenantNotificationSettings": "#/components/schemas/SaveTenantNotificationSettingsRequest",
+                                        "facade.SettingsFacadeServices.save#TenantChatSpace": "#/components/schemas/SaveTenantChatSpaceRequest",
                                         "facade.SettingsFacadeServices.save#TenantSettings": "#/components/schemas/SaveTenantSettingsRequest",
+                                        "facade.SettingsFacadeServices.save#UserNotificationDefault": "#/components/schemas/SaveUserNotificationDefaultRequest",
+                                        "facade.SettingsFacadeServices.test#SourceConnection": "#/components/schemas/TestSourceConnectionRequest",
                                         "facade.ShopifyFacadeServices.delete#ShopifyAuthConfig": "#/components/schemas/DeleteShopifyAuthConfigRequest",
                                         "facade.ShopifyFacadeServices.get#ShopifyAuthConfig": "#/components/schemas/GetShopifyAuthConfigRequest",
                                         "facade.ShopifyFacadeServices.list#ShopifyAuthConfigs": "#/components/schemas/ListShopifyAuthConfigsRequest",
@@ -295,7 +327,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "JSON-RPC response \u2014 success envelope, or protocol error object",
+                        "description": "JSON-RPC response — success envelope, or protocol error object",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -361,6 +393,9 @@
                                             "$ref": "#/components/schemas/ValidateJsonTextAgainstSchemaResponse"
                                         },
                                         {
+                                            "$ref": "#/components/schemas/CancelReconciliationRunResponse"
+                                        },
+                                        {
                                             "$ref": "#/components/schemas/CreateCsvRunResponse"
                                         },
                                         {
@@ -389,6 +424,9 @@
                                         },
                                         {
                                             "$ref": "#/components/schemas/GetMappingResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/GetReconciliationRunStatusResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/ListAutomationExecutionsResponse"
@@ -445,16 +483,25 @@
                                             "$ref": "#/components/schemas/SaveSavedRunNameResponse"
                                         },
                                         {
+                                            "$ref": "#/components/schemas/SubscribeRunNotificationResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/UnsubscribeRunNotificationResponse"
+                                        },
+                                        {
                                             "$ref": "#/components/schemas/SearchNavigationTargetsResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/DeleteTenantChatSpaceResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/GetLlmSettingsResponse"
                                         },
                                         {
-                                            "$ref": "#/components/schemas/GetTenantNotificationSettingsResponse"
+                                            "$ref": "#/components/schemas/GetTenantSettingsResponse"
                                         },
                                         {
-                                            "$ref": "#/components/schemas/GetTenantSettingsResponse"
+                                            "$ref": "#/components/schemas/GetUserNotificationDefaultResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/ListEnumOptionsResponse"
@@ -469,6 +516,9 @@
                                             "$ref": "#/components/schemas/ListSftpServersResponse"
                                         },
                                         {
+                                            "$ref": "#/components/schemas/ListTenantChatSpacesResponse"
+                                        },
+                                        {
                                             "$ref": "#/components/schemas/SaveLlmSettingsResponse"
                                         },
                                         {
@@ -481,10 +531,16 @@
                                             "$ref": "#/components/schemas/SaveSftpServerResponse"
                                         },
                                         {
-                                            "$ref": "#/components/schemas/SaveTenantNotificationSettingsResponse"
+                                            "$ref": "#/components/schemas/SaveTenantChatSpaceResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/SaveTenantSettingsResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/SaveUserNotificationDefaultResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/TestSourceConnectionResponse"
                                         },
                                         {
                                             "$ref": "#/components/schemas/DeleteShopifyAuthConfigResponse"
@@ -541,7 +597,7 @@
             },
             "JsonRpcErrorResponse": {
                 "type": "object",
-                "description": "Dispatcher-level failure: protocol errors (-32xxx), unhandled service errors (code 500), or authorization denial (code 403). Facade business validation does NOT use this shape \u2014 it returns a success envelope with result.ok=false and result.errors[].",
+                "description": "Dispatcher-level failure: protocol errors (-32xxx), unhandled service errors (code 500), or authorization denial (code 403). Facade business validation does NOT use this shape — it returns a success envelope with result.ok=false and result.errors[].",
                 "properties": {
                     "jsonrpc": {
                         "type": "string",
@@ -639,6 +695,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -648,7 +710,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -674,7 +736,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -792,9 +854,7 @@
             },
             "GetSessionInfoParams": {
                 "type": "object",
-                "properties": {
-                    
-                },
+                "properties": {},
                 "description": "Return session metadata for darpan-ui route guards. Moqui resolves the request user from the explicit `login_key` header when present."
             },
             "GetSessionInfoResult": {
@@ -840,6 +900,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -849,7 +915,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -875,7 +941,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -1068,6 +1134,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -1077,7 +1149,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -1103,7 +1175,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -1221,9 +1293,7 @@
             },
             "LogoutAllSessionsParams": {
                 "type": "object",
-                "properties": {
-                    
-                },
+                "properties": {},
                 "description": "Revoke every active UserLoginKey for the authenticated user (sign out on every device)."
             },
             "LogoutAllSessionsResult": {
@@ -1318,10 +1388,8 @@
             },
             "LogoutSessionParams": {
                 "type": "object",
-                "properties": {
-                    
-                },
-                "description": "Revoke the explicit login-key token from the current request and terminate any active authenticated session."
+                "properties": {},
+                "description": "Revoke the login-key token from the current request (header or cookie) and end the caller's own session only.\n            Other active sessions on the same UserAccount — including other people on a shared login — are not affected;\n            use logout#AllSessions to revoke every session."
             },
             "LogoutSessionResult": {
                 "type": "object",
@@ -1470,6 +1538,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -1479,7 +1553,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -1505,7 +1579,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -1627,6 +1701,10 @@
                     "displayName": {
                         "type": "string",
                         "description": "Optional user display name shown by darpan-ui instead of username."
+                    },
+                    "timeZone": {
+                        "type": "string",
+                        "description": "Optional preferred display timezone (IANA id). Empty string clears the preference; absent leaves it unchanged."
                     }
                 },
                 "description": "Persist authenticated user-level settings and return refreshed session metadata."
@@ -1674,6 +1752,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -1683,7 +1767,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -1709,7 +1793,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -1885,6 +1969,12 @@
                             "timeZone": {
                                 "type": "string"
                             },
+                            "userTimeZone": {
+                                "type": "string"
+                            },
+                            "tenantTimeZone": {
+                                "type": "string"
+                            },
                             "lastLoginDate": {
                                 "oneOf": [
                                     {
@@ -1894,7 +1984,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastRun": {
                                 "type": "object",
@@ -1920,7 +2010,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             },
@@ -2056,15 +2146,11 @@
                     },
                     "messages": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "errors": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "deleted": {
                         "type": "boolean"
@@ -2157,21 +2243,15 @@
                     },
                     "messages": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "errors": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "omsRestSourceConfigs": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "pagination": {
                         "type": "object",
@@ -2313,15 +2393,11 @@
                     },
                     "messages": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "errors": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "savedOmsRestSourceConfig": {
                         "type": "object"
@@ -2656,7 +2732,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastUpdatedStamp": {
                                 "oneOf": [
@@ -2667,7 +2743,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             }
                         }
                     }
@@ -2925,7 +3001,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "lastUpdatedStamp": {
                                     "oneOf": [
@@ -2936,7 +3012,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 }
                             }
                         }
@@ -3087,7 +3163,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             }
                         }
                     }
@@ -3170,9 +3246,7 @@
                     },
                     "fieldList": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     }
                 },
                 "required": [
@@ -3231,7 +3305,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             }
                         }
                     }
@@ -3407,6 +3481,104 @@
                     "result"
                 ]
             },
+            "CancelReconciliationRunParams": {
+                "type": "object",
+                "properties": {
+                    "reconciliationRunResultId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "reconciliationRunResultId"
+                ],
+                "description": "Ask a running reconciliation to stop. Tenant-gated. Cancellation is cooperative: this\n            records the request and the run ends itself AUT_STAT_CANCELLED at its next checkpoint\n            (a stage boundary, or an extract progress tick during a long paged extract), so the\n            run may still report RUNNING for a few seconds after this returns."
+            },
+            "CancelReconciliationRunResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "cancelRequested": {
+                        "type": "boolean"
+                    },
+                    "statusEnumId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CancelReconciliationRunRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.ReconciliationFacadeServices.cancel#ReconciliationRun",
+                "x-darpan-method": "facade.ReconciliationFacadeServices.cancel#ReconciliationRun",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.ReconciliationFacadeServices.cancel#ReconciliationRun"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/CancelReconciliationRunParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "CancelReconciliationRunResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.ReconciliationFacadeServices.cancel#ReconciliationRun. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/CancelReconciliationRunResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
             "CreateCsvRunParams": {
                 "type": "object",
                 "properties": {
@@ -3520,6 +3692,10 @@
                                         },
                                         "idFieldExpression": {
                                             "type": "string"
+                                        },
+                                        "idFieldExpressions": {
+                                            "type": "array",
+                                            "items": {}
                                         },
                                         "schemaFileName": {
                                             "type": "string"
@@ -3797,6 +3973,10 @@
                     "file1PrimaryIdExpression": {
                         "type": "string"
                     },
+                    "file1PrimaryIdExpressions": {
+                        "type": "array",
+                        "items": {}
+                    },
                     "file2SystemEnumId": {
                         "type": "string"
                     },
@@ -3826,6 +4006,10 @@
                     },
                     "file2PrimaryIdExpression": {
                         "type": "string"
+                    },
+                    "file2PrimaryIdExpressions": {
+                        "type": "array",
+                        "items": {}
                     },
                     "rules": {
                         "type": "array",
@@ -3949,6 +4133,10 @@
                                         },
                                         "idFieldExpression": {
                                             "type": "string"
+                                        },
+                                        "idFieldExpressions": {
+                                            "type": "array",
+                                            "items": {}
                                         },
                                         "schemaFileName": {
                                             "type": "string"
@@ -4747,15 +4935,11 @@
                     },
                     "ruleOptions": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "differences": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "pageIndex": {
                         "type": "integer"
@@ -4972,6 +5156,260 @@
                     "result"
                 ]
             },
+            "GetReconciliationRunStatusParams": {
+                "type": "object",
+                "properties": {
+                    "reconciliationRunResultId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "reconciliationRunResultId"
+                ],
+                "description": "Live status + per-stage timeline for one reconciliation run. Tenant-gated."
+            },
+            "GetReconciliationRunStatusResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "statusEnumId": {
+                        "type": "string"
+                    },
+                    "currentStage": {
+                        "type": "string"
+                    },
+                    "progressPercent": {
+                        "type": "integer"
+                    },
+                    "startedDate": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                    },
+                    "lastHeartbeatDate": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                    },
+                    "completedDate": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                    },
+                    "errorMessage": {
+                        "type": "string"
+                    },
+                    "steps": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "stageCode": {
+                                    "type": "string"
+                                },
+                                "stageSequence": {
+                                    "type": "integer"
+                                },
+                                "statusEnumId": {
+                                    "type": "string"
+                                },
+                                "startedDate": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                                },
+                                "completedDate": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                                },
+                                "recordCount": {
+                                    "type": "integer"
+                                },
+                                "errorMessage": {
+                                    "type": "string"
+                                },
+                                "metricsJson": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "mySubscription": {
+                        "type": "boolean"
+                    },
+                    "mySubscriptionSpaceName": {
+                        "type": "string"
+                    },
+                    "cancelRequestedDate": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ],
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds. Set once an operator asked to stop the run; it stays RUNNING until the next cancel checkpoint."
+                    },
+                    "resultFileName": {
+                        "type": "string",
+                        "description": "Normalized result path once WRITE_OUTPUT lands; lets the live view swap to the saved result on completion."
+                    },
+                    "sourceDetails": {
+                        "type": "object",
+                        "properties": {
+                            "mode": {
+                                "type": "string"
+                            },
+                            "dateRange": {
+                                "type": "object",
+                                "properties": {
+                                    "start": {
+                                        "type": "string"
+                                    },
+                                    "end": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "side": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "fileName": {
+                                            "type": "string"
+                                        },
+                                        "filePath": {
+                                            "type": "string"
+                                        },
+                                        "downloadFileName": {
+                                            "type": "string"
+                                        },
+                                        "sourceFormat": {
+                                            "type": "string"
+                                        },
+                                        "canDownload": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "GetReconciliationRunStatusRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.ReconciliationFacadeServices.get#ReconciliationRunStatus",
+                "x-darpan-method": "facade.ReconciliationFacadeServices.get#ReconciliationRunStatus",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.ReconciliationFacadeServices.get#ReconciliationRunStatus"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/GetReconciliationRunStatusParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "GetReconciliationRunStatusResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.ReconciliationFacadeServices.get#ReconciliationRunStatus. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/GetReconciliationRunStatusResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
             "ListAutomationExecutionsParams": {
                 "type": "object",
                 "properties": {
@@ -5051,7 +5489,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "startedDate": {
                                     "oneOf": [
@@ -5062,7 +5500,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "completedDate": {
                                     "oneOf": [
@@ -5073,7 +5511,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "resultFileName": {
                                     "type": "string"
@@ -5169,9 +5607,7 @@
             },
             "ListAutomationSourceOptionsParams": {
                 "type": "object",
-                "properties": {
-                    
-                },
+                "properties": {},
                 "description": "List active-tenant saved runs, SFTP servers, NetSuite endpoints, system remotes, and enum options needed by automation workflows."
             },
             "ListAutomationSourceOptionsResult": {
@@ -5309,33 +5745,23 @@
                     },
                     "savedRuns": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "sftpServers": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "sourceConfigs": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "nsRestletConfigs": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     },
                     "systemRemotes": {
                         "type": "array",
-                        "items": {
-                            
-                        }
+                        "items": {}
                     }
                 }
             },
@@ -5517,7 +5943,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "lastScheduledFireTime": {
                                     "oneOf": [
@@ -5528,7 +5954,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "relativeWindowTypeEnumId": {
                                     "type": "string"
@@ -5548,7 +5974,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "customWindowEndDate": {
                                     "oneOf": [
@@ -5559,7 +5985,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "maxWindowDays": {
                                     "type": "integer"
@@ -5571,6 +5997,15 @@
                                     "type": "string"
                                 },
                                 "active": {
+                                    "type": "boolean"
+                                },
+                                "chatSpaceId": {
+                                    "type": "string"
+                                },
+                                "chatSpaceName": {
+                                    "type": "string"
+                                },
+                                "chatSpaceActive": {
                                     "type": "boolean"
                                 },
                                 "executionCount": {
@@ -5777,7 +6212,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "sizeBytes": {
                                     "type": "integer"
@@ -5787,6 +6222,12 @@
                                 },
                                 "statusLabel": {
                                     "type": "string"
+                                },
+                                "currentStage": {
+                                    "type": "string"
+                                },
+                                "progressPercent": {
+                                    "type": "integer"
                                 },
                                 "resultAvailable": {
                                     "type": "boolean"
@@ -5800,7 +6241,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "completedDate": {
                                     "oneOf": [
@@ -5811,7 +6252,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 },
                                 "lastUpdatedDate": {
                                     "oneOf": [
@@ -5822,7 +6263,7 @@
                                             "type": "number"
                                         }
                                     ],
-                                    "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                 }
                             }
                         }
@@ -5999,6 +6440,10 @@
                                             },
                                             "idFieldExpression": {
                                                 "type": "string"
+                                            },
+                                            "idFieldExpressions": {
+                                                "type": "array",
+                                                "items": {}
                                             },
                                             "schemaFileName": {
                                                 "type": "string"
@@ -6196,6 +6641,10 @@
                                             },
                                             "idFieldExpression": {
                                                 "type": "string"
+                                            },
+                                            "idFieldExpressions": {
+                                                "type": "array",
+                                                "items": {}
                                             },
                                             "schemaFileName": {
                                                 "type": "string"
@@ -6657,7 +7106,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "windowStartDate": {
                         "oneOf": [
@@ -6668,7 +7117,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "windowEndDate": {
                         "oneOf": [
@@ -6679,7 +7128,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "hasHeader": {
                         "type": "boolean"
@@ -6941,7 +7390,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "sizeBytes": {
                                         "type": "integer"
@@ -6964,7 +7413,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "completedDate": {
                                         "oneOf": [
@@ -6975,7 +7424,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "lastUpdatedDate": {
                                         "oneOf": [
@@ -6986,7 +7435,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             }
@@ -7087,7 +7536,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "windowEndDate": {
                         "oneOf": [
@@ -7098,7 +7547,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "windowStartLocalDate": {
                         "type": "string"
@@ -7265,7 +7714,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "sizeBytes": {
                                         "type": "integer"
@@ -7288,7 +7737,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "completedDate": {
                                         "oneOf": [
@@ -7299,7 +7748,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     },
                                     "lastUpdatedDate": {
                                         "oneOf": [
@@ -7310,7 +7759,7 @@
                                                 "type": "number"
                                             }
                                         ],
-                                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                                     }
                                 }
                             }
@@ -7417,7 +7866,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "lastScheduledFireTime": {
                         "oneOf": [
@@ -7428,7 +7877,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "relativeWindowTypeEnumId": {
                         "type": "string"
@@ -7445,7 +7894,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "customWindowEndDate": {
                         "oneOf": [
@@ -7456,7 +7905,7 @@
                                 "type": "number"
                             }
                         ],
-                        "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                        "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                     },
                     "maxWindowDays": {
                         "type": "integer"
@@ -7468,6 +7917,9 @@
                         "type": "string"
                     },
                     "safeConfigJson": {
+                        "type": "string"
+                    },
+                    "chatSpaceId": {
                         "type": "string"
                     },
                     "isActive": {
@@ -8022,6 +8474,10 @@
                     "file1PrimaryIdExpression": {
                         "type": "string"
                     },
+                    "file1PrimaryIdExpressions": {
+                        "type": "array",
+                        "items": {}
+                    },
                     "file2SystemEnumId": {
                         "type": "string"
                     },
@@ -8051,6 +8507,10 @@
                     },
                     "file2PrimaryIdExpression": {
                         "type": "string"
+                    },
+                    "file2PrimaryIdExpressions": {
+                        "type": "array",
+                        "items": {}
                     },
                     "rules": {
                         "type": "array",
@@ -8175,6 +8635,10 @@
                                         },
                                         "idFieldExpression": {
                                             "type": "string"
+                                        },
+                                        "idFieldExpressions": {
+                                            "type": "array",
+                                            "items": {}
                                         },
                                         "schemaFileName": {
                                             "type": "string"
@@ -8427,6 +8891,10 @@
                                         "idFieldExpression": {
                                             "type": "string"
                                         },
+                                        "idFieldExpressions": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
                                         "schemaFileName": {
                                             "type": "string"
                                         },
@@ -8514,6 +8982,202 @@
                     },
                     "result": {
                         "$ref": "#/components/schemas/SaveSavedRunNameResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "SubscribeRunNotificationParams": {
+                "type": "object",
+                "properties": {
+                    "reconciliationRunResultId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "reconciliationRunResultId"
+                ],
+                "description": "Subscribe the caller to completion notification for one active run, snapshotting their default chat space."
+            },
+            "SubscribeRunNotificationResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "subscribed": {
+                        "type": "boolean"
+                    },
+                    "needsDefaultChatSpace": {
+                        "type": "boolean"
+                    },
+                    "chatSpaceName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SubscribeRunNotificationRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.ReconciliationFacadeServices.subscribe#RunNotification",
+                "x-darpan-method": "facade.ReconciliationFacadeServices.subscribe#RunNotification",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.ReconciliationFacadeServices.subscribe#RunNotification"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/SubscribeRunNotificationParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "SubscribeRunNotificationResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.ReconciliationFacadeServices.subscribe#RunNotification. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/SubscribeRunNotificationResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "UnsubscribeRunNotificationParams": {
+                "type": "object",
+                "properties": {
+                    "reconciliationRunResultId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "reconciliationRunResultId"
+                ],
+                "description": "Remove the caller's notify-me subscription for one run."
+            },
+            "UnsubscribeRunNotificationResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "subscribed": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UnsubscribeRunNotificationRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.ReconciliationFacadeServices.unsubscribe#RunNotification",
+                "x-darpan-method": "facade.ReconciliationFacadeServices.unsubscribe#RunNotification",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.ReconciliationFacadeServices.unsubscribe#RunNotification"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/UnsubscribeRunNotificationParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "UnsubscribeRunNotificationResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.ReconciliationFacadeServices.unsubscribe#RunNotification. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/UnsubscribeRunNotificationResult"
                     }
                 },
                 "required": [
@@ -8680,6 +9344,98 @@
                     "result"
                 ]
             },
+            "DeleteTenantChatSpaceParams": {
+                "type": "object",
+                "properties": {
+                    "chatSpaceId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "chatSpaceId"
+                ],
+                "description": "Hard-delete an unreferenced chat space; referenced spaces must be deactivated instead."
+            },
+            "DeleteTenantChatSpaceResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "DeleteTenantChatSpaceRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.delete#TenantChatSpace",
+                "x-darpan-method": "facade.SettingsFacadeServices.delete#TenantChatSpace",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.SettingsFacadeServices.delete#TenantChatSpace"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/DeleteTenantChatSpaceParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "DeleteTenantChatSpaceResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.delete#TenantChatSpace. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/DeleteTenantChatSpaceResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
             "GetLlmSettingsParams": {
                 "type": "object",
                 "properties": {
@@ -8801,143 +9557,9 @@
                     "result"
                 ]
             },
-            "GetTenantNotificationSettingsParams": {
-                "type": "object",
-                "properties": {
-                    
-                },
-                "description": "Get active-tenant notification settings with Google Chat webhook redaction."
-            },
-            "GetTenantNotificationSettingsResult": {
-                "type": "object",
-                "properties": {
-                    "ok": {
-                        "type": "boolean"
-                    },
-                    "messages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "errors": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "tenantNotificationSettings": {
-                        "type": "object",
-                        "properties": {
-                            "companyUserGroupId": {
-                                "type": "string"
-                            },
-                            "companyLabel": {
-                                "type": "string"
-                            },
-                            "googleChatConfigured": {
-                                "type": "boolean"
-                            },
-                            "googleChatWebhookUrlMasked": {
-                                "type": "string"
-                            },
-                            "isActive": {
-                                "type": "string"
-                            },
-                            "createdByUserId": {
-                                "type": "string"
-                            },
-                            "createdDate": {
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "number"
-                                    }
-                                ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
-                            },
-                            "lastUpdatedDate": {
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "number"
-                                    }
-                                ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
-                            }
-                        }
-                    }
-                }
-            },
-            "GetTenantNotificationSettingsRequest": {
-                "type": "object",
-                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.get#TenantNotificationSettings",
-                "x-darpan-method": "facade.SettingsFacadeServices.get#TenantNotificationSettings",
-                "properties": {
-                    "jsonrpc": {
-                        "type": "string",
-                        "const": "2.0"
-                    },
-                    "id": {
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "method": {
-                        "type": "string",
-                        "const": "facade.SettingsFacadeServices.get#TenantNotificationSettings"
-                    },
-                    "params": {
-                        "$ref": "#/components/schemas/GetTenantNotificationSettingsParams"
-                    }
-                },
-                "required": [
-                    "jsonrpc",
-                    "id",
-                    "method"
-                ]
-            },
-            "GetTenantNotificationSettingsResponse": {
-                "type": "object",
-                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.get#TenantNotificationSettings. Check result.ok / result.errors for business failures.",
-                "properties": {
-                    "jsonrpc": {
-                        "type": "string",
-                        "const": "2.0"
-                    },
-                    "id": {
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
-                    },
-                    "result": {
-                        "$ref": "#/components/schemas/GetTenantNotificationSettingsResult"
-                    }
-                },
-                "required": [
-                    "jsonrpc",
-                    "result"
-                ]
-            },
             "GetTenantSettingsParams": {
                 "type": "object",
-                "properties": {
-                    
-                },
+                "properties": {},
                 "description": "Get active-tenant settings shared by users in the tenant."
             },
             "GetTenantSettingsResult": {
@@ -8982,7 +9604,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastUpdatedDate": {
                                 "oneOf": [
@@ -8993,7 +9615,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             }
                         }
                     }
@@ -9052,6 +9674,105 @@
                     },
                     "result": {
                         "$ref": "#/components/schemas/GetTenantSettingsResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "GetUserNotificationDefaultParams": {
+                "type": "object",
+                "properties": {},
+                "description": "Get the caller's default chat space for the active tenant; stale or inactive pointers read as not configured."
+            },
+            "GetUserNotificationDefaultResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "userNotificationDefault": {
+                        "type": "object",
+                        "properties": {
+                            "chatSpaceId": {
+                                "type": "string"
+                            },
+                            "spaceName": {
+                                "type": "string"
+                            },
+                            "isActive": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "GetUserNotificationDefaultRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.get#UserNotificationDefault",
+                "x-darpan-method": "facade.SettingsFacadeServices.get#UserNotificationDefault",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.SettingsFacadeServices.get#UserNotificationDefault"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/GetUserNotificationDefaultParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "GetUserNotificationDefaultResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.get#UserNotificationDefault. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/GetUserNotificationDefaultResult"
                     }
                 },
                 "required": [
@@ -9641,6 +10362,142 @@
                     },
                     "result": {
                         "$ref": "#/components/schemas/ListSftpServersResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "ListTenantChatSpacesParams": {
+                "type": "object",
+                "properties": {},
+                "description": "List active-tenant Google Chat spaces with webhook redaction."
+            },
+            "ListTenantChatSpacesResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "chatSpaces": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "chatSpaceId": {
+                                    "type": "string"
+                                },
+                                "spaceName": {
+                                    "type": "string"
+                                },
+                                "googleChatConfigured": {
+                                    "type": "boolean"
+                                },
+                                "googleChatWebhookUrlMasked": {
+                                    "type": "string"
+                                },
+                                "isActive": {
+                                    "type": "string"
+                                },
+                                "inUse": {
+                                    "type": "boolean"
+                                },
+                                "createdByUserId": {
+                                    "type": "string"
+                                },
+                                "createdDate": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                                },
+                                "lastUpdatedDate": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "description": "Timestamp — ISO-8601 string or epoch milliseconds"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ListTenantChatSpacesRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.list#TenantChatSpaces",
+                "x-darpan-method": "facade.SettingsFacadeServices.list#TenantChatSpaces",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.SettingsFacadeServices.list#TenantChatSpaces"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/ListTenantChatSpacesParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "ListTenantChatSpacesResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.list#TenantChatSpaces. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/ListTenantChatSpacesResult"
                     }
                 },
                 "required": [
@@ -10241,9 +11098,15 @@
                     "result"
                 ]
             },
-            "SaveTenantNotificationSettingsParams": {
+            "SaveTenantChatSpaceParams": {
                 "type": "object",
                 "properties": {
+                    "chatSpaceId": {
+                        "type": "string"
+                    },
+                    "spaceName": {
+                        "type": "string"
+                    },
                     "googleChatWebhookUrl": {
                         "type": "string"
                     },
@@ -10251,9 +11114,12 @@
                         "type": "boolean"
                     }
                 },
-                "description": "Save one Google Chat run-completion webhook for the active tenant."
+                "required": [
+                    "spaceName"
+                ],
+                "description": "Create or update one named Google Chat space for the active tenant. Webhook URL is write-only."
             },
-            "SaveTenantNotificationSettingsResult": {
+            "SaveTenantChatSpaceResult": {
                 "type": "object",
                 "properties": {
                     "ok": {
@@ -10271,57 +11137,15 @@
                             "type": "string"
                         }
                     },
-                    "tenantNotificationSettings": {
-                        "type": "object",
-                        "properties": {
-                            "companyUserGroupId": {
-                                "type": "string"
-                            },
-                            "companyLabel": {
-                                "type": "string"
-                            },
-                            "googleChatConfigured": {
-                                "type": "boolean"
-                            },
-                            "googleChatWebhookUrlMasked": {
-                                "type": "string"
-                            },
-                            "isActive": {
-                                "type": "string"
-                            },
-                            "createdByUserId": {
-                                "type": "string"
-                            },
-                            "createdDate": {
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "number"
-                                    }
-                                ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
-                            },
-                            "lastUpdatedDate": {
-                                "oneOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "number"
-                                    }
-                                ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
-                            }
-                        }
+                    "chatSpace": {
+                        "type": "object"
                     }
                 }
             },
-            "SaveTenantNotificationSettingsRequest": {
+            "SaveTenantChatSpaceRequest": {
                 "type": "object",
-                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.save#TenantNotificationSettings",
-                "x-darpan-method": "facade.SettingsFacadeServices.save#TenantNotificationSettings",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.save#TenantChatSpace",
+                "x-darpan-method": "facade.SettingsFacadeServices.save#TenantChatSpace",
                 "properties": {
                     "jsonrpc": {
                         "type": "string",
@@ -10339,10 +11163,10 @@
                     },
                     "method": {
                         "type": "string",
-                        "const": "facade.SettingsFacadeServices.save#TenantNotificationSettings"
+                        "const": "facade.SettingsFacadeServices.save#TenantChatSpace"
                     },
                     "params": {
-                        "$ref": "#/components/schemas/SaveTenantNotificationSettingsParams"
+                        "$ref": "#/components/schemas/SaveTenantChatSpaceParams"
                     }
                 },
                 "required": [
@@ -10351,9 +11175,9 @@
                     "method"
                 ]
             },
-            "SaveTenantNotificationSettingsResponse": {
+            "SaveTenantChatSpaceResponse": {
                 "type": "object",
-                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.save#TenantNotificationSettings. Check result.ok / result.errors for business failures.",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.save#TenantChatSpace. Check result.ok / result.errors for business failures.",
                 "properties": {
                     "jsonrpc": {
                         "type": "string",
@@ -10370,7 +11194,7 @@
                         ]
                     },
                     "result": {
-                        "$ref": "#/components/schemas/SaveTenantNotificationSettingsResult"
+                        "$ref": "#/components/schemas/SaveTenantChatSpaceResult"
                     }
                 },
                 "required": [
@@ -10433,7 +11257,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             },
                             "lastUpdatedDate": {
                                 "oneOf": [
@@ -10444,7 +11268,7 @@
                                         "type": "number"
                                     }
                                 ],
-                                "description": "Timestamp \u2014 ISO-8601 string or epoch milliseconds"
+                                "description": "Timestamp — ISO-8601 string or epoch milliseconds"
                             }
                         }
                     }
@@ -10503,6 +11327,242 @@
                     },
                     "result": {
                         "$ref": "#/components/schemas/SaveTenantSettingsResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "SaveUserNotificationDefaultParams": {
+                "type": "object",
+                "properties": {
+                    "chatSpaceId": {
+                        "type": "string"
+                    }
+                },
+                "description": "Set or clear the caller's default chat space for the active tenant. Personal preference — no tenant write access required."
+            },
+            "SaveUserNotificationDefaultResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "userNotificationDefault": {
+                        "type": "object",
+                        "properties": {
+                            "chatSpaceId": {
+                                "type": "string"
+                            },
+                            "spaceName": {
+                                "type": "string"
+                            },
+                            "isActive": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "SaveUserNotificationDefaultRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.save#UserNotificationDefault",
+                "x-darpan-method": "facade.SettingsFacadeServices.save#UserNotificationDefault",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.SettingsFacadeServices.save#UserNotificationDefault"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/SaveUserNotificationDefaultParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "SaveUserNotificationDefaultResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.save#UserNotificationDefault. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/SaveUserNotificationDefaultResult"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "result"
+                ]
+            },
+            "TestSourceConnectionParams": {
+                "type": "object",
+                "properties": {
+                    "systemEnumId": {
+                        "type": "string"
+                    },
+                    "configId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "systemEnumId",
+                    "configId"
+                ],
+                "description": "Run connection diagnostics against a saved connector config, using only the stored\n            credentials. Dispatched off the SourceSystemConnector registry, so core names no connector.\n            `ok` reports that the diagnostic ran; `connectionOk` reports the verdict."
+            },
+            "TestSourceConnectionResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "connectionOk": {
+                        "type": "boolean"
+                    },
+                    "durationMillis": {
+                        "type": "integer"
+                    },
+                    "checks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "check": {
+                                    "type": "object",
+                                    "properties": {
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "detail": {
+                                            "type": "string"
+                                        },
+                                        "durationMillis": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "TestSourceConnectionRequest": {
+                "type": "object",
+                "description": "JSON-RPC request envelope for facade.SettingsFacadeServices.test#SourceConnection",
+                "x-darpan-method": "facade.SettingsFacadeServices.test#SourceConnection",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "method": {
+                        "type": "string",
+                        "const": "facade.SettingsFacadeServices.test#SourceConnection"
+                    },
+                    "params": {
+                        "$ref": "#/components/schemas/TestSourceConnectionParams"
+                    }
+                },
+                "required": [
+                    "jsonrpc",
+                    "id",
+                    "method"
+                ]
+            },
+            "TestSourceConnectionResponse": {
+                "type": "object",
+                "description": "JSON-RPC success envelope for facade.SettingsFacadeServices.test#SourceConnection. Check result.ok / result.errors for business failures.",
+                "properties": {
+                    "jsonrpc": {
+                        "type": "string",
+                        "const": "2.0"
+                    },
+                    "id": {
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/TestSourceConnectionResult"
                     }
                 },
                 "required": [
@@ -11066,6 +12126,7 @@
         "facade.JsonSchemaFacadeServices.save#JsonSchemaText": "SaveJsonSchemaText",
         "facade.JsonSchemaFacadeServices.save#RefinedSchema": "SaveRefinedSchema",
         "facade.JsonSchemaFacadeServices.validate#JsonTextAgainstSchema": "ValidateJsonTextAgainstSchema",
+        "facade.ReconciliationFacadeServices.cancel#ReconciliationRun": "CancelReconciliationRun",
         "facade.ReconciliationFacadeServices.create#CsvRun": "CreateCsvRun",
         "facade.ReconciliationFacadeServices.create#Mapping": "CreateMapping",
         "facade.ReconciliationFacadeServices.create#RuleSetRun": "CreateRuleSetRun",
@@ -11076,6 +12137,7 @@
         "facade.ReconciliationFacadeServices.get#GeneratedOutput": "GetGeneratedOutput",
         "facade.ReconciliationFacadeServices.get#GeneratedOutputDifferences": "GetGeneratedOutputDifferences",
         "facade.ReconciliationFacadeServices.get#Mapping": "GetMapping",
+        "facade.ReconciliationFacadeServices.get#ReconciliationRunStatus": "GetReconciliationRunStatus",
         "facade.ReconciliationFacadeServices.list#AutomationExecutions": "ListAutomationExecutions",
         "facade.ReconciliationFacadeServices.list#AutomationSourceOptions": "ListAutomationSourceOptions",
         "facade.ReconciliationFacadeServices.list#Automations": "ListAutomations",
@@ -11094,20 +12156,26 @@
         "facade.ReconciliationFacadeServices.save#Mapping": "SaveMapping",
         "facade.ReconciliationFacadeServices.save#RuleSetRun": "SaveRuleSetRun",
         "facade.ReconciliationFacadeServices.save#SavedRunName": "SaveSavedRunName",
+        "facade.ReconciliationFacadeServices.subscribe#RunNotification": "SubscribeRunNotification",
+        "facade.ReconciliationFacadeServices.unsubscribe#RunNotification": "UnsubscribeRunNotification",
         "facade.SearchFacadeServices.search#NavigationTargets": "SearchNavigationTargets",
+        "facade.SettingsFacadeServices.delete#TenantChatSpace": "DeleteTenantChatSpace",
         "facade.SettingsFacadeServices.get#LlmSettings": "GetLlmSettings",
-        "facade.SettingsFacadeServices.get#TenantNotificationSettings": "GetTenantNotificationSettings",
         "facade.SettingsFacadeServices.get#TenantSettings": "GetTenantSettings",
+        "facade.SettingsFacadeServices.get#UserNotificationDefault": "GetUserNotificationDefault",
         "facade.SettingsFacadeServices.list#EnumOptions": "ListEnumOptions",
         "facade.SettingsFacadeServices.list#NsAuthConfigs": "ListNsAuthConfigs",
         "facade.SettingsFacadeServices.list#NsRestletConfigs": "ListNsRestletConfigs",
         "facade.SettingsFacadeServices.list#SftpServers": "ListSftpServers",
+        "facade.SettingsFacadeServices.list#TenantChatSpaces": "ListTenantChatSpaces",
         "facade.SettingsFacadeServices.save#LlmSettings": "SaveLlmSettings",
         "facade.SettingsFacadeServices.save#NsAuthConfig": "SaveNsAuthConfig",
         "facade.SettingsFacadeServices.save#NsRestletConfig": "SaveNsRestletConfig",
         "facade.SettingsFacadeServices.save#SftpServer": "SaveSftpServer",
-        "facade.SettingsFacadeServices.save#TenantNotificationSettings": "SaveTenantNotificationSettings",
+        "facade.SettingsFacadeServices.save#TenantChatSpace": "SaveTenantChatSpace",
         "facade.SettingsFacadeServices.save#TenantSettings": "SaveTenantSettings",
+        "facade.SettingsFacadeServices.save#UserNotificationDefault": "SaveUserNotificationDefault",
+        "facade.SettingsFacadeServices.test#SourceConnection": "TestSourceConnection",
         "facade.ShopifyFacadeServices.delete#ShopifyAuthConfig": "DeleteShopifyAuthConfig",
         "facade.ShopifyFacadeServices.get#ShopifyAuthConfig": "GetShopifyAuthConfig",
         "facade.ShopifyFacadeServices.list#ShopifyAuthConfigs": "ListShopifyAuthConfigs",
