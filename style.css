@@ -219,6 +219,12 @@ html.dark .ff-list { border-color: rgba(255, 255, 255, 0.14); }
 html.dark .ff-row + .ff-row { border-top-color: rgba(255, 255, 255, 0.08); }
 html.dark .ff-sort-active { color: #f2f2f2; }
 html.dark .ff-chip { background: rgba(255, 255, 255, 0.08); color: #b5b5b5; }
+/* Must follow html.dark .ff-chip — it outranks the bare .ff-chip-* classes above,
+   so without these three the lifecycle colours collapse to grey in dark mode.
+   in_progress/shipped reuse the confirmed/fixed dark values; the light values match. */
+html.dark .ff-chip-planned { background: rgba(120, 140, 250, 0.16); color: #9aabf9; }
+html.dark .ff-chip-in_progress { background: rgba(220, 150, 40, 0.16); color: #e0ae62; }
+html.dark .ff-chip-shipped { background: rgba(70, 190, 110, 0.16); color: #6fd394; }
 
 /* Forum v2: threads + lifecycle */
 .ff-meta { font-size: 0.75rem; color: #9a9a9a; margin: 0.15rem 0 0; }
