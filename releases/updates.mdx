@@ -3,9 +3,21 @@ title: "Release updates"
 description: "Major Darpan updates grouped by release tag."
 ---
 
-Tagged Darpan releases from newest to oldest, with product and operator changes that affect upgrade, validation, or rollback decisions — for release principles and review questions, see [Release discipline](/engineering/release-discipline).
+Darpan releases from newest to oldest, with product and operator changes that affect upgrade, validation, or rollback decisions. Work already on `main` but not yet tagged appears first, marked as unreleased — for release principles and review questions, see [Release discipline](/engineering/release-discipline).
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
+
+## Unreleased — on `main` since v1.4.0
+
+<Note>
+Not a tag. This entry describes what has landed on `main` since `v1.4.0` and is not yet cut, pinned, or deployed. Component pins, upgrade-data steps and rollback guidance are settled when the release is cut; until then, treat this as the change list rather than as upgrade instructions.
+</Note>
+
+- **Product**: run-completion alerts reach Slack as well as Google Chat. A workspace is connected once per tenant — through a one-click install where the deployment allows it, or by pasting a bot token where Slack administrators do not permit installing apps — and each chat space then picks the channel it posts to. Alert messages lead with a verdict rather than a table of counts, name value mismatches on their own line, and vary their wording with the time of day in the tenant's own timezone. Databases join files, SFTP and APIs as a first-class source: MySQL, PostgreSQL and IBM Db2, with a saved connection and a `SELECT` that may take the run's window. A run can compare two instances of the same system, so staging against production, or one database against another, is now a normal reconciliation. Schemas can be inferred from a CSV header row instead of typed field by field, and CSV sides pick columns from a list rather than typing field paths, with likely primary-key columns ranked first. Automations report when they have drifted from their saved run and can be re-synced from it. Automation schedules are interpreted in the tenant's timezone rather than UTC, and an automation can be activated or deactivated from the dashboard. Ask Darpan gains a command mode: type `/` to run something rather than navigate to it, starting with `/switch-tenant`. Returns reconciliation suppresses three classes of difference that cannot exist by definition — whole-order cancellations, superseded return drafts, and refunds for items that were never shipped — and re-checks reported-missing records by point lookup before reporting them.
+
+- **Operators**: Slack needs no deployment configuration for the bot-token route; the one-click install additionally needs `darpan.slack.clientId`, `darpan.slack.clientSecret` and a resolvable redirect URI. One-time data migrations now run through a registry with a ledger, prerequisites and a supervisor, exposed to the admin application and as a `Migrations` screen — `run#PendingMigrations` is idempotent and safe to run on every deployment. Source configurations carry explicit per-endpoint access; endpoints not enabled are disabled, including endpoints added to the registry later. Blank CSV cells are now read as empty values rather than as absent fields, which changes what a comparison reports for files with blank cells. A database source fails an extraction that exceeds its max-rows cap rather than truncating it.
+
+- **API**: purely additive — 20 methods added, none removed or changed. The contract moves from 90 to 110 methods (86 public facade, 24 administrative) and the contract version stays at `2`. Added on the public surface: five Slack methods, three config-sharing methods, two source-endpoint methods, `infer#JsonSchemaFromCsvText`, `sync#Automation` and `change#ExpiredPassword`. `get#Automation` gains a `syncStatus` response field. Administrative additions are the seven migration methods, which are not part of the public tenant surface. See the [API changelog](/api-reference/changelog).
 
 ## v1.4.0 — August 7, 2026
 
