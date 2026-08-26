@@ -8,18 +8,13 @@ What we shipped most recently and what we are building next, in order. Shipped w
 ## Recently shipped
 
 <div className="rm-card">
-  <p><strong>In development — Slack alerts, database sources, and same-system runs</strong> <span className="rm-pill-next">On main, not yet released</span></p>
-  <p className="rm-muted">Run-completion alerts post to Slack as well as Google Chat, and lead with a verdict instead of a table of counts. Databases become a first-class source — MySQL, PostgreSQL and Db2 — and a run can compare two instances of the same system. Schemas can be built from a CSV header row, automations report and re-sync drift from their saved run, and schedules follow the tenant's timezone. See [Release updates](/releases/updates).</p>
+  <p><strong>v1.5.0 — Slack alerts, database sources, and shared configuration</strong> <span className="rm-pill">Shipped · Aug 26, 2026</span></p>
+  <p className="rm-muted">Run-completion alerts post to Slack as well as Google Chat, and lead with a verdict instead of a table of counts. Databases become a first-class source — MySQL, PostgreSQL and Db2 — and a run can compare two instances of the same system. A source or auth connection can be shared with another tenant, schemas can be built from a CSV header row, and automations report and re-sync drift from their saved run. Scheduled runs now verify their differences the way hand-started runs always have, so both report the same numbers. Ships with app v2.6.0; see [Release updates](/releases/updates).</p>
 </div>
 
 <div className="rm-card">
   <p><strong>v1.4.0 — follow a run you started, and transfer orders</strong> <span className="rm-pill">Shipped · Aug 7, 2026</span></p>
   <p className="rm-muted">Start an automation by hand and watch it from the moment it begins — the timeline advances stage by stage, Cancel stops the run, and a failure shows its full error text instead of a message cut short. Notifications hold up across retries, including when an automation gives up. HotWax transfer orders reconcile as their own source system, matched on order date. Ships with app v2.5.0; see [Release updates](/releases/updates).</p>
-</div>
-
-<div className="rm-card">
-  <p><strong>v1.3.0 — exclusion filters</strong> <span className="rm-pill">Shipped · Aug 5, 2026</span></p>
-  <p className="rm-muted">Tell a rule set which records a source system should leave out, and stop seeing the same expected differences run after run. Excluded records are dropped as the extract is built, so they never reach the comparison, and scheduled automations carry their own copy of the filters. Ships with app v2.4.0; see [Release updates](/releases/updates).</p>
 </div>
 
 ## Up next, in order
@@ -35,19 +30,12 @@ What we shipped most recently and what we are building next, in order. Shipped w
   <div className="rm-step">
     <div className="rm-step-marker">2</div>
     <div>
-      <p><strong>Returns reconciliation</strong> <span className="rm-pill-next">On main, not yet released</span> <span className="rm-pill-surface">Engine · App</span></p>
-      <p className="rm-muted">Track returns against source and target systems, the same way orders are reconciled today. Built and on main: refunds for cancelled orders, superseded return drafts and refunds for unshipped items are recognised rather than reported as missing, and reported-missing records are re-checked by direct lookup before they are counted.</p>
-    </div>
-  </div>
-  <div className="rm-step">
-    <div className="rm-step-marker">3</div>
-    <div>
       <p><strong>Fulfillments reconciliation</strong> <span className="rm-pill-surface">Engine · App</span></p>
       <p className="rm-muted">Track shipments against source and target systems, the same way orders are reconciled today.</p>
     </div>
   </div>
   <div className="rm-step">
-    <div className="rm-step-marker">4</div>
+    <div className="rm-step-marker">3</div>
     <div>
       <p><strong>Multi-file-source stitching for a run</strong> <span className="rm-pill-surface">Engine</span></p>
       <p className="rm-muted">Combine multiple files into one side of a run instead of merging them by hand first.</p>
