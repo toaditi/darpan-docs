@@ -68,7 +68,9 @@ For **API date-range extraction**, choose the API source for the first file, cho
 
 When Darpan asks **When should Darpan run this automation?**, choose a schedule preset: **Hourly**, **Daily**, **Weekly**, **Monthly**, or **Custom**. For **Daily**, set the time in the separate **Time** field, which defaults to 06:00.
 
-To run an automation on demand rather than on a schedule, use the **Run now** action on its dashboard. To stop scheduled runs without deleting the automation, set its status to **Inactive** with the **Active**/**Inactive** toggle.
+Times are read in **the tenant's timezone**, not UTC. A daily automation set to 06:00 runs at 06:00 for the tenant, wherever the server happens to be. Set the tenant timezone in [Manage tenant settings](/guides/manage-tenant-settings) before relying on a specific hour.
+
+To run an automation on demand rather than on a schedule, use the **Run now** action on its dashboard. To stop scheduled runs without deleting the automation, switch its status with the **Active**/**Inactive** control — available on the automation tile from the dashboard, so pausing one does not mean opening its edit form.
 
 </Step>
 <Step title="Name and create the automation">
@@ -85,9 +87,27 @@ Use the **Run now** action for a controlled test, then open automation history t
 </Step>
 </Steps>
 
+## Keep an automation in step with its run
+
+An automation is a **snapshot** of a saved run, not a live pointer at one. It copies the compare scope, the input mode, both source definitions and the exclusion filters at the moment you create it. Editing the underlying run afterwards does not change the automation — which is deliberate, since a nightly job silently changing shape because someone edited a run during the day is worse than one that stays put.
+
+The cost of that choice is drift. So Darpan reports it: open an automation whose saved run has moved on and it names the fields that no longer match.
+
+**Sync** re-derives the snapshot from the saved run. It overwrites the compare scope, the input mode, both source definitions and the exclusion filters. It preserves everything the run cannot supply — the name, the schedule, the window, the chat space, the active status, and the SFTP server, path and pattern.
+
+<Note>
+Sync never re-points an automation at a different run. The saved run an automation was built from is fixed for its lifetime: **an automation's saved run cannot be changed — create a new automation for a different run.** If the saved run has been deleted, sync refuses rather than guessing, and the automation has to be recreated.
+</Note>
+
+Sync when the drift report names a field you care about. Ignore it when it names one you deliberately diverged from — the automation is allowed to differ from its run, and Darpan reports the difference rather than correcting it for you.
+
 ## Troubleshooting
 
 - If no saved runs appear, finish [Set up a reconciliation run](/guides/setup-reconciliation-run) first.
+- If an automation reports drift, compare the named fields against the saved run and use **Sync** only if you want the run's version to win.
+- If **Sync** is refused, the automation's saved run no longer exists. Recreate the automation against a current run.
+- If a schedule fires at an unexpected hour, check the tenant timezone rather than the schedule — times are interpreted in the tenant's timezone.
+- If saving or syncing is refused with a view-access message, your active tenant grants you view access only; automation changes need write access.
 - If no SFTP source appears, create or reactivate the required SFTP server from **Open SFTP Servers**.
 - If no API source appears, confirm the relevant system setup from [Set up Shopify](/guides/setup-shopify) or [Set up HotWax](/guides/setup-hotwax).
 - If a scheduled automation produces no matches, check source date ranges, remote file paths, schemas, and primary IDs before changing the schedule.

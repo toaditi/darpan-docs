@@ -23,6 +23,38 @@ The results page is where a reconciliation earns its keep. It shows which record
 | Value mismatch | A matched record has field-level differences. |
 | Processing error | The run could not parse, compare, or output part of the data. |
 
+## Where the numbers come from
+
+Two things shape a difference count before you see it, and both exist to stop you chasing differences that were never real.
+
+### Verification passes
+
+Some differences are an artefact of how a source was read rather than a real gap. A bulk export can be indexed slightly behind the live system, so a record that exists is reported missing.
+
+For sources that support it, Darpan re-checks reported-missing records with a direct point lookup and drops the ones that turn out to be present. The result names **which systems each pass rechecked**, so a count that moved is traceable rather than mysterious. Verification is capped per connector, so a pass never turns into an unbounded stream of lookups.
+
+### Structural suppression
+
+Some differences cannot exist by definition, and reporting them buries the ones that can. Where a record's own data proves no counterpart is possible, Darpan suppresses it and says so.
+
+Returns reconciliation carries three such rules on the missing-in-OMS side, each a logical implication rather than an observed correlation:
+
+| Rule | Why no counterpart can exist |
+| --- | --- |
+| Whole-order cancellation | The order was cancelled, so the refund is a cancellation, not a return. |
+| Superseded return draft | The draft was replaced; the surviving return is the real one. |
+| Cancelled-item refund | The refunded lines were never shipped, so the system books an item cancellation rather than a return. |
+
+<Note>
+Suppression only applies when the row's own data **proves** the rule. Where the evidence is inconclusive — a truncated view, a field the extract predates — the record stays reported. Suppressing on a "don't know" is the one direction that hides real differences, so Darpan never does it.
+</Note>
+
+Together these substantially change what a result reports. On one production run, the missing-in-OMS count fell from 31 to 9: 78 cancellation refunds, 6 superseded returns and 65 cancelled-item refunds suppressed as structurally impossible, plus 127 records confirmed present by point lookup.
+
+### Reading source labels
+
+Run results name the **system** a file came from — resolved to its proper label rather than showing an internal enum token or the endpoint that fetched it. When both sides of a run are the same system, the labels tell the two instances apart.
+
 ## Next actions
 
 - Fix source data when the mismatch is real.

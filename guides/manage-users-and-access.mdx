@@ -50,6 +50,24 @@ The user can sign in and operate within the active company or active tenant you 
 
 To change a user's role or remove access, follow the same Super Admin path. Permissions are evaluated per active context, so removing access from one tenant does not affect the user's access to other tenants they belong to.
 
+## Endpoint access per source configuration
+
+Roles govern what a person may do. **Endpoint access** governs something different: which endpoints of a connected system a given source configuration is allowed to read at all.
+
+A connected system usually exposes several endpoints — orders, returns, and so on. A source configuration holds credentials that may legitimately reach only some of them, and a credential that can read more than the reconciliation needs is a wider blast radius than the job requires.
+
+Each source configuration therefore carries an explicit list of enabled endpoints:
+
+- The **catalog** of available endpoints comes from the connector registry, so it reflects what the system actually offers rather than a hand-maintained list.
+- The **enablement** is per configuration. Two configurations for the same system can enable different endpoints.
+- Endpoints left out of the list are **disabled**, including endpoints added to the registry later. A new endpoint is never silently readable by an existing configuration — someone has to enable it.
+
+Only the endpoints enabled here are offered when you build a run, which is why an endpoint you expect may not appear in the source picker.
+
+<Note>
+Darpan reads the current enablement before it will accept a change to it, so a stale panel cannot overwrite a setting someone else just made.
+</Note>
+
 ## Next step
 
 See [Auth and access](/reference/auth-and-access) for the full session and permission model, and [Manage tenant settings](/guides/manage-tenant-settings) for the tenant-level settings a Tenant Admin controls after access is granted.

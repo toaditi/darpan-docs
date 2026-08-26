@@ -18,6 +18,24 @@ Create a schema when a workflow needs to parse a new file shape, compare a new r
 5. Review field names, data types, and required markers.
 6. Save the schema.
 
+## Start from a sample instead of typing fields
+
+Typing thirty field names out of a CSV is the least interesting work in Darpan, and the easiest place to introduce a typo that only surfaces as a failed run. Two shortcuts skip it.
+
+**From a CSV header row.** Give Darpan a CSV sample and it reads the header row into a flat schema, one field per column, and hands back the same editor rows you would have typed. Darpan parses the header with the same reader the reconciliation engine uses, so a header that quotes or escapes oddly is read the way a run will read it.
+
+Darpan is told whether the sample is the whole file or only its opening slice. That distinction matters: a truncated sample and a complete header-only file look identical otherwise, and treating one as the other silently produces a schema with missing or invented columns.
+
+**From JSON text.** Paste a representative record and Darpan infers the field paths and types, including nested structures.
+
+Either way the result is a draft. Review names, types and required markers before saving — inference reports the shape it found, not the contract you intend.
+
+## Flat and nested schemas
+
+A schema inferred from a CSV header is **flat**: every field is a top-level scalar with no nesting. A schema inferred from JSON may be nested.
+
+Darpan reports which one a schema is, because it decides where the schema can be used. Surfaces that need a plain column list — CSV sources especially — can only work with a flat schema, and knowing that up front is better than discovering it when a run rejects the pairing.
+
 Existing schemas are available from **Open Schema Library**.
 
 ## Review checklist

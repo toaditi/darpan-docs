@@ -1,69 +1,142 @@
 ---
 title: "Run-completion alerts"
-description: "Send finished reconciliation runs to named Google Chat spaces, and let anyone follow a single run without changing tenant settings."
+description: "Send finished reconciliation runs to named Google Chat or Slack destinations, and let anyone follow a single run without changing tenant settings."
 ---
 
-A run that fails at 3am is only a problem if nobody finds out until morning. Run-completion alerts close that gap: when a run reaches any final state — succeeded, failed, cancelled, or nothing-to-compare — Darpan posts a summary to Google Chat with the difference counts and a link straight to the result.
+A run that fails at 3am is only a problem if nobody finds out until morning. Run-completion alerts close that gap: when a run reaches any final state — succeeded, failed, cancelled, or nothing-to-compare — Darpan posts a summary to chat with the counts that matter and a link straight to the result.
 
-Alerts are built around a **registry of named chat spaces** for the tenant. An automation points at one space permanently. Anyone watching a run can point that single run at their own space with **Notify me**, without touching tenant settings or interrupting anyone else's alerts.
+Alerts are built around a **registry of named chat spaces** for the tenant. A space posts to Google Chat or to Slack; the rest of Darpan does not care which. An automation points at one space permanently. Anyone watching a run can point that single run at their own space with **Notify me**, without touching tenant settings or interrupting anyone else's alerts.
 
 ## How the flow works
 
 1. A run finishes. This applies to a run started manually and to a run started by an [automation](/guides/setup-automation).
 2. Darpan collects the destinations for that run: the automation's linked chat space, plus one space for each person who subscribed with **Notify me**.
-3. That list is deduplicated, then filtered to spaces that are active, have a webhook configured, and belong to the run's own tenant. One space subscribed by three people receives one message.
-4. Darpan builds a summary from the result and posts it to each surviving destination.
+3. That list is deduplicated, then filtered to spaces that are active, still deliverable, and belong to the run's own tenant. One space subscribed by three people receives one message.
+4. Darpan classifies the result, writes the message, and posts it to each surviving destination.
 
-A run never fails because an alert could not be sent. If a webhook is unreachable, the result is still saved and viewable in the app. Each run notifies at most once, even if several stages report completion.
+A run never fails because an alert could not be sent. If a webhook is unreachable or a Slack channel rejects the post, the result is still saved and viewable in the app. Each run notifies at most once, even if several stages report completion.
 
 <Note>
 Alerts fire on every final state, not only success. A failed run, a cancelled run, and a run that found no data all produce a message — which is the point, since silence used to be indistinguishable from success.
 </Note>
 
-## What the alert contains
+## What the alert says
 
-| Field | Meaning |
+The message leads with a verdict rather than a table of numbers, because the first question anyone asks is whether they need to act. Darpan picks the verdict from three independent counts:
+
+| Count | Meaning |
 | --- | --- |
-| Run name | The saved run, or its identifier when no name is set. |
-| Tenant | The tenant the run belongs to. |
-| Result ID | The reconciliation run result identifier. |
-| Run result link | A deep link to open the result in the Darpan app. |
-| Differences | Total difference count for the run: records present on only one source plus matched pairs that failed a rule. |
-| Only in (each side) | Count of records present on only one source. |
+| Only in (each side) | Records present on one source and absent from the other. Reported per side. |
+| Value mismatches | Records matched on both sides whose values failed a rule. |
+| Warnings | Problems Darpan hit during the run that did not stop it. |
+
+<Warning>
+These are three separate axes, not one total. A run's difference count covers records present on only one source; it does **not** include value mismatches. A run where every record matched but many values disagreed has a difference count of zero and is not a clean run. The alert reports mismatches on their own line for exactly this reason.
+</Warning>
+
+The verdict names the situation:
+
+| Situation | What the message leads with |
+| --- | --- |
+| The run failed | The failure, first. |
+| The run finished with warnings | That it completed but hit problems worth reading. |
+| Nothing missing, nothing mismatched | A clean run, stated plainly. |
+| Nothing missing, values disagree | Value drift — the records line up, the data does not. |
+| Both sides missing roughly equally | An even split, which usually points at a window or timing difference rather than one broken source. |
+| One side missing only | A one-sided gap, which usually points at that source. |
+| Anything else | A mixed result, with each count named. |
+
+Every message also carries the run name, the tenant, the result identifier, and a deep link that opens the result in the app for the right tenant. Clean runs additionally mention a run of consecutive clean results when there is one, and the wording varies with the time of day in **the tenant's own timezone** — a run finishing at 6am in the tenant's timezone reads as an early-morning run regardless of where the server sits.
 
 ## Before you start
 
 Confirm:
 
-- You are a Tenant Admin for the tenant, if you intend to add or change chat spaces. Choosing your own default space and using **Notify me** are personal preferences and need no tenant write access.
+- You are a Tenant Admin for the tenant, if you intend to connect a chat product or add or change chat spaces. Choosing your own default space and using **Notify me** are personal preferences and need no tenant write access.
 - The correct tenant is active.
-- You can create or read a Google Chat incoming webhook for each destination space. The webhook URL must be an `https` URL on `chat.googleapis.com` that targets a space messages endpoint and includes its `key` and `token` query parameters.
+- You can reach the destination: a Google Chat incoming webhook, or a Slack workspace you can install an app into or generate a bot token from.
 
-## Register a chat space
+## Connect a chat product
+
+Google Chat needs no connection step — a space holds its own webhook. Slack is connected once per tenant, then any number of spaces pick channels from it.
+
+### Google Chat
+
+In the Google Chat space that should receive alerts, create an incoming webhook and copy its URL. Keep it secret; treat it like a credential. The URL must be an `https` URL on `chat.googleapis.com` that targets a space messages endpoint and includes its `key` and `token` query parameters.
+
+That URL goes straight into the chat space you create below. There is nothing else to set up.
+
+### Slack
+
+Slack offers two routes. Darpan shows whichever the deployment supports, and the bot-token route is always available.
 
 <Steps>
-<Step title="Create the Google Chat webhook">
+<Step title="Open the Slack menu">
 
-In the Google Chat space that should receive alerts, create an incoming webhook and copy its URL. Keep the URL secret; treat it like a credential.
-
-</Step>
-<Step title="Open Tenant Settings">
-
-Open **Ask Darpan**, search for **Open Tenant Settings**, and open the result. Confirm the active tenant is the one you want alerts on.
+Open **Tenant Settings**, choose **Notifications**, and open the Slack entry. It reads **Connect a Slack workspace** until one is connected.
 
 </Step>
-<Step title="Add the space">
+<Step title="Choose a route">
 
-In **Operations**, choose **Notifications**. Add a space, give it a name, and paste the webhook URL.
+**Connect Slack** opens Slack to authorise Darpan and returns you here. This one-click install appears only when the deployment has Slack app credentials configured; if it is missing, the deployment has no `darpan.slack.clientId` and the token route below is the way in.
 
-The name must be unique within the tenant and is what everyone else picks from later, so name it after the destination rather than the run — `Ops alerts` rather than `Nightly Shopify`.
+**Connect with a bot token** takes a pasted token instead. Use it when your Slack administrators do not permit installing apps.
 
-Darpan validates the webhook URL on save and stores it encrypted. The URL is write-only: saved spaces show their status and name, never the full URL.
+</Step>
+<Step title="Paste the bot token, if you chose that route">
+
+In your Slack app, go to **OAuth & Permissions** and copy the **Bot User OAuth Token**. It starts with `xoxb-`.
+
+Darpan rejects a token that does not start with `xoxb-`. A user token (`xoxp-`) authenticates fine but posts as the human who created it, so it is refused by shape before it can be mistaken for a bot token.
+
+Darpan verifies the token with Slack before storing it, and takes the workspace name, team ID and bot user from Slack's answer rather than from anything you typed. The token is stored encrypted and is never readable back.
+
+</Step>
+<Step title="Read any scope warning">
+
+If the token is missing scopes, Darpan connects anyway and names what will not work: notifications still send, but listing channels or posting to channels the app has not joined may fail. Add the scopes in Slack and paste the token again.
 
 </Step>
 </Steps>
 
-Repeat for each destination. A tenant can hold as many spaces as it needs — one for operations, one for a client-facing channel, one for a single team.
+Once a workspace is connected, the Slack menu offers **Add a chat space** first, because a channel that receives notifications is the reason to connect at all. It also offers **Replace bot token** — the way to rotate a token — **Reconnect workspace**, and **Disconnect workspace**.
+
+## Register a chat space
+
+A chat space is a named destination. Creating one asks for its name, then which chat product it posts to, then where.
+
+<Steps>
+<Step title="Open Tenant Settings">
+
+Open **Ask Darpan**, search for **Open Tenant Settings**, and open the result. Confirm the active tenant is the one you want alerts on. In **Operations**, choose **Notifications**.
+
+</Step>
+<Step title="Name the space">
+
+The name must be unique within the tenant and is what everyone else picks from later, so name it after the destination rather than the run — `Ops alerts` rather than `Nightly Shopify`.
+
+</Step>
+<Step title="Choose the chat product">
+
+Pick **Google Chat** or **Slack**. Arriving from the Slack menu answers this already, and the question is skipped.
+
+</Step>
+<Step title="Point it at a destination">
+
+For Google Chat, paste the webhook URL. Darpan validates it on save and stores it encrypted. The URL is write-only: saved spaces show their status and name, never the full URL.
+
+For Slack with a connected workspace, pick the channel from the searchable list. Darpan reads every page of channels rather than the first one, and says so when a workspace has more channels than it lists at once — you are never shown a partial list that looks complete.
+
+If a workspace is not connected, a Slack space falls back to a Slack incoming webhook URL.
+
+</Step>
+</Steps>
+
+<Warning>
+If the channel you pick is private, invite the Darpan app to it. Slack will not let the app post to a private channel it has not joined, and the first run is where you would find out.
+</Warning>
+
+Repeat for each destination. A tenant can hold as many spaces as it needs — one for operations, one for a client-facing channel, one for a single team — and they can mix chat products freely.
 
 ## Route alerts to a space
 
@@ -81,13 +154,15 @@ There are three ways a message reaches a space, and they stack.
 
 ## Expected result
 
-Every finished run reports to its automation's space, and to the space of anyone who asked to be notified. A failure surfaces in chat with a one-click path to the result.
+Every finished run reports to its automation's space, and to the space of anyone who asked to be notified. The message opens with what happened rather than a wall of counts, and a failure surfaces in chat with a one-click path to the result in the right tenant.
 
 ## Turning alerts off
 
 Deactivate the space in **Tenant Settings** to stop messages while keeping the configuration. Alternatively, unlink the automation from its space, or clear your personal default.
 
 A space that nothing references can be deleted outright. A space still referenced by an automation or a subscription must be deactivated instead — Darpan refuses the delete rather than silently breaking the automation pointing at it.
+
+Disconnecting a Slack workspace follows the same rule. Darpan refuses while chat spaces still post through it and names them, because a silent disconnect would leave those destinations resolving to nothing and the tenant would learn about it from missing notifications. Repoint or delete those spaces first.
 
 ## Upgrading from the single tenant webhook
 
@@ -99,12 +174,19 @@ The one change worth making afterwards is renaming **Default space** to somethin
 
 | Symptom | What to check |
 | --- | --- |
-| No message arrives after a run | Confirm the space is active and still has a webhook, the automation is linked to it, and the run reached a final state. |
-| An automation's alerts stopped, but others still arrive | The linked space was deactivated or lost its webhook. Darpan logs a warning naming the dropped space; relink the automation or reactivate the space. |
+| No message arrives after a run | Confirm the space is active and still deliverable, the automation is linked to it, and the run reached a final state. |
+| An automation's alerts stopped, but others still arrive | The linked space was deactivated or lost its destination. Darpan logs a warning naming the dropped space; relink the automation or reactivate the space. |
 | **Notify me** does not subscribe | You have no default chat space set. Set one in **User Settings**. |
-| Save is rejected | The webhook URL must be `https` on `chat.googleapis.com`, target a space messages endpoint, and include `key` and `token` query parameters. |
+| A Google Chat save is rejected | The webhook URL must be `https` on `chat.googleapis.com`, target a space messages endpoint, and include `key` and `token` query parameters. |
+| Slack rejects the bot token | The token must start with `xoxb-`. A `xoxp-` user token is refused by shape. Darpan also reports Slack's own reason when Slack rejects a well-shaped token. |
+| **Connect Slack** is not offered | The deployment has no Slack app credentials. Use **Connect with a bot token**. |
+| Slack messages fail for one channel only | The app is not in that channel. Invite it, and check the scope warning shown when the token was saved. |
+| The Slack channel list looks short | Darpan reports when a workspace has more channels than it lists at once. Search by name in the picker rather than scrolling. |
+| A Slack workspace cannot be disconnected | Chat spaces still post through it. Darpan names them; repoint or delete them first. |
 | A space cannot be deleted | An automation or an active subscription still references it. Deactivate it instead. |
 | Message arrives but the link does not open the result | Confirm the run produced a saved result and that the app base URL for the environment is reachable. |
+| Saving is refused with a view-access message | Your active tenant grants you view access only. Connecting chat products and editing spaces need tenant write access. |
 | Alerts stopped after a tenant switch | Chat spaces are per tenant. Confirm the active tenant matches the runs you expect alerts for. |
+| A clean-looking alert hid real differences | Check the value-mismatch line. Records can match on both sides and still disagree on values; that is not counted as a difference. |
 
-See [Manage tenant settings](/guides/manage-tenant-settings) for the full tenant settings surface and [Author reconciliation rules](/guides/author-rules) for the rules that produce the differences these alerts report.
+See [Manage tenant settings](/guides/manage-tenant-settings) for the full tenant settings surface and [Author reconciliation rules](/guides/author-rules) for the rules that produce the mismatches these alerts report.

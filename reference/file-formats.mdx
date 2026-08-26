@@ -17,6 +17,21 @@ These requirements apply to CSV and JSON source files used in Darpan reconciliat
 
 Use UTF-8 encoding and a consistent delimiter. If values can contain commas, quote them consistently.
 
+The header row names the fields. Darpan can build a flat schema directly from it — see [Create a schema](/guides/create-schema).
+
+### Blank cells
+
+A blank CSV cell is read as an **empty value**, not as a missing field. The distinction matters when a run compares the two sides:
+
+| Source state | How Darpan reports it |
+| --- | --- |
+| Column present, cell blank | The field is present with an empty value. |
+| Column absent from the file | The field is absent. |
+
+A CSV cell holds text or holds nothing; the format has no way to express a null. Reporting a blank cell as an empty value keeps "this column was blank" distinguishable from "this column was not in the file", which would otherwise produce a difference whose one side simply looked absent.
+
+The compare path and the schema-inference header parser read CSV with the same options, so a file that parses one way in the wizard parses the same way in a run.
+
 ## JSON guidance
 
 Use predictable object keys and arrays. Avoid changing object nesting between runs unless the schema is updated with the change.

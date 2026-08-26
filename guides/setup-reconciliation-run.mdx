@@ -66,6 +66,26 @@ Open **Ask Darpan**, search for **Open Runs Settings**, and confirm the saved ru
 </Step>
 </Steps>
 
+## Comparing two instances of one system
+
+The two sides do not have to be different systems. Comparing one database against another, or one instance of a system against a second instance, is a normal reconciliation — staging against production, or two regional instances that should agree.
+
+What Darpan requires is that the two sides are **not the same source**. Same system with two different source configurations is allowed; the same source on both sides is rejected, because a source compared against itself has nothing to find.
+
+<Note>
+Runs built from **direct file uploads** keep the stricter rule and still require two different systems. An upload carries no source configuration, so there is nothing to tell two same-system sides apart.
+</Note>
+
+Where both sides are the same system, run results label each side by its source rather than by the system name alone, so the two instances stay distinguishable when you review differences.
+
+## Choosing an API endpoint
+
+When a source system exposes more than one endpoint, Darpan asks which one to extract from, and lists the endpoints enabled for that source configuration.
+
+If only one endpoint is available, the question is skipped — a choice with a single option is not a choice. Endpoints that a source cannot use, and endpoints only reachable through the API rather than a file upload, are filtered out rather than offered and then rejected.
+
+Which endpoints a source offers is controlled per source configuration; see [Manage users and access](/guides/manage-users-and-access).
+
 ## Expected result
 
 The saved run can be selected from **Run Reconciliation** and from the automation setup flow. It should clearly show what two systems are compared and which record IDs are used for matching.

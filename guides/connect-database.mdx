@@ -1,0 +1,120 @@
+---
+title: "Connect a database source"
+description: "Reconcile straight from MySQL, PostgreSQL or IBM Db2 with a saved connection and a SELECT that returns the records to compare."
+---
+
+Plenty of the data worth reconciling never becomes a file. It sits in a database, and getting it into Darpan has meant someone exporting a CSV on a schedule and hoping the export and the reconciliation stay in step. A database source removes that step: Darpan connects, runs a query you wrote, and feeds the rows into the same reconciliation pipeline that files and APIs use.
+
+A database source is two pieces. A **connection** says where the database is and how to authenticate. A **query** says which records to compare. One connection can carry many queries.
+
+## Before you start
+
+Confirm:
+
+- You are a Tenant Admin for the tenant, and the correct tenant is active.
+- The database is **MySQL**, **PostgreSQL**, or **IBM Db2**. Darpan rejects any other dialect.
+- The database is reachable from the Darpan deployment, and you have a username and password for it.
+- You have a read-only account. Darpan only ever issues `SELECT`, but a read-only credential means a mistake in a query cannot become a mistake in your database.
+- You know which TLS posture the server needs, and have the CA certificate in PEM form if the server requires verifying one.
+
+## Create the connection
+
+<Steps>
+<Step title="Open database sources">
+
+Open **Ask Darpan** and search for database sources. Confirm the active tenant is the one the connection belongs to — connections are tenant-scoped and are not shared across tenants.
+
+</Step>
+<Step title="Describe the server">
+
+Give the connection a description, then set:
+
+| Field | Notes |
+| --- | --- |
+| Dialect | `MYSQL`, `POSTGRES`, or `DB2`. |
+| Host | Hostname or address of the server. |
+| Port | Optional. Left blank, Darpan uses the dialect default: 3306 for MySQL, 5432 for PostgreSQL, 50000 for Db2. |
+| Database name | The database to connect to. |
+| Username / Password | The credential. The password is stored encrypted and is never readable back. |
+
+</Step>
+<Step title="Set the TLS posture">
+
+TLS is required by default. Leave it on unless the server genuinely cannot offer it.
+
+If the server presents a certificate that must be verified against a private authority, paste that authority's certificate in PEM form. Darpan then verifies the server's certificate against it rather than accepting whatever the server presents.
+
+</Step>
+<Step title="Set the limits">
+
+| Limit | Default | What it does |
+| --- | --- | --- |
+| Connect timeout | 10 seconds | How long to wait for the connection itself. |
+| Query timeout | 300 seconds | How long a single extraction query may run. |
+| Max rows | 500,000 | The largest result Darpan will accept from one query. |
+
+<Warning>
+Max rows is a hard cap, not a page size. A query that returns more rows than the cap **fails the extraction** — it never silently truncates. That is deliberate: a reconciliation run against a quietly truncated source reports differences that are artefacts of the truncation, and nothing on the result would tell you. If you hit the cap, narrow the query rather than raising the number.
+</Warning>
+
+</Step>
+<Step title="Test before saving">
+
+Test the connection. Darpan connects and runs the dialect's test query, and it can do this with the values on screen before the connection is saved — so a wrong password is caught while you are still looking at it.
+
+</Step>
+</Steps>
+
+A saved connection is also checked by the standard connection diagnostics alongside every other source type, so a credential that expires later shows up as a failed check rather than as a failed run.
+
+## Write the query
+
+A query belongs to a connection and holds the `SELECT` that produces the records to compare.
+
+<Steps>
+<Step title="Write a single SELECT">
+
+The statement must be a single `SELECT`, or a `WITH … SELECT`. Nothing else is accepted.
+
+Return the fields you intend to reconcile, named as you want them to appear. Column names become the field names Darpan compares on, so alias them into the shape your schema expects rather than reshaping later.
+
+</Step>
+<Step title="Add the window placeholders, if the query is time-bounded">
+
+A query may use the named placeholders `:windowStart` and `:windowEnd`. Darpan fills them with the run's window. Both are optional — a query that reconciles a full table needs neither.
+
+Use them for anything scheduled. A query with no window re-reads the whole table on every run, which gets slower as the table grows and usually compares far more than the run needs.
+
+</Step>
+<Step title="Preview it">
+
+Preview runs the query capped at 10 rows and shows what comes back. Check the column names and a few values before saving: the preview is where a wrong alias or an unexpected null is cheap to notice.
+
+</Step>
+</Steps>
+
+## Use it in a run
+
+A database source behaves like any other source once saved. Pick it as a side when you [set up a reconciliation run](/guides/setup-reconciliation-run), pair it with a schema, and choose matching keys as usual.
+
+Because the query fixes the field names, a flat schema matching those column names is usually the right pairing. [Create a schema](/guides/create-schema) can infer one from a CSV sample of the same shape if you have one.
+
+## Expected result
+
+The connection tests clean, the query previews the rows you expect with the names you expect, and the source appears alongside file and API sources when you build a run.
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| The dialect is rejected | Only `MYSQL`, `POSTGRES` and `DB2` are supported. |
+| Connection times out | The host and port, and whether the Darpan deployment can reach the server at all. Raise the connect timeout only after confirming reachability. |
+| TLS fails to negotiate | Whether the server offers TLS, and whether it needs a CA certificate you have not pasted. |
+| The extraction fails on row count | The query returned more than the max-rows cap. Narrow the query — the cap never truncates. |
+| The query is rejected | It must be a single `SELECT` or `WITH … SELECT`. |
+| A long query is cut off | Raise the query timeout, or narrow the query with the window placeholders. |
+| Placeholders are not substituted | They must be named exactly `:windowStart` and `:windowEnd`. |
+| Fields do not line up with the schema | Alias the columns in the `SELECT` to the names the schema expects. |
+| The source does not appear for another tenant | Connections and queries are tenant-scoped. Create them in the tenant that will run the reconciliation. |
+
+See [Set up a reconciliation run](/guides/setup-reconciliation-run) for pairing the source into a run, and [Create a schema](/guides/create-schema) for the schema it needs.

@@ -76,6 +76,20 @@ Darpan resolves the timezone it displays and calculates in from the first of the
 
 This affects more than formatting. Run date windows and API day ranges are anchored to midnight in the resolved timezone, so two people on the same tenant with different personal timezones can produce different day boundaries for the same saved run. Set the tenant timezone to the one your operations actually run on, and treat personal overrides as a convenience for people working elsewhere.
 
+## Share a source configuration with another tenant
+
+An organisation running several tenants against one upstream system used to need the same credentials entered, rotated and audited separately in each. Sharing removes the duplication: one tenant owns the configuration, and named peer tenants may use it.
+
+| Action | Effect |
+| --- | --- |
+| Grant | Adds a tenant to the configuration's peer group. |
+| Revoke | Removes a tenant's access from that point onward, leaving the historical grant intact. |
+| List | Shows the owning tenant, the peer tenants, and which tenants a change would affect. |
+
+Sharing applies to API source configurations. Ownership stays with one tenant — peers use the configuration, they do not take it over — and the credential itself is never exposed to a peer tenant, only the ability to run against it.
+
+Check the affected-tenant list before revoking. Revoking a configuration that another tenant's runs depend on stops those runs from resolving their source.
+
 ## Troubleshooting
 
 | Symptom | What to check |

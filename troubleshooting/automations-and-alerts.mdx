@@ -58,3 +58,31 @@ The link in the alert derives its base URL from the `DARPAN_APP_BASE_URL` enviro
 To add, rename, or deactivate a chat space, go to [Run-completion alerts](/guides/run-completion-alerts). The registry lives in **Tenant Settings** under **Operations → Notifications**, and only Tenant Admins can save changes there.
 
 Choosing your own default space in **User Settings** and using **Notify me** on a run are personal preferences and need no tenant write access.
+
+## Automation no longer matches its saved run
+
+An automation is a snapshot of a saved run taken when the automation was created, not a live pointer at it. Editing the run afterwards leaves the automation as it was.
+
+Darpan reports the drift, naming the fields that differ. Use **Sync** to re-derive the snapshot from the run — it overwrites the compare scope, input mode, source definitions and exclusion filters, and preserves the name, schedule, window, chat space, active status and SFTP details.
+
+If **Sync** is refused, the saved run no longer exists and the automation has to be recreated. An automation can never be pointed at a different run; that is fixed for its lifetime.
+
+## A schedule fires at the wrong hour
+
+Schedules are interpreted in the tenant's timezone, not UTC. Check the tenant timezone in [Manage tenant settings](/guides/manage-tenant-settings) before adjusting the schedule itself.
+
+## Slack alerts specifically
+
+| Symptom | What to check |
+| --- | --- |
+| Slack messages fail for one channel only | The Darpan app is not in that channel. Invite it. Private channels always require an invite. |
+| Slack rejected the bot token | The token must start with `xoxb-`. A `xoxp-` user token is refused by shape, because it would post as the person who created it. |
+| **Connect Slack** is not offered | The deployment has no Slack app credentials configured. Use **Connect with a bot token** instead. |
+| Channel listing fails after connecting | The token is missing scopes. Darpan names the missing scopes when the token is saved; add them in Slack and paste the token again. |
+| A workspace cannot be disconnected | Chat spaces still post through it. Darpan names them; repoint or delete those spaces first. |
+
+## An alert looked clean but differences existed
+
+Records present on only one source and records whose values disagree are counted separately. A run with no missing records but many value mismatches has a difference count of zero.
+
+Read the value-mismatch line in the alert, not only the difference count. See [Review results](/guides/review-results).

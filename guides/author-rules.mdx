@@ -96,6 +96,16 @@ Return to the **Ruleset Manager** and confirm the rule list reflects every compa
 </Step>
 </Steps>
 
+## Where the field choices come from
+
+The rule editor offers field names rather than asking you to type them, and where they come from depends on the source.
+
+**API sources** draw their fields from the connector registry — the same registry that defines which endpoints a source exposes. A field appears on the rules board because the connector declares it, so adding an endpoint or a field is a matter of registry data rather than an application change. Fields withdrawn from a connector stop being offered, and rules that referenced them surface as needing attention rather than failing silently at run time.
+
+**CSV sources** offer the file's own column list. Pick the column instead of typing its name — a typo in a field path produces a rule that compares nothing and reports every pair as passing, which is the hardest kind of mistake to notice.
+
+Darpan also ranks the columns most likely to be primary keys toward the top when you are choosing matching keys, based on their names. It is a starting suggestion, not a decision — confirm the key is genuinely unique on both sides before saving.
+
 ## Expected result
 
 The saved run now carries an explicit RuleSet. The next time the run executes, Darpan matches records by primary ID, applies the RuleSet to each matched pair, and records a difference whenever a rule fails. Those differences are what you review and what drives run-completion alerts.

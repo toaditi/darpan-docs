@@ -33,6 +33,7 @@
             "group": "Set up sources",
             "pages": [
               "guides/connect-sftp",
+              "guides/connect-database",
               "guides/connect-netsuite",
               "guides/setup-shopify",
               "guides/setup-hotwax",

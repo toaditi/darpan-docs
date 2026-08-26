@@ -54,3 +54,38 @@ Search can match labels, descriptions, aliases, prefixes, and close spelling var
 <Tip>
 If a saved record does not appear at first, search by the record name, host, run name, or output file name.
 </Tip>
+
+## Run a command instead of navigating
+
+Most of what you type in Ask Darpan takes you somewhere. Some things are not a destination at all — switching tenant does not have a page to land on, it is something you want done. Those are commands, and they start with `/`.
+
+Type `/` and Ask Darpan switches from searching destinations to listing commands.
+
+### How the two modes read
+
+The **first space** is what separates choosing a command from filling in its argument.
+
+| What you have typed | What you are doing | What Enter does |
+| --- | --- | --- |
+| `/sw` | Choosing a command | Completes the input to `/switch-tenant ` |
+| `/switch-tenant acme` | Filling in the argument | Runs the command |
+
+Tab completes the highlighted row in either mode. Outside command mode, and whenever you hold Shift, Tab stays the browser's own focus key.
+
+When a command has nothing to offer, Ask Darpan answers rather than showing an empty list — *Already on Gorjana.* is a useful reply where generic no-results copy would read as though the tenant did not exist. These replies are not selectable rows, so Up/Down keeps moving through things you can actually run.
+
+### `/switch-tenant`
+
+Changes the active tenant. Type `/switch-tenant` followed by the tenant name.
+
+<Warning>
+The active tenant is a **server-side account preference, not a per-tab setting**. Switching it re-points every other tab you have open, including ones you believe you left untouched. Darpan says so when the switch succeeds — it is the part that cannot be guessed from the screen in front of you.
+</Warning>
+
+Darpan distinguishes a switch the backend refused from one that never reached a verdict, and reports the outcome in the notice pill at the top of the screen.
+
+## Tenant-scoped links
+
+Opening a link that belongs to another tenant switches the active tenant to match, so the link resolves to the record it names rather than failing.
+
+Because that changes a setting shared by every tab, Darpan shows a banner saying which tenant you were moved into. The banner stays rather than fading — it describes a condition that is still true while you read it.
