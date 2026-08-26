@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Contract-drift check: api-reference/service-catalog.mdx vs the generated backend contract.
 
-The backend generates docs/api-contract/methods.txt from the facade service XML
+The backend generates docs/api-contract/methods.txt from the facade and admin service XML
 (./gradlew :runtime:component:darpan:generateApiContract in darpan-backend). This script
 fails when the catalog documents a method the contract does not define, and reports
 (without failing) contract methods the catalog has not documented yet.
@@ -20,17 +20,17 @@ def parse_catalog(text: str) -> set[str]:
     methods: set[str] = set()
     prefix = None
     for line in text.splitlines():
-        section = re.match(r"^##\s+.*\(`(facade\.[A-Za-z]+)`\)", line)
+        section = re.match(r"^#{2,3}\s+.*\(`((?:facade|admin)\.[A-Za-z]+)`\)", line)
         if section:
             prefix = section.group(1)
             continue
-        if re.match(r"^##\s+", line):
-            prefix = None  # section without a facade in the heading (e.g. Integration components)
+        if re.match(r"^#{2,3}\s+", line):
+            prefix = None  # section without a facade/admin prefix in the heading (e.g. Integration components)
             continue
         if not line.strip().startswith("|"):
             continue
         # Integration-components table shape: | `component` | `facade.X` | `m1`, `m2` |
-        row_facade = re.search(r"\|\s*`(facade\.[A-Za-z]+)`\s*\|", line)
+        row_facade = re.search(r"\|\s*`((?:facade|admin)\.[A-Za-z]+)`\s*\|", line)
         row_prefix = row_facade.group(1) if row_facade else prefix
         if row_prefix is None:
             continue

@@ -34,6 +34,43 @@ Baseline contract (current).
 
 - `facade.SettingsFacadeServices.test#SourceConnection`
 
+**Added — Slack notifications**
+
+- `facade.SlackFacadeServices.begin#SlackInstall`
+- `facade.SlackFacadeServices.save#SlackBotToken`
+- `facade.SlackFacadeServices.get#SlackInstall`
+- `facade.SlackFacadeServices.list#SlackChannels`
+- `facade.SlackFacadeServices.disconnect#SlackWorkspace`
+
+A chat space now names a chat product. Existing Google Chat spaces are unaffected.
+
+**Added — config sharing across tenants**
+
+- `facade.ConfigSharingFacadeServices.grant#ConfigTenantAccess`
+- `facade.ConfigSharingFacadeServices.revoke#ConfigTenantAccess`
+- `facade.ConfigSharingFacadeServices.list#ConfigTenantAccess`
+
+**Added — source endpoint access**
+
+- `facade.SourceEndpointFacadeServices.list#SourceConfigEndpoints`
+- `facade.SourceEndpointFacadeServices.store#SourceConfigEndpointAccess`
+
+**Added — CSV schema inference**
+
+- `facade.JsonSchemaFacadeServices.infer#JsonSchemaFromCsvText`
+
+**Added — automation sync**
+
+- `facade.ReconciliationFacadeServices.sync#Automation`
+
+Re-derives an automation's snapshot from its saved run. `get#Automation` gains a `syncStatus` map reporting snapshot drift; this is an additive response field.
+
+**Added — expired-password recovery**
+
+- `facade.AuthFacadeServices.change#ExpiredPassword`
+
+Anonymous by necessity — the account cannot hold a session until the password changes — and requires the account's current password, so it grants no access a caller did not already have.
+
 **Removed — replaced by the chat-space registry**
 
 - `facade.SettingsFacadeServices.get#TenantNotificationSettings`
@@ -42,5 +79,5 @@ Baseline contract (current).
 Callers reading or writing the single tenant webhook should move to `list#TenantChatSpaces` and `save#TenantChatSpace`. Existing webhooks are carried over automatically on upgrade — see [Run-completion alerts](/guides/run-completion-alerts#upgrading-from-the-single-tenant-webhook).
 
 <Note>
-Administrative provisioning methods (`admin.*`) exist in the backend contract but are not part of the public API surface and are excluded from this reference.
+Administrative methods (`admin.*`) are documented in the [service catalog](/api-reference/service-catalog#administration) but are not part of the public tenant API surface. They serve the operator admin application and require a super-admin caller, so integration callers should not depend on them.
 </Note>

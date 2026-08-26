@@ -19,6 +19,7 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `save#UserSettings` | Save per-user settings, including display name and preferred display timezone (IANA id; empty string clears the preference). Returns refreshed session metadata. |
 | `verify#OwnPassword` | Re-verify the current user's password. |
 | `change#OwnPassword` | Change the current user's password. |
+| `change#ExpiredPassword` | Change the password of an account that cannot sign in until it is changed, without a session. Requires the account's current password. |
 
 ## Settings (`facade.SettingsFacadeServices`)
 
@@ -43,6 +44,7 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `save#JsonSchemaText` | Create or update a schema from schema text. |
 | `save#RefinedSchema` | Save a schema refined through the verification flow. |
 | `infer#JsonSchemaFromText` | Infer a schema from a sample payload. |
+| `infer#JsonSchemaFromCsvText` | Infer a flat schema from a CSV header row. Takes the sample text and whether that sample is the complete file. |
 | `validate#JsonTextAgainstSchema` | Validate a JSON payload against a schema. |
 | `flatten#JsonSchema` | Flatten a schema for field selection. |
 | `delete#JsonSchema` | Delete a schema record. |
@@ -68,6 +70,37 @@ All methods require an authenticated session unless noted. Login, logout, and se
 | `get#ReconciliationRunStatus` | Live status and per-stage timeline for one run. Tenant-gated. |
 | `cancel#ReconciliationRun` | Request that a running reconciliation stop. Cooperative — the run ends at its next checkpoint, so it may still report as running briefly. |
 | `subscribe#RunNotification` / `unsubscribe#RunNotification` | Subscribe the caller to completion notification for one active run, snapshotting their default chat space, or remove that subscription. |
+| `sync#Automation` | Re-derive an automation's snapshot from its saved run. Overwrites compare scope, input mode, source definitions and exclusion filters; preserves name, schedule, window, chat space, active status and SFTP details. Never re-points the automation at a different run. |
+## Slack (`facade.SlackFacadeServices`)
+
+Connecting a Slack workspace to the active tenant. The bot token is never an output of any method here.
+
+| Method | Purpose |
+| --- | --- |
+| `begin#SlackInstall` | Mint a single-use state token and return the Slack authorize URL to send the browser to. Does not contact Slack. Requires Slack app credentials on the deployment. |
+| `save#SlackBotToken` | Connect a workspace from a pasted bot user OAuth token (`xoxb-`). The token is verified with Slack before storage, and workspace identity is taken from Slack's answer. |
+| `get#SlackInstall` | The active tenant's connected workspaces, with granted scopes. Reports `oauthAvailable` separately from whether Slack is usable at all. |
+| `list#SlackChannels` | One page of channels from a connected workspace, for the channel picker. Reports when a workspace holds more channels than are listed. |
+| `disconnect#SlackWorkspace` | Deactivate a connected workspace. Refused while chat spaces still post through it, naming them. |
+
+## Config sharing (`facade.ConfigSharingFacadeServices`)
+
+Sharing one API source configuration across tenants.
+
+| Method | Purpose |
+| --- | --- |
+| `grant#ConfigTenantAccess` | Add a tenant to a shared config's peer group. Requires tenant-admin rights on the target tenant and on a tenant already in the group. |
+| `revoke#ConfigTenantAccess` | Remove a tenant from the peer group by end-dating its grant. Never deletes the row, so the record of who could reach a credential survives. |
+| `list#ConfigTenantAccess` | Sharing state for one config: owning tenant, peer tenants, affected-tenant count, and whether the caller may manage the group. |
+
+## Source endpoints (`facade.SourceEndpointFacadeServices`)
+
+Which endpoints of a connected system a given source configuration may read.
+
+| Method | Purpose |
+| --- | --- |
+| `list#SourceConfigEndpoints` | Endpoints registered for a config type with their current enablement. The catalog comes from the connector registry; access rows supply only whether each is enabled. |
+| `store#SourceConfigEndpointAccess` | Replace a config's endpoint enablement. Endpoints omitted from the list are explicitly disabled. |
 
 ## Search (`facade.SearchFacadeServices`)
 
@@ -83,6 +116,59 @@ Source-system facades ship in sibling Moqui components and follow the same JSON-
 | --- | --- | --- |
 | `shopify-darpan` | `facade.ShopifyFacadeServices` | `list#ShopifyAuthConfigs`, `get#ShopifyAuthConfig`, `save#ShopifyAuthConfig`, `delete#ShopifyAuthConfig` |
 | `darpan-hotwax` | `facade.HotWaxOmsFacadeServices` | `list#HotWaxOmsRestSourceConfigs`, `save#HotWaxOmsRestSourceConfig`, `delete#HotWaxOmsRestSourceConfig` |
+
+## Administration
+
+The methods below are **not** part of the tenant product API. They serve the operator admin application and are reachable only by a super-admin: a caller must pass the `DARPAN_ADMIN_API` artifact fence and a super-admin content gate. A non-super-admin caller is denied before the service body runs.
+
+### Tenants (`admin.TenantAdminServices`)
+
+| Method | Purpose |
+| --- | --- |
+| `create#Tenant` | Create a tenant: the user group and its tenant settings in one transaction. |
+| `update#Tenant` | Rename a tenant, change its timezone, or both. |
+| `deactivate#Tenant` | Hide a tenant from the tenant app and from active-tenant selection. A flag, not a delete. |
+| `reactivate#Tenant` | Re-enable a deactivated tenant. |
+| `get#TenantList` | All tenants, including deactivated ones, with member counts. |
+| `get#TenantDetail` | One tenant with its settings and active members. |
+
+### Users (`admin.UserAdminServices`)
+
+| Method | Purpose |
+| --- | --- |
+| `create#UserAccount` | Create a user with a temporary password, forced to change at first login. Credentials are shared out of band. |
+| `update#UserAccount` | Update a user's display name, email, or both. |
+| `disable#UserAccount` | Disable a user and revoke their live login keys. Disabling yourself is refused. |
+| `enable#UserAccount` | Re-enable a disabled user. |
+| `reset#Password` | Set a temporary password, forced to change at next login, and revoke live login keys. |
+| `get#UserList` | Paged search over username, email and display name. |
+| `get#UserDetail` | One user with account state and active tenant memberships. |
+
+### Membership (`admin.MembershipAdminServices`)
+
+| Method | Purpose |
+| --- | --- |
+| `add#TenantMember` | Add a user to a tenant with a tenant-scoped role. Both membership records are written together or not at all. |
+| `update#TenantMemberRole` | Change a member's tenant role by end-dating the old permission row and creating the new one. |
+| `remove#TenantMember` | Remove a user from a tenant by end-dating both membership records, and clear their active-tenant preference if it pointed there. |
+
+### Migrations (`admin.MigrationAdminServices`)
+
+| Method | Purpose |
+| --- | --- |
+| `get#MigrationStatus` | Registry and ledger state for every registered migration on the installation, in sequence order, with the most recent attempt's detail. |
+| `get#MigrationHistory` | Every recorded attempt at one migration, newest first, each with its own sanitized failure detail. |
+| `run#PendingMigrations` | Run every registered migration with no success recorded, in sequence order. Idempotent — a second call applies nothing. |
+| `dryRun#PendingMigrations` | Preview what running the pending migrations would do. Writes dry-run ledger rows only, which never satisfy the already-applied check. |
+| `run#Migration` | Run one named migration for targeted remediation. Parked migrations are refused, prerequisites enforced, already-applied migrations skipped. |
+| `dryRun#Migration` | Preview one named migration. |
+| `set#MigrationEnabled` | Park or unpark a migration. Parking lets the rest of a sweep proceed when one migration is broken, rather than stranding all of them. |
+
+### Admin session (`admin.ObserveAdminServices`)
+
+| Method | Purpose |
+| --- | --- |
+| `get#AdminSessionInfo` | Fence probe and admin route guard: returns the operator identity when the caller clears both the artifact fence and the super-admin gate. |
 
 ## Per-method reference
 
