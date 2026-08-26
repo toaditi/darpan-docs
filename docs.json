@@ -130,6 +130,7 @@
               "backend/reconciliation-engine",
               "backend/rules-and-schemas",
               "backend/data-access-and-tenancy",
+              "backend/migrations",
               "backend/operations-and-validation"
             ]
           },

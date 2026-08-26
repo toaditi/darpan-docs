@@ -14,6 +14,20 @@ Darpan engineering work is split across the frontend app and backend engine.
 | [`drpn-ai/darpan-ui`](https://github.com/drpn-ai/darpan-ui) | Vue 3, TypeScript, Vite | Darpan frontend app, routes, Ask Darpan shell, browser workflows, frontend API clients | Repository root |
 | [`drpn-ai/darpan`](https://github.com/drpn-ai/darpan) | Moqui runtime component with XML services and Groovy helpers | Backend service contracts, entities, reconciliation engine, RuleSet processing, generated outputs | Component root |
 
+### Source connector components
+
+Connector components install alongside the `darpan` component and register into its connector registry. A connector supplies its own configuration entities, extract services and registry seed row; the reconciliation engine dispatches into it without knowing the system it talks to.
+
+| Component | Adds |
+| --- | --- |
+| `drpn-ai/darpan-hotwax` | HotWax OMS as a source. |
+| `drpn-ai/shopify-darpan` | Shopify as a source, including returns and refund references. |
+| `drpn-ai/netsuite-darpan` | NetSuite as a source. |
+| `drpn-ai/database-darpan` | Databases as a first-class source: MySQL, PostgreSQL and IBM Db2 over JDBC. |
+| `moqui/moqui-sftp` | SFTP transport for file sources. |
+
+Because a connector contributes registry data, adding an endpoint or a rules-board field is usually a data change in the connector rather than an application change in `darpan`.
+
 ## High-signal paths
 
 | Surface | Paths |
