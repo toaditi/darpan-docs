@@ -7,9 +7,9 @@ Darpan releases from newest to oldest, with product and operator changes that af
 
 Backend and UI tags are coordinated for major and minor releases; patch tags between them are backend-only.
 
-## v1.5.0 — August 26, 2026
+## v1.5.1 — August 31, 2026
 
-Cut together with app `v2.6.0`, `darpan-hotwax v0.8.0`, `shopify-darpan v0.6.0`, and `database-darpan v0.2.0`. NetSuite (`v0.2.0`) is unchanged.
+Cut together with app `v2.6.1` and `shopify-darpan v0.6.1`. One section covers the 1.5 line: `v1.5.0` (August 26, with app `v2.6.0`, `darpan-hotwax v0.8.0`, `shopify-darpan v0.6.0` and `database-darpan v0.2.0`) and the `v1.5.1` patch. NetSuite (`v0.2.0`), `darpan-hotwax` and `database-darpan` are unchanged by the patch.
 
 **Product**
 
@@ -22,8 +22,13 @@ Cut together with app `v2.6.0`, `darpan-hotwax v0.8.0`, `shopify-darpan v0.6.0`,
 - **Automation schedules and state.** Schedules are interpreted in the tenant's timezone rather than UTC, and an automation can be activated or deactivated from the dashboard.
 - **Ask Darpan gains a command mode.** Type `/` to run something rather than navigate to it, starting with `/switch-tenant`.
 - **Returns reconciliation drops impossible differences.** Three classes that cannot exist by definition are suppressed: whole-order cancellations, superseded return drafts, and refunds for items that were never shipped. Records reported missing are re-checked by point lookup before they are reported.
-- **Scheduled runs do that re-check too.** An automation and a hand-started run over the same window finally report the same numbers — **which means the difference counts your automations report will fall, sometimes sharply; see Before you deploy**.
-- **Runs are named and timed correctly.** Alerts name the system a count belongs to rather than the endpoint the extract came through, and the run-result page reads the run's time from the stored instant instead of a zone-less string.
+- **Scheduled runs do that re-check too, from `v1.5.1`.** An automation and a hand-started run over the same window report the same numbers, and a scheduled run records the same steps a hand-started one does — including the notification step, so whether an alert fired is answerable from the timeline. **On `v1.5.0` this takes effect for database sources only; upgrade to `v1.5.1` for OMS and Shopify automations** — and see Before you deploy, because the counts move.
+- **A run says when it did not verify.** If verification is switched off, a configuration cannot be resolved, or a difference document cannot be read, the run records a verification step with the reason instead of publishing counts that look verified. Deliberately silent when nothing was missing, when rules failed, or when neither side has a lookup to re-check against — two uploaded CSVs have no source of record.
+- **Exclude in-progress Shopify returns.** Shopify return references gain a **Return workflow status** field on the rules board. Excluding `REQUESTED,OPEN` drops returns that have no OMS counterpart yet. Requires `shopify-darpan v0.6.1` alongside the backend.
+- **Alerts stop repeating themselves.** The trailing audit paragraph is gone; the numbers an operator acts on are in the details block above it. A fully clean run is now just the verdict. The run-result page's audit trail is unchanged.
+- **Suppression counts add up.** A returns run's per-reason suppression tallies now sum to the number of rows actually removed, where a row qualifying under two rules was previously counted under both.
+- **Runs are named and timed correctly.** Alerts name the system a count belongs to rather than the endpoint the extract came through, and the run-result page reads the run's time from the stored instant instead of a zone-less string. The rules board titles its columns with the system too, including for newly created runs.
+- **Every displayed time names its zone.** `Aug 31, 2026, 11:37 AM IST` rather than `11:37 AM`, across run results, run history, the automation dashboard, the diff page and settings. Correct across daylight-saving changes. Date-only labels are left alone, where a zone misleads across midnight.
 - **Tenant timezone wins.** A tenant's timezone takes precedence over a viewer's personal one, and takes effect immediately when changed.
 - **Returns extraction is more resilient.** A transient gateway failure no longer discards a whole returns extraction.
 
@@ -34,12 +39,15 @@ Cut together with app `v2.6.0`, `darpan-hotwax v0.8.0`, `shopify-darpan v0.6.0`,
 - Source configurations carry explicit per-endpoint access. Endpoints not enabled are disabled, including endpoints added to the registry later.
 - Blank CSV cells are now read as empty values rather than as absent fields, which changes what a comparison reports for files with blank cells.
 - A database source fails an extraction that exceeds its max-rows cap rather than truncating it.
-- Scheduled-run verification is on by default and needs no configuration. The kill switch is `-Ddarpan.reconciliation.automation.verifyMissingDiffs=false`, and only an exact `false` disables it, so an unrecognised value leaves verification on. Verification adds roughly 46 seconds to a scheduled run.
+- Scheduled-run verification is on by default and needs no configuration. The kill switch is `-Ddarpan.reconciliation.automation.verifyMissingDiffs=false`, and only an exact `false` disables it, so an unrecognised value leaves verification on. From `v1.5.1` it gates all three verification passes. Verification adds roughly 46 seconds to a scheduled run.
+- A scheduled run's steps are `RESOLVE / EXTRACT_FILE1 / EXTRACT_FILE2 / COMPARE / VERIFY / WRITE_OUTPUT / NOTIFY` — the same list a hand-started run records. Counting them is how to tell a verified run from an unverified one.
+- Backend `v1.5.1` and `shopify-darpan v0.6.1` deploy together. The connector emits the return status the rules-board field selects; with only one of the pair, a rule on that field matches nothing and reports zero exclusions, which is indistinguishable from a rule that is simply not deployed.
 - HotWax OMS configurations gain `returnsPageSize` (1–1000) for shrinking the returns page when the gateway struggles at the default.
+- The one-time cleanup for chat webhooks that cannot be decrypted now covers both the legacy and the provider-agnostic column, and validates each against its own provider, so a working Slack webhook is not cleared by it.
 
 **API**
 
-- 20 methods added and one response field removed, so the contract version moves from `2` to `3`. The contract moves from 90 to 110 methods (86 public facade, 24 administrative).
+- 20 methods added and one response field removed across the line, so the contract version moves from `2` to `3`. The contract moves from 90 to 110 methods (86 public facade, 24 administrative). `v1.5.1` adds no methods and changes no shapes; it moves the contract's version string only.
 - Added on the public surface: five Slack methods, three config-sharing methods, two source-endpoint methods, `infer#JsonSchemaFromCsvText`, `sync#Automation` and `change#ExpiredPassword`.
 - `get#Automation` gains a `syncStatus` response field.
 - Administrative additions are the seven migration methods, which are not part of the public tenant surface.
@@ -49,24 +57,28 @@ Cut together with app `v2.6.0`, `darpan-hotwax v0.8.0`, `shopify-darpan v0.6.0`,
 
 **Before you deploy**
 
-- Scheduled runs now verify their differences, which they never did before. The counts your automations report will drop, and the drop can be large — on one production automation it went from 532 to 2.
+- Scheduled runs verify their differences, which they never did before. The counts your automations report will drop, and the drop can be large — on one production automation it went from 532 to 2.
 - Nothing about the data changed: the earlier number counted records that a direct lookup shows are present, and the new number is what a hand-started run of the same rule set already produced.
-- Tell whoever reads those counts before the deploy rather than after, because a count falling by two orders of magnitude overnight reads as a broken reconciliation unless it is expected.
+- Counts can also rise on orders runs, where the exchange check adds Shopify exchanges that are genuinely absent from HotWax. The returns checks remove false positives; the exchange check adds real differences.
+- Tell whoever reads those counts before the deploy rather than after, because a count moving by two orders of magnitude overnight reads as a broken reconciliation unless it is expected.
 
 **Upgrade**
 
-- Existing environments load 54 seed records via `./gradlew loadDarpanUpgradeData` — the cross-tenant sharing catalog, the chat-provider catalog, the database and three new endpoint connectors with their rules-board field lists, and the one-time migration registry.
-- Fifty-one are additions. Three restate rows that already exist: the stored `OMS` and `SHOPIFY` names become "HotWax" and "Shopify" wherever a system is named, and HotWax transfer orders group under HotWax in the source picker. Renaming affects future runs only — a run's file labels are recorded when it executes, so past runs keep the names they were given.
-- Until the load runs, no configuration can be shared, no Slack space can be saved, databases and the new endpoints do not appear as sources, and the rules board offers no field pills.
-- Then run `run#PendingMigrations` once, or use the new Migrations screen: it walks six registered one-time migrations, skips any already applied, and is safe to run again. That covers the `v1.2.0` and `v1.3.0` one-time services, so an environment behind on either no longer needs to chase them separately.
-- `v1.4.0`'s upgrade data is a prerequisite.
+- Coming from `v1.4.0`: load `v1.5.0`'s 54 seed records via `./gradlew loadDarpanUpgradeData`, then `v1.5.1`'s 2. `v1.4.0`'s upgrade data is a prerequisite.
+- Already on `v1.5.0`: load `v1.5.1`'s 2 records only. They add the **Return workflow status** field to the rules board and let the Shopify returns connector carry exclusion rules. Until they load, the exclusion control is hidden for that connector.
+- Then run `run#PendingMigrations` once, or use the Migrations screen: it walks the registered one-time migrations, skips any already applied, and is safe to run again. That covers the `v1.2.0` and `v1.3.0` one-time services, so an environment behind on either no longer needs to chase them separately.
+- **One step is not covered by that sweep.** The Shopify return-status field was renamed within `v1.5.1`, and a seed load never deletes, so the superseded field must be swept explicitly, once per environment, after the load: run the `RETIRED_FIELDS` migration with force set, from the Migrations screen or as `admin.MigrationAdminServices.run#Migration migrationId=RETIRED_FIELDS force=true`. It is safe to run more than once. Skip it and the rules board offers two return-status fields, one of which matches nothing.
+- Any exclusion rule saved against the superseded field keeps its stored expression and matches nothing. Re-add it on **Return workflow status** with values `REQUESTED,OPEN`.
+- Of `v1.5.0`'s 54 records, fifty-one are additions. Three restate rows that already exist: the stored `OMS` and `SHOPIFY` names become "HotWax" and "Shopify" wherever a system is named, and HotWax transfer orders group under HotWax in the source picker. Renaming affects future runs only — a run's file labels are recorded when it executes, so past runs keep the names they were given.
 - No schema migration is required; new tables and fields are created on startup.
 
 **Rollback**
 
-- Schema and seed additions are additive and the three restatements only correct display names and a picker grouping, so rolling the backend to `v1.4.0` is safe and the loaded records do not need reverting — `v1.4.0` ignores what it does not know.
-- Keep the app on `v2.5.0` if the backend goes back, since `v2.6.0` depends on methods `v1.4.0` does not expose.
-- An integration reading `googleChatWebhookUrl` keeps working on `v1.4.0`, which returns both that field and the masked one; an integration that moved to `webhookUrl` or `webhookConfigured` will not, as those are new in `v1.5.0`.
+- Schema and seed additions are additive and the restatements only correct display names, a picker grouping and one connector's field list, so rolling the backend to `v1.4.0` is safe and the loaded records do not need reverting — `v1.4.0` ignores what it does not know.
+- Keep the app on `v2.5.0` if the backend goes back to `v1.4.0`, since `v2.6.x` depends on methods `v1.4.0` does not expose.
+- Rolling the backend to `v1.5.0` while leaving `shopify-darpan` at `v0.6.1` is safe — the extract carries one field nothing reads. The combination to avoid is backend `v1.5.1` against `shopify-darpan v0.6.0`.
+- Setting `darpan.reconciliation.automation.verifyMissingDiffs` to false restores the unverified scheduled counts without a redeploy, and records a verification step saying why.
+- An integration reading `googleChatWebhookUrl` keeps working on `v1.4.0`, which returns both that field and the masked one; an integration that moved to `webhookUrl` or `webhookConfigured` will not, as those are new in the 1.5 line.
 - Roll all component pins back together.
 
 ## v1.4.0 — August 7, 2026
